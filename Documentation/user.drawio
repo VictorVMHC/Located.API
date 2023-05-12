@@ -1,0 +1,21 @@
+<mxfile host="65bd71144e">
+    <diagram id="dfq4scQvj7t1t1Jvq5pm" name="Page-1">
+        <mxGraphModel dx="250" dy="429" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="15" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="12" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="200" y="90" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="12" value="Usuario" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="100" width="160" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="+ Name -&gt; string&#10;+ Email -&gt; mail&#10;+ Image -&gt; string&#10;+ Phone -&gt; string&#10;+ Age -&gt; number&#10;+ Google -&gt; bool&#10;+ Facebook -&gt; bool&#10;+ Address -&gt; string&#10;+ locals -&gt; bool&#10;&#10;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" parent="12" vertex="1">
+                    <mxGeometry y="30" width="160" height="180" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
