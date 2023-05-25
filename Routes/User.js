@@ -13,6 +13,8 @@ router.post('/',
             .isStrongPassword({minLength:8, minUppercase:1, minNumbers:1, minSymbols:1 }),
         check('email', "The email is no valid").isEmail(),
         check('phone', 'The needs to be unique').isString(),
+        check('phone', 'The phone number must not have alpha characteres').matches(/^[^a-zA-Z]+$/),
+        check('phone', 'The phone number needs to be between 10 - 15 digits').isLength({max: 15, min: 10}),
         validationResults
     ], 
     userPost);
