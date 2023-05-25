@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { userPost } = require('../Controllers/User');
+const { userPost, userGet } = require('../Controllers/User');
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
 const { existEmail, existPhone } = require('../helpers/DbValitations');
@@ -36,11 +36,14 @@ router.post('/',
  * Get the information of the user by username
  *
  * @route GET api/users/:username
- * @param {string} username - unique username of the user
+ * @param {string} email - unique email of the user
  * @returns {object} User information
  * @throws {Error} If the user doesn't exist
  */
-//router.get('/:username', userGet);
+router.get('/:email',[
+    check('email', "the email needs to be in the correct format").isEmail(),
+    validationResults
+], userGet);
 
 //router.delete('/:id');
 
