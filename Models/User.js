@@ -18,8 +18,7 @@ const UserSchema = Schema({
         type: String,
     },
     phone: {
-        type: String,
-        required: [true, "The phone is a required field"],        
+        type: String,       
         unique: true
     },
     Age: {
@@ -46,6 +45,5 @@ UserSchema.methods.toJSON = function() {
     const {password, ...user} = this.toObject();
     return user;
 }
-
 
 module.exports = model('User', UserSchema);
