@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { userPost } = require('../Controllers/User');
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
-const { existEmail } = require('../helpers/DbValitations');
+const { existEmail, existPhone } = require('../helpers/DbValitations');
 
 const router = Router();
 
@@ -25,9 +25,10 @@ router.post('/',
             .isStrongPassword({minLength:8, minUppercase:1, minNumbers:1, minSymbols:1 }),
         check('email', "The email is no valid").isEmail(),
         check('email', "The email is no valid").custom(existEmail),
-        check('phone', 'The needs to be unique').isString(),
+        check('phone', 'The needs to be an strign').isString(),
         check('phone', 'The phone number must not have alpha characteres').matches(/^[^a-zA-Z]+$/),
         check('phone', 'The phone number needs to be between 10 - 15 digits').isLength({max: 15, min: 10}),
+        check('phone', 'The needs to be unique').custom(existPhone),
         validationResults
     ],
     userPost);
