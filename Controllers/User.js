@@ -1,10 +1,14 @@
-const { response } = require('express');
+const { response, request } = require('express');
+const bcryptjs = require('bcryptjs');
 const User = require('../Models/User')
 
 const userPost = async ( req, res = response ) => {
     const { name, email, password, phone } = req.body;
 
     const user = new User({name, email, password, phone})
+
+    const salt = bcryptjs.genSaltSync();
+    user.password = bcryptjs.hashSync( password, salt );
 
     try{
         await user.save();
@@ -42,7 +46,7 @@ const userGet = async (req, res = response ) => {
     }
 }
 
-const userPut = async ( req, res = response ) => {
+const userPut = async ( req, res ) => {
     const emailParams = req.params.email;
     const {email, ...userData} = req.body;
 
@@ -63,11 +67,29 @@ const userPut = async ( req, res = response ) => {
 
         });
     }
+}
 
+const userDelete = async ( req = request, res = response ) => {
+    const { email } = req.params.email;
+
+    try {
+        const response = await User.findOneAndUpdate(email, {state: false}, {new: true});
+        res.status(200).json({
+            msg: "User deleted successfully",
+            "email": email,
+            response
+        });
+    } catch (error) {
+        res.status(500).json({
+            msg: 'An error occurred while deleting the user',
+            emailRequested: email,
+        });
+    }
 }
 
 module.exports = {
     userPost,
     userGet,
-    userPut
+    userPut,
+    userDelete
 }
