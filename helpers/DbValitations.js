@@ -10,7 +10,7 @@ const existEmail = async (email = '') => {
 const existPhone = async (phone = '') => {
     const existPhone = await User.findOne({phone});
     if(existPhone){ 
-        throw new Error(`The email: ${phone} is already registered`);
+        throw new Error(`The phone: ${phone} is already registered`);
     }
 };
 

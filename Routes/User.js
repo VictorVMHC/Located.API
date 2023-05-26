@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { userPost, userGet } = require('../Controllers/User');
+const { userPost, userGet, userPut } = require('../Controllers/User');
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
 const { existEmail, existPhone } = require('../helpers/DbValitations');
@@ -23,9 +23,10 @@ router.post('/',
         check('password', 'The password is mandatory').notEmpty(),
         check('password', 'The password needs to have a min length of 8, at last 1 Uppercase, 1 number ans 1 symbol')
             .isStrongPassword({minLength:8, minUppercase:1, minNumbers:1, minSymbols:1 }),
+        check('email', "The email must not to be empty").notEmpty(),
         check('email', "The email is no valid").isEmail(),
         check('email', "The email is no valid").custom(existEmail),
-        check('phone', 'The needs to be an strign').isString(),
+        check('phone', 'The needs to be an string').isString(),
         check('phone', 'The phone number must not have alpha characteres').matches(/^[^a-zA-Z]+$/),
         check('phone', 'The phone number needs to be between 10 - 15 digits').isLength({max: 15, min: 10}),
         check('phone', 'The needs to be unique').custom(existPhone),
@@ -41,12 +42,22 @@ router.post('/',
  * @throws {Error} If the user doesn't exist
  */
 router.get('/:email',[
+    check('email', "The email must not to be empty").notEmpty(),
     check('email', "the email needs to be in the correct format").isEmail(),
     validationResults
 ], userGet);
 
 //router.delete('/:id');
 
-//router.put('/',);
+router.put('/:email',[
+    check('password', 'The password needs to have a min length of 8, at last 1 Uppercase, 1 number ans 1 symbol')
+        .isStrongPassword({minLength:8, minUppercase:1, minNumbers:1, minSymbols:1 }).optional(),
+    check('email', "The email is no valid").isEmail(),
+    check('phone', 'The needs to be an string').isString().optional(),
+    check('phone', 'The phone number must not have alpha characteres').matches(/^[^a-zA-Z]+$/).optional(),
+    check('phone', 'The phone number needs to be between 10 - 15 digits').isLength({max: 15, min: 10}).optional(),
+    check('phone', 'The needs to be unique').custom(existPhone).optional(),
+    validationResults
+], userPut);
 
 module.exports = router; 
