@@ -35,9 +35,15 @@ const UserSchema = Schema({
     addres: {
         type: String,
     },
-    locals: {
+    haveLocals: {
         type: Boolean,
         default: false
+    },
+    locals:{
+        type: String,
+    },
+    state:{
+        type: Boolean,
     }
 });
 
