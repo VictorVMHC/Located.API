@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="dfq4scQvj7t1t1Jvq5pm" name="Database">
-        <mxGraphModel dx="760" dy="242" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="918" dy="71" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -12,7 +12,7 @@
                 <mxCell id="12" value="User" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;" parent="1" vertex="1">
                     <mxGeometry x="140" y="70" width="160" height="210" as="geometry"/>
                 </mxCell>
-                <mxCell id="13" value="+ Name -&gt; string&#10;+ Email -&gt; mail&#10;+ Image -&gt; string&#10;+ Phone -&gt; string&#10;+ Age -&gt; number&#10;+ Google -&gt; bool&#10;+ Facebook -&gt; bool&#10;+ Address -&gt; string&#10;+ locals -&gt; []locals&#10;&#10;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" parent="12" vertex="1">
+                <mxCell id="13" value="+ Name -&gt; string&#10;+ Email -&gt; mail&#10;+ Image -&gt; string&#10;+ Phone -&gt; string&#10;+ Age -&gt; number&#10;+ Google -&gt; bool&#10;+ Facebook -&gt; bool&#10;+ Address -&gt; string&#10;+ locals -&gt;locals[]&#10;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" parent="12" vertex="1">
                     <mxGeometry y="30" width="160" height="180" as="geometry"/>
                 </mxCell>
                 <mxCell id="52" value="" style="edgeStyle=none;html=1;" parent="1" source="16" target="31" edge="1">
@@ -136,15 +136,15 @@
         </mxGraphModel>
     </diagram>
     <diagram id="9kS50toA24PQq8nJdRZk" name="Local">
-        <mxGraphModel dx="676" dy="471" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1102" dy="496" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="0VIafkdBmgdn1MZ_sX1k-1" value="Local" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;" parent="1" vertex="1">
-                    <mxGeometry x="40" y="40" width="170" height="200" as="geometry"/>
+                    <mxGeometry x="40" y="10" width="170" height="230" as="geometry"/>
                 </mxCell>
-                <mxCell id="0VIafkdBmgdn1MZ_sX1k-2" value="+  LocalId: number,&#10;+  name: string,&#10;+  adress: string,&#10;+  uriImage: string,&#10;+  isVerify: boolean,&#10;+  products: Product[],&#10;+  schedules: Schedule[],&#10;+  rate: number,&#10;+  quantityRate: number,&#10;+  tags: string[]" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" parent="0VIafkdBmgdn1MZ_sX1k-1" vertex="1">
-                    <mxGeometry y="30" width="170" height="170" as="geometry"/>
+                <mxCell id="0VIafkdBmgdn1MZ_sX1k-2" value="+  LocalId: number,&#10;+  name: string,&#10;+  adress: string,&#10;+  uriImage: string,&#10;+  isVerify: boolean,&#10;+  products: Product[],&#10;+  schedules: Schedule[],&#10;+  rate: number,&#10;+  quantityRate: number,&#10;+  tags: string[]&#10;+ long: string&#10;+ lat: string" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" parent="0VIafkdBmgdn1MZ_sX1k-1" vertex="1">
+                    <mxGeometry y="30" width="170" height="200" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
