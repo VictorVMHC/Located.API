@@ -2,8 +2,7 @@ const { Router } = require('express');
 const {check} = require('express-validator');
 const {validationResults } = require('../Middleware/validationResult');
 const {existLocal} = require('../helpers/DbValitations');
-const { localsPost } = require('../Controllers/Locals');
-
+const { localsPost, localsPut, localDelete} = require('../Controllers/Locals');
 const router = Router();
 
 /**
@@ -22,20 +21,35 @@ const router = Router();
  * @throws {information}  si los formatos no estan correctos o si el local ya fue creado
  */
 
-router.post('/',
-        [
-            check('localId', 'The Id is mandatory').notEmpty(),
-            check('name', 'The name of your local is mandatory').notEmpty(),
-            check('name', 'The name of your local is mandatory').custom(existLocal),
-            check('adress', 'The adress of your local is mandatory').notEmpty(),
-            check('products', 'you must provide products o services').notEmpty(),
-            check('schedules', 'The schedule of your local is mandatory').notEmpty(),
-            check('rate', 'The rate is mandatory').notEmpty(),
-            check('quantityRate', 'This field is required').notEmpty(),
-            check('tags', 'A tag for your local it is required').notEmpty(),
-            validationResults
-        ],
-        localsPost);
+router.post('/',[
+        check('localId', 'The Id is mandatory').notEmpty(),
+        check('name', 'The name of your local is mandatory').notEmpty(),
+        check('name', 'The name of your local is mandatory').custom(existLocal),
+        check('adress', 'The adress of your local is mandatory').notEmpty(),
+        check('products', 'you must provide products o services').notEmpty(),
+        check('schedules', 'The schedule of your local is mandatory').notEmpty(),
+        check('rate', 'The rate is mandatory').notEmpty(),
+        check('quantityRate', 'This field is required').notEmpty(),
+        check('tags', 'A tag for your local it is required').notEmpty(),
+        validationResults
+], localsPost);
+
+
+router.put('/:localId',[
+        check('name', 'The name of your local is mandatory').notEmpty(),
+        check('adress', 'The adress of your local is mandatory').notEmpty(),
+        check('products', 'you must provide products o services').notEmpty(),
+        check('schedules', 'The schedule of your local is mandatory').notEmpty(),
+        check('rate', 'The rate is mandatory').notEmpty(),
+        check('quantityRate', 'This field is required').notEmpty(),
+        check('tags', 'A tag for your local it is required').notEmpty(),
+        validationResults
+], localsPut);
+
+router.delete('/:localId',[
+        check('localId', 'The Id is mandatory').notEmpty(),
+        validationResults
+], localDelete );
 
 
 module.exports = router;

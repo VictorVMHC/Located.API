@@ -1,7 +1,6 @@
 const express = require('express');
 const dbConnection = require('../Database/config');
 
-
 class Server {
     constructor() {
         this.app = express();
@@ -12,19 +11,15 @@ class Server {
         this.middlewares();
         this.routes();
     }
-
     async ConnectDb(){
         await dbConnection();
     }
-
     middlewares() {
         this.app.use(express.json());
     }
-
     routes() {
         this.app.use(this.userRootPaht, require('../Routes/User') );
     }
-
     listen() {
         this.app.listen(this.PORT, () => {
             console.log('Server Running on the port:', this.PORT)
