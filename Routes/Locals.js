@@ -2,7 +2,7 @@ const { Router } = require('express');
 const {check} = require('express-validator');
 const {validationResults } = require('../Middleware/validationResult');
 const {existLocal} = require('../helpers/DbValitations');
-const { localsPost, localsPut, localDelete} = require('../Controllers/Locals');
+const { localsPost, localsPut, localDelete, localsGet} = require('../Controllers/Locals');
 const router = Router();
 
 /**
@@ -34,6 +34,17 @@ router.post('/',[
         validationResults
 ], localsPost);
 
+/**
+ * Obtención de la infmacion del local
+ * @route GET api/locals/:localname
+ * @param {string} name -unique local name 
+ * @returns {object} local information
+ * @throws {Error} if teh local doesn't exist
+ */
+router.get('/:name',[
+        check('name', "The name of the local must not be empty").notEmpty(),
+        validationResults
+], localsGet);
 
 router.put('/:localId',[
         check('name', 'The name of your local is mandatory').notEmpty(),

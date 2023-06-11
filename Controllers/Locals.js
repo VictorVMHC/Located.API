@@ -19,6 +19,25 @@ const localsPost = async (req, res = response) =>{
     }
 }
 
+const localsGet = async (req, res = response ) =>{
+    const name = req.params.name;
+    try{
+        const locals = await Locals.findOne({name});
+        if(!locals){
+            return res.status(400).json({error: 'Local not found'});
+        }
+        res.status(200).json({
+            msg: 'Local Found',
+            locals
+        })
+    }catch(err){
+        res.status(500).json({
+            msg: 'Error while traying to find the local',
+            emailRequested: name,
+        });
+    }
+}
+
 const localsPut = async ( req, res ) => {
     const localIdParams = req.params.localId;
     const {localId, ...localData} = req.body;
@@ -58,6 +77,7 @@ const localDelete = async ( req = request, res = response ) => {
 
 module.exports = {
     localsPost,
+    localsGet,
     localsPut,
     localDelete
 }
