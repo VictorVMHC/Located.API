@@ -22,14 +22,10 @@ const router = Router();
  */
 
 router.post('/',[
-        check('localId', 'The Id is mandatory').notEmpty(),
         check('name', 'The name of your local is mandatory').notEmpty(),
-        check('name', 'The name of your local is mandatory').custom(existLocal),
         check('adress', 'The adress of your local is mandatory').notEmpty(),
         check('products', 'you must provide products o services').notEmpty(),
         check('schedules', 'The schedule of your local is mandatory').notEmpty(),
-        check('rate', 'The rate is mandatory').notEmpty(),
-        check('quantityRate', 'This field is required').notEmpty(),
         check('tags', 'A tag for your local it is required').notEmpty(),
         validationResults
 ], localsPost);
@@ -46,19 +42,13 @@ router.get('/:name',[
         validationResults
 ], localsGet);
 
-router.put('/:localId',[
-        check('name', 'The name of your local is mandatory').notEmpty(),
-        check('adress', 'The adress of your local is mandatory').notEmpty(),
-        check('products', 'you must provide products o services').notEmpty(),
-        check('schedules', 'The schedule of your local is mandatory').notEmpty(),
-        check('rate', 'The rate is mandatory').notEmpty(),
-        check('quantityRate', 'This field is required').notEmpty(),
-        check('tags', 'A tag for your local it is required').notEmpty(),
+router.put('/:Id',[
+        check('Id', 'The ID is mandatory').notEmpty(),
         validationResults
 ], localsPut);
 
-router.delete('/:localId',[
-        check('localId', 'The Id is mandatory').notEmpty(),
+router.delete('/:Id',[
+        check('Id', 'The ID is mandatory').notEmpty(),
         validationResults
 ], localDelete );
 

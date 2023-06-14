@@ -6,7 +6,7 @@ class Server {
         this.app = express();
         this.PORT = process.env.PORT;
         this.userRootPaht = '/api/users';
-        this.localRootPath = '/api/local';
+        this.localRootPath = '/api/locals';
         this.ConnectDb();
         this.middlewares();
         this.routes();
@@ -19,6 +19,7 @@ class Server {
     }
     routes() {
         this.app.use(this.userRootPaht, require('../Routes/User') );
+        this.app.use(this.localRootPath, require('../Routes/Locals') );
     }
     listen() {
         this.app.listen(this.PORT, () => {

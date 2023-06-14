@@ -1,11 +1,6 @@
 const {Schema, model} = require ('mongoose');
 
 const LocalsSchema = Schema({
-
-    localId:{
-        type: Number,
-        //require: [true, "The name is a required field"]
-    },
     name:{
         type: String,
         require: [true, "The name is a required field"],
@@ -26,7 +21,7 @@ const LocalsSchema = Schema({
         type: String,
     },
     schedules:{
-        type: Date,
+        type: String,
         require: [true, "The schedule is a required field"]
     },
     rate:{
@@ -37,6 +32,9 @@ const LocalsSchema = Schema({
     },
     tags:{
         type: String,
+    },
+    state:{
+        type: Boolean,
     },
 })
 

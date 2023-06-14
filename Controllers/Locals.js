@@ -3,8 +3,10 @@ const bcryptjs = require('bcryptjs');
 const Locals = require ('../Models/Locals');
 
 const localsPost = async (req, res = response) =>{
-    const {localId, name, adress, isVerify, products, schedules, rate, quantityRate, tags} = req.body;
-    const locals = new Locals({localId, name, adress, isVerify, products, schedules, rate, quantityRate, tags})
+    const {name, adress, isVerify, products, schedules, tags} = req.body;
+    let rate = 0;
+    let quantityRate = 0;
+    const locals = new Locals({name, adress, isVerify, products, schedules, rate, quantityRate, tags})
     try{
         await locals.save();
         res.status(200).json({
@@ -39,20 +41,22 @@ const localsGet = async (req, res = response ) =>{
 }
 
 const localsPut = async ( req, res ) => {
-    const localIdParams = req.params.localId;
-    const {localId, ...localData} = req.body;
+    const localIdParams = req.params.Id;
+    const {_Id, ...localData} = req.body;
     try{
-        const localUpdate = await Locals.findOneAndUpdate({localId: localIdParams}, localData, {new: true})
+        const localUpdate = await Locals.findByIdAndUpdate(localIdParams, localData, {new: true});
+        console.log(localUpdate);
+        console.log(localData);
         if(!localUpdate){
-            return res.status(404).json({error: 'store not found to update it'});
+            return res.status(404).json({error: 'local not found to update it'});
         }
         res.status(200).json({
-            msg: 'store updated successfully',
+            msg: 'local updated successfully',
             locals: localUpdate
         })
     }catch(err){
         res.status(500).json({
-            msg: 'An error occurred while updating the store',
+            msg: 'An error occurred while updating the local',
             emailRequested: localId,
             dataToUpdate: data
         });
@@ -60,9 +64,9 @@ const localsPut = async ( req, res ) => {
 }
 
 const localDelete = async ( req = request, res = response ) => {
-    const { localId } = req.params.localId;
+    const localIdParams = req.params.Id;
     try{
-        const response = await Locals.findByIdAndRemove(localId, {state: false}, {new: true});
+        const response = await Locals.findByIdAndUpdate(localIdParams, {state: false}, {new: true});
         res.status(200).json({
             msg: 'store deleted successfully',
             response
@@ -70,7 +74,7 @@ const localDelete = async ( req = request, res = response ) => {
     }catch(err){
         res.status(500).json({
             msg: 'An error occurred while deleing the store',
-            emailRequested: localId,
+            emailRequested: _Id,
         });
     }
 }
