@@ -3,7 +3,6 @@ const { userPost, userGet, userPut, userDelete } = require('../Controllers/User'
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
 const { existEmail, existPhone } = require('../helpers/DbValitations');
-
 const router = Router();
 
 /**
@@ -47,8 +46,6 @@ router.get('/:email',[
     validationResults
 ], userGet);
 
-
-
 router.put('/:email',[
     check('password', 'The password needs to have a min length of 8, at last 1 Uppercase, 1 number ans 1 symbol')
         .isStrongPassword({minLength:8, minUppercase:1, minNumbers:1, minSymbols:1 }).optional(),
@@ -59,7 +56,6 @@ router.put('/:email',[
     check('phone', 'The needs to be unique').custom(existPhone).optional(),
     validationResults
 ], userPut);
-
 
 router.delete('/:email',[
     check('email', "The email must not to be empty").notEmpty(),

@@ -1,0 +1,87 @@
+const { response, request } = require ('express');
+const bcryptjs = require('bcryptjs');
+const Locals = require ('../Models/Locals');
+
+const localsPost = async (req, res = response) =>{
+    const {name, adress, isVerify, products, schedules, tags} = req.body;
+    let rate = 0;
+    let quantityRate = 0;
+    const locals = new Locals({name, adress, isVerify, products, schedules, rate, quantityRate, tags})
+    try{
+        await locals.save();
+        res.status(200).json({
+            msg: 'Local was created successfully',
+            locals
+        });
+    }catch{
+        res.status(500).json({
+            msg: 'Error traying to create the local',
+            locals
+        });
+    }
+}
+
+const localsGet = async (req, res = response ) =>{
+    const _Id = req.params.Id;
+    try{
+        const locals = await Locals.findById(_Id)
+        if(!locals){
+            return res.status(400).json({error: 'Local not found'});
+        }
+        res.status(200).json({
+            msg: 'Local Found',
+            locals
+        })
+    }catch(err){
+        res.status(500).json({
+            msg: 'Error while traying to find the local',
+            emailRequested: name,
+        });
+    }
+}
+
+const localsPut = async ( req, res ) => {
+    const localIdParams = req.params.Id;
+    const {_Id, ...localData} = req.body;
+    try{
+        const localUpdate = await Locals.findByIdAndUpdate(localIdParams, localData, {new: true});
+        console.log(localUpdate);
+        console.log(localData);
+        if(!localUpdate){
+            return res.status(404).json({error: 'local not found to update it'});
+        }
+        res.status(200).json({
+            msg: 'local updated successfully',
+            locals: localUpdate
+        })
+    }catch(err){
+        res.status(500).json({
+            msg: 'An error occurred while updating the local',
+            emailRequested: localId,
+            dataToUpdate: data
+        });
+    }
+}
+
+const localDelete = async ( req = request, res = response ) => {
+    const localIdParams = req.params.Id;
+    try{
+        const response = await Locals.findByIdAndUpdate(localIdParams, {state: false}, {new: true});
+        res.status(200).json({
+            msg: 'store deleted successfully',
+            response
+        });
+    }catch(err){
+        res.status(500).json({
+            msg: 'An error occurred while deleing the store',
+            emailRequested: _Id,
+        });
+    }
+}
+
+module.exports = {
+    localsPost,
+    localsGet,
+    localsPut,
+    localDelete
+}

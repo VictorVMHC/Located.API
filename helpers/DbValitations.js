@@ -1,4 +1,5 @@
 const User = require('../Models/User');
+const Locals = require('../Models/Locals');
 
 const existEmail = async (email = '') => {
     const existEmail = await User.findOne({email});
@@ -14,7 +15,15 @@ const existPhone = async (phone = '') => {
     }
 };
 
+const existLocal = async (name = '')=>{
+    const existLocal = await Locals.findOne({name});
+    if(existLocal){
+        throw new Error(`The Local: ${name} is already registered`);
+    }
+};
+
 module.exports = {
     existEmail,
-    existPhone
+    existPhone,
+    existLocal
 }
