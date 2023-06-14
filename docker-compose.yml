@@ -8,9 +8,11 @@ services:
     volumes:
       - mongodb-volume:/docker-entrypoint-initdb.d
       - mongodb-persistence:/data/db
+    networks:
+      - localted
 
   mongo-express:
-    image: mongo-express
+    image: mongo-express:latest
     restart: always
     ports:
       - "8081:8081"
@@ -18,10 +20,27 @@ services:
       ME_CONFIG_MONGODB_SERVER: mongodb
     depends_on:
       - mongodb
+    networks:
+    - localted
+
+  localted.api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mongodb
+    networks:
+      - localted
+    environment:
+      - PORT=8080
+      - MONGO_CONNECTION=mongodb://mongodb:27017/tests
+
+
 
 networks:
-  mongodb:
-    driver: bridge
+  localted:
 volumes:
   mongodb-volume:
   mongodb-persistence:
