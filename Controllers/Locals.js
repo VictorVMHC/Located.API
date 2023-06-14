@@ -22,9 +22,9 @@ const localsPost = async (req, res = response) =>{
 }
 
 const localsGet = async (req, res = response ) =>{
-    const name = req.params.name;
+    const _Id = req.params.Id;
     try{
-        const locals = await Locals.findOne({name});
+        const locals = await Locals.findById(_Id)
         if(!locals){
             return res.status(400).json({error: 'Local not found'});
         }

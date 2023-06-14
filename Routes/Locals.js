@@ -33,20 +33,43 @@ router.post('/',[
 /**
  * Obtención de la infmacion del local
  * @route GET api/locals/:localname
- * @param {string} name -unique local name 
+ * @param {string} Id -unique local name 
  * @returns {object} local information
  * @throws {Error} if teh local doesn't exist
  */
-router.get('/:name',[
-        check('name', "The name of the local must not be empty").notEmpty(),
+router.get('/:Id',[
+        check('Id', "The Id of the local must not be empty").notEmpty(),
         validationResults
 ], localsGet);
 
+
+/**
+ * Actualizar la informacion del local
+ * @route PUT api/locals/Id
+ * @param {json property} Id -> Id  del local
+ * @param {json property} name -> nombre del local
+ * @param {json property} adress -> direción del local 
+ * @param {json property} isVerify -> verificacion del local
+ * @param {json property} products -> productos del local
+ * @param {json property} schedules -> horario del local
+ * @param {json property} rate -> Rango
+ * @param {json property} quantityRate -> Cantidad a establecer de rango
+ * @param {json property} tags -> etiqueta para el local
+ * @returns {object} local information
+ * @throws {Error} if teh local doesn't exist
+ */
 router.put('/:Id',[
         check('Id', 'The ID is mandatory').notEmpty(),
         validationResults
 ], localsPut);
 
+/**
+ * Elimina la informacion del local
+ * @route Delete api/locals/Id
+ * @param {json property} Id -> Id  del local
+ * @returns {object} local information
+ * @throws {Error} if teh local doesn't exist
+ */
 router.delete('/:Id',[
         check('Id', 'The ID is mandatory').notEmpty(),
         validationResults
