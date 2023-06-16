@@ -7,6 +7,7 @@ class Server {
         this.PORT = process.env.PORT;
         this.userRootPaht = '/api/users';
         this.localRootPath = '/api/locals';
+        this.producsRootPath = '/api/locals';
         this.ConnectDb();
         this.middlewares();
         this.routes();
@@ -20,6 +21,7 @@ class Server {
     routes() {
         this.app.use(this.userRootPaht, require('../Routes/User') );
         this.app.use(this.localRootPath, require('../Routes/Locals') );
+        this.app.use(this.producsRootPath, require('../Routes/Producs') );
     }
     listen() {
         this.app.listen(this.PORT, () => {
