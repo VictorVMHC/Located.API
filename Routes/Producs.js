@@ -21,4 +21,7 @@ router.get('/:Id',
     [
     check('Id', "The Id must not to be empty").notEmpty(),
     validationResults
-    ], producsGet);
+    ], 
+    producsGet);
+
+    module.exports = router; 

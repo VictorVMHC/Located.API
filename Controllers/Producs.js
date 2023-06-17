@@ -3,6 +3,7 @@ const Producs = require('../Models/Producs')
 
 const producsPost = async ( req, res = response ) => {
     const { producName, price, img, punctation, descripcion, tags } = req.body;
+    console.log(producName)
     const producs = new Producs({producName, price, img, punctation, descripcion, tags })
     try{
         await producs.save();
