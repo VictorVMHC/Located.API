@@ -7,7 +7,7 @@ const router = Router();
 
 router.post('/',
     [
-        check('productName', 'The productName is mandatory').notEmpty(),
+        check('producName', 'The productName is mandatory').notEmpty(),
         check('price', 'The price is mandatory').notEmpty(),
         check('img', 'The price is mandatory').notEmpty(),
         check('punctation', 'The punctation is mandatory').notEmpty(),

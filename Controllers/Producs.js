@@ -3,12 +3,11 @@ const Producs = require('../Models/Producs')
 
 const producsPost = async ( req, res = response ) => {
     const { producName, price, img, punctation, descripcion, tags } = req.body;
-    console.log(producName)
     const producs = new Producs({producName, price, img, punctation, descripcion, tags })
     try{
         await producs.save();
         res.status(200).json({
-            msg: 'User created successfully',
+            msg: 'producs created successfully',
             producs
         })
     }catch{
@@ -23,7 +22,7 @@ const producsPost = async ( req, res = response ) => {
 const producsGet = async (req, res = response ) => { 
     const _Id = req.params.Id;
     try{
-        const producs = await Producs.findOne({_Id});
+        const producs = await Producs.findById(_Id);
         if(!producs){
             return res.status(404).json({ error: 'producs not found' }); 
         }
@@ -34,7 +33,7 @@ const producsGet = async (req, res = response ) => {
     }catch(err){
         res.status(500).json({
             msg: 'An error occurred while finding the producs',
-            emailRequested: _Id,
+            Id: _Id,
         });
     }
 }

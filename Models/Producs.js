@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const ProducsSchema = Schema({
-    productName: {
+    producName: {
         type: String,
         required: [true, "The name is a required field"]
     },

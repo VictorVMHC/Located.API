@@ -22,7 +22,6 @@ class Server {
         this.app.use(this.userRootPaht, require('../Routes/User') );
         this.app.use(this.localRootPath, require('../Routes/Locals') );
         this.app.use(this.producsRootPath, require('../Routes/Producs') );
-       
     }
     listen() {
         this.app.listen(this.PORT, () => {
