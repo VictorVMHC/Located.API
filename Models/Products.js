@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
-const ProducsSchema = Schema({
-    producName: {
+const ProductsSchema = Schema({
+    productName: {
         type: String,
         required: [true, "The name is a required field"]
     },
@@ -12,10 +12,10 @@ const ProducsSchema = Schema({
     img: {
         type: String,
     },
-    punctation: {
+    punctuation: {
         type: String,
     },
-    descripcion: {
+    description: {
         type: String,
     },
     tags: {
@@ -23,9 +23,9 @@ const ProducsSchema = Schema({
     }
 });
 
-ProducsSchema.methods.toJSON = function(){
-    const {...producs} = this.toObject();
-    return producs;
+ProductsSchema.methods.toJSON = function(){
+    const {...products} = this.toObject();
+    return products;
 }
 
-module.exports = model('Producs', ProducsSchema);
+module.exports = model('Products', ProductsSchema);
