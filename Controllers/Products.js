@@ -55,7 +55,7 @@ const productsPut = async( req, res) =>{
     }catch(err){
         res.status(500).json({
             msg: 'An error occurred while updating the product',
-            emailRequested: producId,
+            emailRequested: productId,
             dataToUpdate: data
         });
     }
