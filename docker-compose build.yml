@@ -23,6 +23,22 @@ services:
     networks:
     - localted
 
+  localted.api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mongodb
+    networks:
+      - localted
+    environment:
+      - PORT=8080
+      - MONGO_CONNECTION=mongodb://mongodb:27017/tests
+
+
+
 networks:
   localted:
 volumes:

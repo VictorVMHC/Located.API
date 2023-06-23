@@ -68,7 +68,7 @@ router.put('/:Id',[
  * @route Delete api/locals/Id
  * @param {json property} Id -> Id  del local
  * @returns {object} local information
- * @throws {Error} if teh local doesn't exist
+ * @throws {Error} if the local doesn't exist
  */
 router.delete('/:Id',[
         check('Id', 'The ID is mandatory').notEmpty(),

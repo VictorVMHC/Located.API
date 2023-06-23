@@ -35,7 +35,7 @@ const localsGet = async (req, res = response ) =>{
     }catch(err){
         res.status(500).json({
             msg: 'Error while traying to find the local',
-            emailRequested: name,
+            emailRequested: _Id,
         });
     }
 }
@@ -73,7 +73,7 @@ const localDelete = async ( req = request, res = response ) => {
         });
     }catch(err){
         res.status(500).json({
-            msg: 'An error occurred while deleing the store',
+            msg: 'An error occurred while deleting the store',
             emailRequested: _Id,
         });
     }
