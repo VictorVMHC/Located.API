@@ -5,21 +5,21 @@ class Server {
     constructor() {
         this.app = express();
         this.PORT = process.env.PORT;
-        this.userRootPaht = '/api/users';
+        this.userRootPath = '/api/users';
         this.localRootPath = '/api/locals';
         this.productsRootPath = '/api/products';
         this.ConnectDb();
-        this.middlewares();
+        this.middleware();
         this.routes();
     }
     async ConnectDb(){
         await dbConnection();
     }
-    middlewares() {
+    middleware() {
         this.app.use(express.json());
     }
     routes() {
-        this.app.use(this.userRootPaht, require('../Routes/User') );
+        this.app.use(this.userRootPath, require('../Routes/User') );
         this.app.use(this.localRootPath, require('../Routes/Locals') );
         this.app.use(this.productsRootPath, require('../Routes/Products') );
     }
