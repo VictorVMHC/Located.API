@@ -3,8 +3,8 @@ const bcryptjs = require('bcryptjs');
 const User = require('../Models/User')
 
 const userPost = async ( req, res = response ) => {
-    const { name, email, password, phone } = req.body;
-    const user = new User({name, email, password, phone})
+    const { name, username, email, password, phone, age } = req.body;
+    const user = new User({name, email,username, password, phone, age})
     const salt = bcryptjs.genSaltSync();
     user.password = bcryptjs.hashSync( password, salt );
     try{

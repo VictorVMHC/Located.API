@@ -15,6 +15,13 @@ const existPhone = async (phone = '') => {
     }
 };
 
+const existUserName = async (username = '') => {
+    const existUserName = await User.findOne({username});
+    if(existUserName){ 
+        throw new Error(`The username: ${username} is already registered`);
+    }
+};
+
 const existLocal = async (name = '')=>{
     const existLocal = await Locals.findOne({name});
     if(existLocal){
@@ -25,5 +32,6 @@ const existLocal = async (name = '')=>{
 module.exports = {
     existEmail,
     existPhone,
-    existLocal
+    existLocal,
+    existUserName
 }

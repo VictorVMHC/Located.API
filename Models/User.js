@@ -21,9 +21,6 @@ const UserSchema = Schema({
         type: String,       
         unique: true
     },
-    Age: {
-        type: Number
-    },
     google: {
         type: Boolean,
         default: false
@@ -32,7 +29,7 @@ const UserSchema = Schema({
         type: Boolean,
         default: false
     },
-    addres: {
+    address: {
         type: String,
     },
     haveLocals: {
@@ -44,6 +41,12 @@ const UserSchema = Schema({
     },
     state:{
         type: Boolean,
+    },
+    username: {
+        type: String,
+    },
+    age: {
+        type: Number
     }
 });
 

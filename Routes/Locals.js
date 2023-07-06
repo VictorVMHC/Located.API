@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const {check} = require('express-validator');
 const {validationResults } = require('../Middleware/validationResult');
-const {existLocal} = require('../helpers/DbValitations');
+const {existLocal} = require('../helpers/DbValidations');
 const { localsPost, localsPut, localDelete, localsGet} = require('../Controllers/Locals');
 const router = Router();
 
