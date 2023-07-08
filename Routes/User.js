@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { userPost, userGet, userPut, userDelete } = require('../Controllers/User');
+const { userPost, userGet, usersGet,userPut, userDelete } = require('../Controllers/User');
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
 const { existEmail, existPhone, existUserName } = require('../helpers/DbValidations');
@@ -46,6 +46,8 @@ router.get('/:email',[
     check('email', "the email needs to be in the correct format").isEmail(),
     validationResults
 ], userGet);
+
+router.get('/', usersGet);
 
 router.put('/:email',[
     check('password', 'The password needs to have a min length of 8, at last 1 Uppercase, 1 number ans 1 symbol')

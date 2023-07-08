@@ -1,6 +1,8 @@
-const { response, request } = require('express');
+const { response, request, json } = require('express');
 const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../Models/User')
+
 
 const userPost = async ( req, res = response ) => {
     const { name, username, email, password, phone, age } = req.body;
@@ -9,9 +11,13 @@ const userPost = async ( req, res = response ) => {
     user.password = bcryptjs.hashSync( password, salt );
     try{
         await user.save();
+        const token = jwt.sign({id: user._id}, process.env.SECRET,{
+            expiresIn: 60 * 60 * 24
+        })
         res.status(200).json({
             msg: 'User created successfully',
-            user
+            user,
+            token
         });
     }catch{
         res.status(500).json({
@@ -36,6 +42,22 @@ const userGet = async (req, res = response ) => {
         res.status(500).json({
             msg: 'An error occurred while finding the user',
             emailRequested: email,
+        });
+    }
+}
+
+const usersGet = async (req,  res = response) =>{
+    try{
+        const users = await User.find();
+        if(!users){
+            return res.status(404).json({ erro: 'NO USERS'});
+        }
+        res.status(200).json({
+            users
+        })
+    }catch(err){
+        res.status(500).json({
+            msg: ' An error ocurred while traying to find the users'
         });
     }
 }
@@ -81,6 +103,7 @@ const userDelete = async ( req = request, res = response ) => {
 module.exports = {
     userPost,
     userGet,
+    usersGet,
     userPut,
     userDelete
 }
