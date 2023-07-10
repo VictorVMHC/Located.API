@@ -83,5 +83,5 @@ module.exports = {
     localsPost,
     localsGet,
     localsPut,
-    localDelete
+    localDelete,
 }

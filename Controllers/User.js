@@ -12,7 +12,7 @@ const userPost = async ( req, res = response ) => {
     try{
         await user.save();
         const token = jwt.sign({id: user._id}, process.env.SECRET,{
-            expiresIn: 60 * 60 * 24
+            expiresIn: "10 seconds"
         })
         res.status(200).json({
             msg: 'User created successfully',
@@ -28,8 +28,19 @@ const userPost = async ( req, res = response ) => {
 }
 
 const userGet = async (req, res = response ) => { 
+    
+    const token = req.headers['accsses'];
+    
+    if(!token){
+        return res.status(401).json({
+            auth: false,
+            message: 'No token providen'
+        });
+    }
     const email = req.params.email;
     try{
+        const decoded =   jwt.verify(token,  process.env.SECRET);
+            console.log(decoded);
         const user = await User.findOne({email});
         if(!user){
             return res.status(404).json({ error: 'User not found' }); 
@@ -49,8 +60,8 @@ const userGet = async (req, res = response ) => {
 const usersGet = async (req,  res = response) =>{
     try{
         const users = await User.find();
-        if(!users){
-            return res.status(404).json({ erro: 'NO USERS'});
+        if(users){
+            return res.status(404).json({ error: 'NO USERS'});
         }
         res.status(200).json({
             users
@@ -86,7 +97,7 @@ const userPut = async ( req, res ) => {
 const userDelete = async ( req = request, res = response ) => {
     const { email } = req.params.email;
     try {
-        const response = await User.findOneAndUpdate(email, {state: false}, {new: true});
+        const response = await User.findOneAndRemove(email, {state: false}, {new: true});
         res.status(200).json({
             msg: "User deleted successfully",
             "email": email,
