@@ -3,6 +3,7 @@ const { userPost, userGet, usersGet,userPut, userDelete } = require('../Controll
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
 const { existEmail, existPhone, existUserName } = require('../helpers/DbValidations');
+const { verifyToken} = require('../Middleware/VerifyToken');
 const router = Router();
 
 /**
@@ -44,7 +45,7 @@ router.post('/',
 router.get('/:email',[
     check('email', "The email must not to be empty").notEmpty(),
     check('email', "the email needs to be in the correct format").isEmail(),
-    validationResults
+    validationResults,
 ], userGet);
 
 router.get('/', usersGet);
