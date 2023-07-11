@@ -28,31 +28,31 @@ const userPost = async ( req, res = response ) => {
 }
 
 const userGet =  async (req, res = response ) => { 
-    const token = req.headers['accsses'];
+    const token = req.headers['x-token'];
+    const email = req.params.email;
+    let tokenDecoded;
     jwt.verify(token, process.env.SECRET, async (err, decoded) => {
         if (err) {
-          // El token es inválido o ha expirado
-        res.status(401).json({ valid: false, error: 'Token inválido o expirado' });
-        } else {
-            const email = req.params.email;
-            try{
-                const user = await User.findOne({email});
-                if(!user){
-                    return res.status(404).json({ error: 'User not found' }); 
-                }
-                res.status(200).json({
-                    msg: 'User found',
-                    user,
-                    decoded
-                })
-            }catch(err){
-                res.status(500).json({
-                    msg: 'An error occurred while finding the user',
-                    emailRequested: email,
-                });
-            }
+            res.status(401).json({ valid: false, error: 'Invalid token or expired' });
         }
+        tokenDecoded = decoded;
     });
+
+    try{
+        const user = await User.findById(tokenDecoded._id)
+        if(!user){
+            return res.status(404).json({ error: 'User not found' }); 
+        }
+        res.status(200).json({
+            msg: 'User found',
+            user
+        })
+    }catch(err){
+        res.status(500).json({
+            msg: 'An error occurred while finding the user',
+            emailRequested: email,
+        });
+    }
 }
 
 const usersGet = async (req,  res = response) =>{
@@ -66,7 +66,7 @@ const usersGet = async (req,  res = response) =>{
         })
     }catch(err){
         res.status(500).json({
-            msg: ' An error ocurred while traying to find the users'
+            msg: ' An error ocurred while trying to find the users'
         });
     }
 }

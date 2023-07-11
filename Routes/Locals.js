@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const {check} = require('express-validator');
 const {validationResults } = require('../Middleware/validationResult');
-const {existLocal} = require('../helpers/DbValidations');
 const { localsPost, localsPut, localDelete, localsGet} = require('../Controllers/Locals');
 const router = Router();
 
@@ -23,7 +22,7 @@ const router = Router();
 
 router.post('/',[
         check('name', 'The name of your local is mandatory').notEmpty(),
-        check('adress', 'The adress of your local is mandatory').notEmpty(),
+        check('address', 'The address of your local is mandatory').notEmpty(),
         check('products', 'you must provide products o services').notEmpty(),
         check('schedules', 'The schedule of your local is mandatory').notEmpty(),
         check('tags', 'A tag for your local it is required').notEmpty(),

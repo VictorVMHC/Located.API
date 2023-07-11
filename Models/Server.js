@@ -6,23 +6,29 @@ class Server {
         this.app = express();
         this.PORT = process.env.PORT;
         this.userRootPath = '/api/users';
+        this.authRootPath = '/auth';
         this.localRootPath = '/api/locals';
         this.productsRootPath = '/api/products';
         this.ConnectDb();
         this.middleware();
         this.routes();
     }
+
     async ConnectDb(){
         await dbConnection();
     }
+
     middleware() {
         this.app.use(express.json());
     }
+
     routes() {
         this.app.use(this.userRootPath, require('../Routes/User') );
         this.app.use(this.localRootPath, require('../Routes/Locals') );
         this.app.use(this.productsRootPath, require('../Routes/Products') );
+        this.app.use(this.authRootPath, require('../Routes/Auth') );
     }
+    
     listen() {
         this.app.listen(this.PORT, () => {
             console.log('Server Running on the port:', this.PORT)
