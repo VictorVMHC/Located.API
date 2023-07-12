@@ -13,12 +13,11 @@ const AuthLogin = async (req = request, res = response) => {
         }
 
         const comparePassword = await bcryptjs.compare(password, user.password);
-
         if(!comparePassword){
             return res.status(401).json({ error: 'Invalid credentials' });
         }
         
-        const token = jwt.sign({id: user._id, email: user.email}, process.env.SECRET,{
+        const token = jwt.sign({id: user._id, email: user.email}, process.env.TOKEN_SECRET,{
             expiresIn: '30 days'
         });
 

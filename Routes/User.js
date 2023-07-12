@@ -45,10 +45,13 @@ router.post('/',
 router.get('/:email',[
     check('email', "The email must not to be empty").notEmpty(),
     check('email', "the email needs to be in the correct format").isEmail(),
+    check('x-token', 'Token is require').notEmpty(),
+    check('x-token', 'Token is not a JWT').isJWT(),
+    check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
     validationResults,
 ], userGet);
 
-router.get('/', usersGet);
+router.get('/', [check(), validationResults], usersGet);
 
 router.put('/:email',[
     check('password', 'The password needs to have a min length of 8, at last 1 Uppercase, 1 number ans 1 symbol')
