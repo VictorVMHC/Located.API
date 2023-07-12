@@ -1,8 +1,9 @@
 const { Router } = require('express');
-const { userPost, userGet, userPut, userDelete } = require('../Controllers/User');
+const { userPost, userGet, usersGet,userPut, userDelete } = require('../Controllers/User');
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
 const { existEmail, existPhone, existUserName } = require('../helpers/DbValidations');
+const { verifyToken} = require('../Middleware/VerifyToken');
 const router = Router();
 
 /**
@@ -44,8 +45,13 @@ router.post('/',
 router.get('/:email',[
     check('email', "The email must not to be empty").notEmpty(),
     check('email', "the email needs to be in the correct format").isEmail(),
-    validationResults
+    check('x-token', 'Token is require').notEmpty(),
+    check('x-token', 'Token is not a JWT').isJWT(),
+    check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
+    validationResults,
 ], userGet);
+
+router.get('/', [check(), validationResults], usersGet);
 
 router.put('/:email',[
     check('password', 'The password needs to have a min length of 8, at last 1 Uppercase, 1 number ans 1 symbol')
