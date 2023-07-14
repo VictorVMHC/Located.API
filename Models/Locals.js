@@ -39,7 +39,7 @@ const LocalsSchema = Schema({
 })
 
 LocalsSchema.methods.toJSON = function(){
-    const{...locals} = this.toObject();
+    const{...locals} = this.toObject({ versionKey: false });
     return locals;
 }
 

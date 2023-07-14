@@ -24,7 +24,7 @@ const ProductsSchema = Schema({
 });
 
 ProductsSchema.methods.toJSON = function(){
-    const {...products} = this.toObject();
+    const {...products} = this.toObject({ versionKey: false });
     return products;
 }
 
