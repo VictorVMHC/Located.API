@@ -8,12 +8,19 @@ const userPost = async ( req, res = response ) => {
     const { name, username, email, password, phone, age } = req.body;
     try{
         const user = new User({name, email,username, password, phone, age});
+
         const salt = bcryptjs.genSaltSync();
         user.password = bcryptjs.hashSync( password, salt );
+
         await user.save();
+
+        const token = jwt.sign({id: user._id, email: user.email}, process.env.TOKEN_SECRET,{
+            expiresIn: '30 days'
+        });
+
         return res.status(200).json({
-            msg: 'User created successfully',
             user,
+            token
         });
     }catch(err){
         return res.status(500).json({
