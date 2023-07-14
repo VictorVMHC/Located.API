@@ -2,8 +2,8 @@ const {Schema, model, Mongoose} = require('mongoose');
 
 const CommentSchema = Schema({
     localId:{
-        type: String,
-        required: [true, "The localId is a required field"]
+        type: Schema.Types.ObjectId,
+        ref: 'Locals'
     },
     userId:{
         type: Schema.Types.ObjectId,

@@ -5,9 +5,8 @@ const { validationResults } = require('../Middleware/validationResult');
 const router = Router();
 
 
-router.post('/:_id',
+router.post('/:_id/:_id2',
     [
-        check('localId', 'The localId is mandatory').notEmpty(),
         check('comments', 'The comments is mandatory').notEmpty(),
         check('like', 'The comments is mandatory').notEmpty(),
         check('dislike', 'The comments is mandatory').notEmpty(),  

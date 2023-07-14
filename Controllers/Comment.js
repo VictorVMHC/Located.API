@@ -1,6 +1,7 @@
 const { response, request, json } = require('express');
 const   Comment = require('../Models/Comment')
 const User = require('../Models/User')
+const Local = require('../Models/Locals')
 
 const commentPost = async( req, res = response ) => {
     const {localId, userId, comments, like, dislike} = req.body;
@@ -8,14 +9,21 @@ const commentPost = async( req, res = response ) => {
         const comment = new Comment({localId, userId, comments, like, dislike});
         //buscar el usuario para asignar comentario
         const user = await User.findById(req.params._id)
+        //buscar el local para asignar comentario
+        const local = await Local.findById(req.params._id2)
         //asignar al comentario el usuario
         comment.userId = user
+        //asignar al comentario el Local
+        comment.localId = local
         //guardar comentario
         await comment.save()
         //asignar comentario a mi usuario 
         user.comments.push(comment)
+        //asignar comentario a mi local 
+        local.comments.push(comment)
         //guardar usuario
         await user.save();
+        await local.save();
         return res.status(200).json({
             msg: 'Comment created successfully',
             comment,
