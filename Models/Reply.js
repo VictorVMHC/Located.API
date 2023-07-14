@@ -12,6 +12,9 @@ const ReplySchema = Schema({
     replied:{
         type: String,
         required: [true, "The reply is a required field"]
+    },
+    state:{
+        type: Boolean,
     }
 });
 

@@ -7,22 +7,23 @@ const commentPost = async( req, res = response ) => {
     const {localId, userId, comments, like, dislike} = req.body;
     try{
         const comment = new Comment({localId, userId, comments, like, dislike});
-        //buscar el usuario para asignar comentario
+        //find the user to assign comment
         const user = await User.findById(req.params._id)
-        //buscar el local para asignar comentario
+        //find the local to assign comment
         const local = await Local.findById(req.params._id2)
-        //asignar al comentario el usuario
+        //assign user to comment
         comment.userId = user
-        //asignar al comentario el Local
+        //assign Local to comment
         comment.localId = local
-        //guardar comentario
+        //save comment
         await comment.save()
-        //asignar comentario a mi usuario 
+        //assign comment to user
         user.comments.push(comment)
-        //asignar comentario a mi local 
+        //assign comment to local 
         local.comments.push(comment)
-        //guardar usuario
+        //save user
         await user.save();
+         //save local
         await local.save();
         return res.status(200).json({
             msg: 'Comment created successfully',
@@ -78,7 +79,7 @@ const commentPut = async ( req, res ) => {
 const commentDelete = async (req=request, res=response ) => {
     const comment_id = req.params.Id;
     try{
-        const commentResponse = await Products.findByIdAndUpdate(comment_id, {state: false}, {new: true});
+        const commentResponse = await Comment.findByIdAndUpdate(comment_id, {state: false}, {new: true});
         res.status(200).json({
             msg: 'comment has been deleted',
             commentResponse
