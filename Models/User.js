@@ -47,7 +47,11 @@ const UserSchema = Schema({
     },
     age: {
         type: Number
-    }
+    },
+    comments:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment'
+    }]
 });
 
 UserSchema.methods.toJSON = function() {
