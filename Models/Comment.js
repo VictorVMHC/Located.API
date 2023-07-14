@@ -1,4 +1,4 @@
-const {Schema, model, Mongoose} = require('mongoose');
+const {Schema, model} = require('mongoose');
 
 const CommentSchema = Schema({
     localId:{
@@ -21,7 +21,11 @@ const CommentSchema = Schema({
     },
     state:{
         type: Boolean,
-    }
+    },
+    replies:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Reply'
+    }]
 });
 
 module.exports = model('Comment', CommentSchema );

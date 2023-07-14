@@ -10,6 +10,7 @@ class Server {
         this.localRootPath = '/api/locals';
         this.productsRootPath = '/api/products';
         this.commentRootPath = '/api/comments';
+        this.replyRootPath = '/api/reply'
         this.ConnectDb();
         this.middleware();
         this.routes();
@@ -29,6 +30,8 @@ class Server {
         this.app.use(this.productsRootPath, require('../Routes/Products') );
         this.app.use(this.authRootPath, require('../Routes/Auth') );
         this.app.use(this.commentRootPath, require('../Routes/Comment'));
+        this.app.use(this.replyRootPath, require('../Routes/Reply'));
+
     }
     
     listen() {
