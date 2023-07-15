@@ -8,12 +8,16 @@ const router = Router();
  * Create a new Comment 
  *
  * @route GET api/comment/:userId/:localId
+ * @param {json property} localId -> localId of the Comment
+ * @param {json property} userId -> userId of the Comment
  * @param {json property} comments -> comments of the Comment
  * @returns {comment} 200-> if the Comment have been created and the params which the Comment was created
  * @throws {information} if the body params is no in the correct format and if the Comment is already in place
  */
-router.post('/:_id/:_id2',
+router.post('/',
     [
+        check('localId', 'The localId is mandatory').notEmpty(),
+        check('userId', 'The userId is mandatory').notEmpty(),
         check('comments', 'The comments is mandatory').notEmpty(), 
         validationResults
     ],commentPost);

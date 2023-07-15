@@ -8,13 +8,17 @@ const router = Router();
 /**
  * Create a new Reply 
  *
- * @route GET api/reply/:commentId/:userId
+ * @route GET api/reply/
+ * @param {json property} commentId -> commentId of the reply
+ * @param {json property} userId -> userId of the reply
  * @param {json property} replied -> replied of the reply
  * @returns {reply} 200-> if the reply have been created and the params which the reply was created
  * @throws {information} if the body params is no in the correct format and if the reply is already in place
  */
-router.post('/:_id/:_id2',
+router.post('/',
     [
+        check('commentId', 'The commentId is mandatory').notEmpty(),
+        check('userId', 'The userId is mandatory').notEmpty(),
         check('replied', 'The replies is mandatory').notEmpty(),
         validationResults
     ],replyPost);

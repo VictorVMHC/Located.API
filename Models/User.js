@@ -48,14 +48,6 @@ const UserSchema = Schema({
     age: {
         type: Number
     },
-    comments:[{
-        type: Schema.Types.ObjectId,
-        ref: 'Comment'
-    }],
-    replies:[{
-        type: Schema.Types.ObjectId,
-        ref: 'Reply'
-    }]
 });
 
 UserSchema.methods.toJSON = function() {

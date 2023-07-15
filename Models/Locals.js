@@ -36,10 +36,6 @@ const LocalsSchema = Schema({
     state:{
         type: Boolean,
     },
-    comments:[{
-        type: Schema.Types.ObjectId,
-        ref: 'Comment'
-    }]
 })
 
 LocalsSchema.methods.toJSON = function(){

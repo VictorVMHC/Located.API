@@ -3,11 +3,13 @@ const {Schema, model} = require('mongoose');
 const ReplySchema = Schema({
     commentId:{
         type: Schema.Types.ObjectId,
-        ref: 'Comment'
+        ref: 'Comment',
+        required: [true, "The CommentId is a required field"]
     },
     userId:{
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: [true, "The UserId is a required field"]
     },
     replied:{
         type: String,

@@ -4,27 +4,15 @@ const User = require('../Models/User')
 const Local = require('../Models/Locals')
 
 const commentPost = async( req, res = response ) => {
-    const {localId, userId, comments, like, dislike} = req.body;
+    const {localId, userId, comments} = req.body;
     try{
-        const comment = new Comment({localId, userId, comments, like, dislike});
-        //find the user to assign comment
-        const user = await User.findById(req.params._id)
-        //find the local to assign comment
-        const local = await Local.findById(req.params._id2)
-        //assign user to comment
-        comment.userId = user
-        //assign Local to comment
+        const comment = new Comment({localId, userId, comments});
+        console.log(localId)
+        const local = await Local.findById(localId)
+        const user = await User.findById(userId)
         comment.localId = local
-        //save comment
+        comment.userId = user
         await comment.save()
-        //assign comment to user
-        user.comments.push(comment)
-        //assign comment to local 
-        local.comments.push(comment)
-        //save user
-        await user.save();
-         //save local
-        await local.save();
         return res.status(200).json({
             msg: 'Comment created successfully',
             comment,

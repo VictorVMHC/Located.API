@@ -3,29 +3,21 @@ const {Schema, model} = require('mongoose');
 const CommentSchema = Schema({
     localId:{
         type: Schema.Types.ObjectId,
-        ref: 'Locals'
+        ref: 'Locals',
+        required: [true, "The localId is a required field"]
     },
     userId:{
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: [true, "The userId is a required field"]
     },
     comments:{
         type: String,
         required: [true, "The comment is a required field"]
     },
-    like:{
-        type: String,
-    },
-    dislike:{
-        type: String,
-    },
     state:{
         type: Boolean,
     },
-    replies:[{
-        type: Schema.Types.ObjectId,
-        ref: 'Reply'
-    }]
 });
 
 module.exports = model('Comment', CommentSchema );
