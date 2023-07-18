@@ -7,7 +7,6 @@ const commentPost = async( req, res = response ) => {
     const {localId, userId, comments} = req.body;
     try{
         const comment = new Comment({localId, userId, comments});
-        console.log(localId)
         const local = await Local.findById(localId)
         const user = await User.findById(userId)
         comment.localId = local

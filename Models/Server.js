@@ -11,6 +11,7 @@ class Server {
         this.productsRootPath = '/api/products';
         this.commentRootPath = '/api/comments';
         this.replyRootPath = '/api/reply'
+        this.likeCommentRootPath = '/api/likeComments'
         this.ConnectDb();
         this.middleware();
         this.routes();
@@ -31,7 +32,7 @@ class Server {
         this.app.use(this.authRootPath, require('../Routes/Auth') );
         this.app.use(this.commentRootPath, require('../Routes/Comment'));
         this.app.use(this.replyRootPath, require('../Routes/Reply'));
-
+        this.app.use(this.likeCommentRootPath, require('../Routes/LikeComments'));
     }
     
     listen() {

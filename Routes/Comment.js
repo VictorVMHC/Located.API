@@ -7,7 +7,7 @@ const router = Router();
 /**
  * Create a new Comment 
  *
- * @route GET api/comment/:userId/:localId
+ * @route GET api/comment/
  * @param {json property} localId -> localId of the Comment
  * @param {json property} userId -> userId of the Comment
  * @param {json property} comments -> comments of the Comment
