@@ -37,12 +37,12 @@ router.get('/:Id',
     ],commentGet);
 
 router.put('/:Id',[
-    check('Id', 'The ID is mandatory').notEmpty(),
+    check('Id', 'The Id is mandatory').notEmpty(),
     validationResults
 ], commentPut);
 
 router.delete('/:Id',[
-    check('Id', 'The ID is mandatory').notEmpty(),
+    check('Id', 'The Id is mandatory').notEmpty(),
     validationResults
 ], commentDelete);
 

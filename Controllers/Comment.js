@@ -57,8 +57,8 @@ const commentPut = async ( req, res ) => {
     }catch(err){
         res.status(500).json({
             msg: 'An error occurred while updating the comment',
-            emailRequested: commentId,
-            dataToUpdate: data
+            emailRequested: comment_id,
+            dataToUpdate: commentData
         });
     }
 }

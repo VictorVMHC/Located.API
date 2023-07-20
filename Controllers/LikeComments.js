@@ -44,12 +44,10 @@ const likeCommentGet = async (req = request,  res = response) =>{
 
 const likeCommentPut = async ( req, res ) => {
     const likeComment_id = req.params.Id;
-    const {_Id, ...likeCommentData} = req.body;
+    const {comments} = req.body;
     try{
         console.log(likeCommentData.userId)
-        const user = await User.findById(likeCommentData.userId)
-        const comment = await Comment.findById(likeCommentData.commentId)
-        const likeCommentUpdate = await LikeComment.findByIdAndUpdate(likeComment_id, likeCommentData, { new: true })
+        const likeCommentUpdate = await LikeComment.findByIdAndUpdate(likeComment_id, {comments: comments}, { new: true })
         if(!likeCommentUpdate){
             return res.status(404).json({ error: 'Like not found to update it' });
         }
