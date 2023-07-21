@@ -6,11 +6,14 @@ const Comment = require('../Models/Comment')
 const replyPost = async(req, res = response)=>{
     const {commentId, userId, replied} = req.body;
     try{
-        const reply = new Reply({commentId, userId, replied})
         const comment = await Comment.findById(commentId)
         const user = await User.findById(userId)
-        reply.commentId = comment
-        reply.userId = user
+        if(!user || !comment ){
+            return res.status(404).json({
+                error: "reply not found"
+            })
+        }
+        const reply = new Reply({commentId, userId, replied})
         await reply.save()
         return res.status(200).json({
             msg: 'reply created successfully',
@@ -25,9 +28,9 @@ const replyPost = async(req, res = response)=>{
 }
 
 const replyGet = async (req = request,  res = response) =>{
-    const replyId = req.params.Id;
+    const id = req.params.Id;
     try{
-        const reply = await Reply.findById(replyId);
+        const reply = await Reply.findById(id);
         if(!reply){
             return res.status(404).json({ error: 'No reply'});
         }
@@ -43,10 +46,10 @@ const replyGet = async (req = request,  res = response) =>{
 }
 
 const replyPut = async ( req, res ) => {
-    const replyId = req.params.Id;
+    const id = req.params.Id;
     const {_Id, ...replyData} = req.body;
     try{
-        const replyUpdate = await Reply.findByIdAndUpdate(replyId, replyData, { new: true })
+        const replyUpdate = await Reply.findByIdAndUpdate(id, replyData, { new: true })
         if(!replyUpdate){
             return res.status(404).json({ error: 'reply not found to update it' });
         }
@@ -64,9 +67,9 @@ const replyPut = async ( req, res ) => {
 }
 
 const replyDelete = async (req=request, res=response ) => {
-    const replyId = req.params.Id;
+    const id = req.params.Id;
     try{
-        const replyResponse = await Reply.findByIdAndUpdate(replyId, {state: false}, {new: true});
+        const replyResponse = await Reply.findByIdAndUpdate(id, {state: false}, {new: true});
         res.status(200).json({
             msg: 'reply has been deleted',
             replyResponse

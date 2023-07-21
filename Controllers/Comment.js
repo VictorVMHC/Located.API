@@ -6,11 +6,14 @@ const Local = require('../Models/Locals')
 const commentPost = async( req, res = response ) => {
     const {localId, userId, comments} = req.body;
     try{
-        const comment = new Comment({localId, userId, comments});
         const local = await Local.findById(localId)
         const user = await User.findById(userId)
-        comment.localId = local
-        comment.userId = user
+        if(!user || !local ){
+            return res.status(404).json({
+                error: "comment not found"
+            })
+        }
+        const comment = new Comment({localId, userId, comments});
         await comment.save()
         return res.status(200).json({
             msg: 'Comment created successfully',
@@ -25,9 +28,9 @@ const commentPost = async( req, res = response ) => {
 }
 
 const commentGet = async (req = request,  res = response) =>{
-    const _ID = req.params.Id;
+    const id = req.params.Id;
     try{
-        const comment = await Comment.findById(_ID);
+        const comment = await Comment.findById(id);
         if(!comment){
             return res.status(404).json({ error: 'NO COMMENT'});
         }
@@ -43,10 +46,10 @@ const commentGet = async (req = request,  res = response) =>{
 }
 
 const commentPut = async ( req, res ) => {
-    const comment_id = req.params.Id;
+    const id = req.params.Id;
     const {_Id, ...commentData} = req.body;
     try{
-        const commentUpdate = await Comment.findByIdAndUpdate(comment_id, commentData, { new: true })
+        const commentUpdate = await Comment.findByIdAndUpdate(id, commentData, { new: true })
         if(!commentUpdate){
             return res.status(404).json({ error: 'Comment not found to update it' });
         }
@@ -64,9 +67,9 @@ const commentPut = async ( req, res ) => {
 }
 
 const commentDelete = async (req=request, res=response ) => {
-    const comment_id = req.params.Id;
+    const id = req.params.Id;
     try{
-        const commentResponse = await Comment.findByIdAndUpdate(comment_id, {state: false}, {new: true});
+        const commentResponse = await Comment.findByIdAndUpdate(id, {state: false}, {new: true});
         res.status(200).json({
             msg: 'comment has been deleted',
             commentResponse
