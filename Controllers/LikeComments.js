@@ -6,16 +6,22 @@ const Comment = require('../Models/Comment')
 const likeCommentPost = async( req, res = response ) => {
     const {userId, commentId} = req.body;
     try{
-        const likecomment = new LikeComment({userId, commentId});
         const user = await User.findById(userId)
         const comment = await Comment.findById(commentId)
-        likecomment.userId = user
-        likecomment.commentId = comment
-        await likecomment.save()
+
+        if(!user || !comment ){
+            return res.status(404).json({
+                error: "User or comment not found"
+            })
+        }
+        
+        const likedComment = new LikeComment({userId, commentId});
+        await likedComment.save()
+        
         return res.status(200).json({
             msg: 'like created successfully',
-            comment,
         });
+
     }catch(err){
         return res.status(500).json({
             msg: 'An error occurred while saving the like',
@@ -25,41 +31,19 @@ const likeCommentPost = async( req, res = response ) => {
 }
 
 const likeCommentGet = async (req = request,  res = response) =>{
-    const _ID = req.params.Id;
+    const id = req.params.Id;
     try{
-        const likecomment = await LikeComment.findById(_ID);
-        if(!likecomment){
+        const likedComment = await LikeComment.findById(id);
+        if(!likedComment){
             return res.status(404).json({ error: 'NO LIKE'});
         }
         res.status(200).json({
             msg: 'like comment found',
-            likecomment
+            likedComment: likedComment
         })
     }catch(err){
         res.status(500).json({
             msg: ' An error ocurred while trying to find the like comment'
-        });
-    }
-}
-
-const likeCommentPut = async ( req, res ) => {
-    const likeComment_id = req.params.Id;
-    const {comments} = req.body;
-    try{
-        console.log(likeCommentData.userId)
-        const likeCommentUpdate = await LikeComment.findByIdAndUpdate(likeComment_id, {comments: comments}, { new: true })
-        if(!likeCommentUpdate){
-            return res.status(404).json({ error: 'Like not found to update it' });
-        }
-        res.status(200).json({
-            msg: 'Like updated successfully',
-            comment: likeCommentUpdate
-        })
-    }catch(err){
-        res.status(500).json({
-            msg: 'An error occurred while updating the Like',
-            emailRequested: likeComment_id,
-            dataToUpdate: data
         });
     }
 }
@@ -84,6 +68,5 @@ const likeCommentDelete = async (req=request, res=response ) => {
 module.exports = {
     likeCommentPost, 
     likeCommentGet,
-    likeCommentPut,
     likeCommentDelete
 }

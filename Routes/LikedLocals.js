@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
 const router = Router();
 
-router.post('/',
+    router.post('/',
     [
         check('userId', 'The user Id is mandatory').notEmpty(),
         check('localId', 'The local Id is mandatory').notEmpty(),

@@ -14,6 +14,7 @@ const likeLocalPost = async (req, res = response) =>{
                 error: "User or locals not found"
             })
         }
+        
         const likedLocal = new LikeLocal({userId,localId});
 
         await likedLocal.save();
