@@ -12,9 +12,10 @@ class Server {
         this.productsRootPath = '/api/products';
         this.commentRootPath = '/api/comments';
         this.replyRootPath = '/api/reply';
-        this.likeCommentRootPath = '/api/likeComments';
-        this.likeProductsPath = '/api/likeProducts';
-        this.likeLocalsPath = '/api/likeLocals';
+        this.likedCommentRootPath = '/api/likedComments';
+        this.likedProductsRootPath = '/api/likedProducts';
+        this.likedLocalsRootPath = '/api/likedLocals';
+
         this.ConnectDb();
         this.middleware();
         this.routes();
@@ -36,9 +37,9 @@ class Server {
         this.app.use(this.authRootPath, require('../Routes/Auth'));
         this.app.use(this.commentRootPath, require('../Routes/Comment'));
         this.app.use(this.replyRootPath, require('../Routes/Reply'));
-        this.app.use(this.likeCommentRootPath, require('../Routes/LikeComments'));
-        this.app.use(this.likeProductsRootPath, require('../Routes/LikeProducts'));
-        this.app.use(this.likeLocalsRootPath, require('../Routes/LikeLocals'));
+        this.app.use(this.likedCommentRootPath, require('../Routes/LikeComments'));
+        this.app.use(this.likedProductsRootPath, require('../Routes/LikeProducts'));
+        this.app.use(this.likedLocalsRootPath, require('../Routes/LikedLocals'));
     }
     
     listen() {

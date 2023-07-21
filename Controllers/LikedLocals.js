@@ -1,39 +1,46 @@
 const {response, request} = require('express');
-const LikeLocal = require('../Models/LikeLocals');
+const LikeLocal = require('../Models/LikedLocals');
 const User = require('../Models/User');
 const Locals = require('../Models/Locals');
 
 const likeLocalPost = async (req, res = response) =>{
     const {userId, localId} = req.body;
     try{
-        const likelocal = new LikeLocal({userId,localId});
         const user = await User.findById(userId)
         const local = await Locals.findById(localId)
-        likelocal.userId = user
-        likelocal.localId = local
-        await likelocal.save()
+
+        if(!user || !local ){
+            return res.status(404).json({
+                error: "User or locals not found"
+            })
+        }
+        const likedLocal = new LikeLocal({userId,localId});
+
+        await likedLocal.save();
+
         return res.status(200).json({
-            msg: 'The like was created succesfully',
-            local,
+            msg: 'The like was created successfully',
         });
+
     }catch(err){
         return res.status(500).json({
-            msg: 'An error occurred while saving the like',
+            msg: 'An error occurred while saving the like to the local',
             err
         });
     }
 }
 
 const likeLocalGet = async (req = request, res = response) =>{
-    const _ID = req.params.Id;
+    const id = req.params.Id;
     try{
-        const likelocal = await LikeLocal.findById(_ID);
-        if(!likelocal){
+        const likedLocal = await LikeLocal.findById(id);
+
+        if(!likedLocal){
             return res.status(404).json({ error: 'No Like Found'});
         }
         res.status(200).json({
             msg: 'like local found',
-            likelocal
+            likedLocal: likedLocal
         })
     }catch(err){
         res.status(500).json({
@@ -43,17 +50,17 @@ const likeLocalGet = async (req = request, res = response) =>{
 }
 
 const likeLocalDelete = async (req=request, res=response ) => {
-    const likeLocal_id = req.params.Id;
+    const id = req.params.Id;
     try{
-        const likeLocalResponse = await LikeLocal.findByIdAndUpdate(likeLocal_id, {state: false}, {new: true});
+        const likeLocalResponse = await LikeLocal.findByIdAndUpdate(id, {state: false}, {new: true});
         res.status(200).json({
             msg: 'Like has been deleted',
             likeLocalResponse,
         });
     }catch(err){
         res.status(500).json({
-            msg: 'An error occurred while traying to delete the Like',
-            emailRequested: likeLocal_id,
+            msg: 'An error occurred while trying to delete the Like',
+            emailRequested: id,
         });
     }
 }

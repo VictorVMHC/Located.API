@@ -14,7 +14,6 @@ const LikeLocalsSchema = Schema({
     state:{
         type: Boolean,
     },
-
 });
 
 module.exports =  model('LikeLocal', LikeLocalsSchema);
