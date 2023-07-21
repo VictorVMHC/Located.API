@@ -13,7 +13,7 @@ const likeProductPost = async (req, res = response) =>{
 
         if(!user || !product ){
             return res.status(404).json({
-                error: "liked Product or comment not found"
+                error: "User or comment not found"
             })
         }
 

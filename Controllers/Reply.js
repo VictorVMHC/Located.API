@@ -10,7 +10,7 @@ const replyPost = async(req, res = response)=>{
         const user = await User.findById(userId)
         if(!user || !comment ){
             return res.status(404).json({
-                error: "reply not found"
+                error: "User or comment not found"
             })
         }
         const reply = new Reply({commentId, userId, replied})
