@@ -9,7 +9,7 @@ const AuthLogin = async (req = request, res = response) => {
         const user = await User.findOne({email});
 
         if(!user){
-            return res.status(401).json({ error: 'User not found' });
+            return res.status(404).json({ error: 'User not found' });
         }
 
         const comparePassword = await bcryptjs.compare(password, user.password);
@@ -58,7 +58,21 @@ const Auth = async (req = request, res = response) => {
     }
 }
 
+
+const test = async (req = request, res = response) => {
+    try{
+        return res.status(200).json({
+            msg: 'Connection success'
+        })
+    }catch(err){
+        return res.status(500).json({
+            msg: 'An error occurred',
+        });
+    }
+}
+
 module.exports = {
     AuthLogin,
-    Auth
+    Auth,
+    test
 }

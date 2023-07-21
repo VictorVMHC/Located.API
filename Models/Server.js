@@ -1,5 +1,6 @@
 const express = require('express');
 const dbConnection = require('../Database/config');
+const cors = require('cors');
 
 class Server {
     constructor() {
@@ -10,8 +11,11 @@ class Server {
         this.localRootPath = '/api/locals';
         this.productsRootPath = '/api/products';
         this.commentRootPath = '/api/comments';
-        this.replyRootPath = '/api/reply'
-        this.likeCommentRootPath = '/api/likeComments'
+        this.replyRootPath = '/api/reply';
+        this.likedCommentRootPath = '/api/likedComments';
+        this.likedProductsRootPath = '/api/likedProducts';
+        this.likedLocalsRootPath = '/api/likedLocals';
+
         this.ConnectDb();
         this.middleware();
         this.routes();
@@ -23,16 +27,19 @@ class Server {
 
     middleware() {
         this.app.use(express.json());
+        this.app.use(cors());
     }
 
     routes() {
-        this.app.use(this.userRootPath, require('../Routes/User') );
-        this.app.use(this.localRootPath, require('../Routes/Locals') );
-        this.app.use(this.productsRootPath, require('../Routes/Products') );
-        this.app.use(this.authRootPath, require('../Routes/Auth') );
+        this.app.use(this.userRootPath, require('../Routes/User'));
+        this.app.use(this.localRootPath, require('../Routes/Locals'));
+        this.app.use(this.productsRootPath, require('../Routes/Products'));
+        this.app.use(this.authRootPath, require('../Routes/Auth'));
         this.app.use(this.commentRootPath, require('../Routes/Comment'));
         this.app.use(this.replyRootPath, require('../Routes/Reply'));
-        this.app.use(this.likeCommentRootPath, require('../Routes/LikeComments'));
+        this.app.use(this.likedCommentRootPath, require('../Routes/LikeComments'));
+        this.app.use(this.likedProductsRootPath, require('../Routes/LikeProducts'));
+        this.app.use(this.likedLocalsRootPath, require('../Routes/LikedLocals'));
     }
     
     listen() {
