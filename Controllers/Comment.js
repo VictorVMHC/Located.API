@@ -10,7 +10,7 @@ const commentPost = async( req, res = response ) => {
         const user = await User.findById(userId)
         if(!user || !local ){
             return res.status(404).json({
-                error: "User or comment not found"
+                error: "User or local not found"
             })
         }
         const comment = new Comment({localId, userId, comments});

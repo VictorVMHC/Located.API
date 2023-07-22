@@ -15,7 +15,7 @@ const localsPost = async (req, res = response) =>{
         });
     }catch{
         res.status(500).json({
-            msg: 'Error traying to create the local',
+            msg: 'Error trying to create the local',
             locals
         });
     }
@@ -34,7 +34,7 @@ const localsGet = async (req, res = response ) =>{
         })
     }catch(err){
         res.status(500).json({
-            msg: 'Error while traying to find the local',
+            msg: 'Error while trying to find the local',
             emailRequested: _Id,
         });
     }
