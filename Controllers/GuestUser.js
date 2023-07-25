@@ -18,10 +18,10 @@ const GuestUserPost = async (_, res = response) => {
             token
         });
 
-    }catch(err){
+    }catch(error){
         return res.status(500).json({
             msg: 'An error occurred while saving the guest user',
-            err
+            error
         });
     }
 }
@@ -34,10 +34,10 @@ const GuestUserDelete = async ( req = request, res = response ) => {
             msg: "User deleted successfully",
             response
         });
-    } catch (err) {
+    } catch (error) {
         res.status(500).json({
             msg: 'An error occurred while deleting the user',
-            err
+            error
         });
     }
 }
