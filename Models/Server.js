@@ -10,6 +10,7 @@ class Server {
         this.authRootPath = '/auth';
         this.localRootPath = '/api/locals';
         this.productsRootPath = '/api/products';
+        this.guestUserRootPath = '/api/guest/users';
         this.ConnectDb();
         this.middleware();
         this.routes();
@@ -29,6 +30,7 @@ class Server {
         this.app.use(this.localRootPath, require('../Routes/Locals') );
         this.app.use(this.productsRootPath, require('../Routes/Products') );
         this.app.use(this.authRootPath, require('../Routes/Auth') );
+        this.app.use(this.guestUserRootPath, require('../Routes/GuestUser') );
     }
     
     listen() {
