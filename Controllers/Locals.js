@@ -3,10 +3,10 @@ const bcryptjs = require('bcryptjs');
 const Locals = require ('../Models/Locals');
 
 const localsPost = async (req, res = response) =>{
-    const {name, adress, isVerify, products, schedules, tags} = req.body;
+    const {name, address, isVerify, products, schedules, tags} = req.body;
     let rate = 0;
     let quantityRate = 0;
-    const locals = new Locals({name, adress, isVerify, products, schedules, rate, quantityRate, tags})
+    const locals = new Locals({name, address, isVerify, products, schedules, rate, quantityRate, tags})
     try{
         await locals.save();
         res.status(200).json({
@@ -15,7 +15,7 @@ const localsPost = async (req, res = response) =>{
         });
     }catch{
         res.status(500).json({
-            msg: 'Error traying to create the local',
+            msg: 'Error trying to create the local',
             locals
         });
     }
@@ -34,7 +34,7 @@ const localsGet = async (req, res = response ) =>{
         })
     }catch(err){
         res.status(500).json({
-            msg: 'Error while traying to find the local',
+            msg: 'Error while trying to find the local',
             emailRequested: _Id,
         });
     }

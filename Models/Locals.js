@@ -6,7 +6,7 @@ const LocalsSchema = Schema({
         require: [true, "The name is a required field"],
         unique: true,
     },
-    adress:{
+    address:{
         type: String,
         require: [true, "The adress is a required field"]
     },
