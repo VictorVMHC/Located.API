@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const GuestUser = require('../Models/GuestUser');
+const VerifyEmail = require('../Models/VerifyEmail');
 
 const dbConnection = () => {
     console.log(process.env.MONGO_CONNECTION);
@@ -18,6 +19,14 @@ const dbConnection = () => {
             .catch((err) => {
                 console.error('Error when creating index TTL for guest user:', err);
             });
+        
+        VerifyEmail.createIndexes({ createdAt: 1 }, { expireAfterSeconds: 600 })
+        .then(() => {
+            console.log('Index TTL for Verify Email successfully created.');
+        })
+        .catch((err) => {
+            console.error('Error when creating index TTL for Verify Email:', err);
+        });
 } 
 
 module.exports = dbConnection;
