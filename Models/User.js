@@ -47,7 +47,7 @@ const UserSchema = Schema({
     },
     age: {
         type: Number
-    }
+    },
 });
 
 UserSchema.methods.toJSON = function() {
