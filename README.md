@@ -17,3 +17,13 @@ This repo contains all the endpoints to located
 | 404  | Not Found             | The requested resource could not be found.                                            |
 | 500  | Internal Server Error | An internal server error has occurred.                                                |
 | 503  | Service Unavailable   | The server is temporarily unable to handle the request.                               |
+
+
+# Ports of the projects
+
+| Port   | Project                          |  Service          |
+| ----   | ---------------------            | -----------       |
+| 8080   | Located.Api                      | Node Js Server    |
+| 8081   | Mongo manager(in docker compose) | Mongo express     |
+| 27027  | Mongo db (in docker compose)     | MongodB           |
+| 8082   | Located                          | Metro             |
