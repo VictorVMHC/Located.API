@@ -1,14 +1,14 @@
 const { response, request } = require ('express');
-const bcryptjs = require('bcryptjs');
-const User = require('../Models/User');
 const jwt = require('jsonwebtoken');
-
+const VerifyEmail = require('../Models/VerifyEmail');
 const addEmailToVerify = async (req = request, res = response) => {
     const { email } = req.body;
     try{
 
-        const a = Math.random() * (100000-1) + 100000
-        console.log(`Random value between 1 and 10 is ${a}`);
+        const ran = Math.floor(Math.random() * 1000000);
+        const code = String(ran).padStart(6, '0');
+        const emailToVerify = new VerifyEmail({email, code});
+        await emailToVerify.save();
 
         return res.status(200).json({
             msg: 'success'
@@ -16,32 +16,39 @@ const addEmailToVerify = async (req = request, res = response) => {
 
     }catch(err){
         return res.status(500).json({
-            msg: 'An error occurred while trying to log in user',
+            msg: 'An error occurred while trying to save email to verify',
             err
         });
     }
 }
 
 const verifyCode = async (req = request, res = response) => {
-    const tokenDecoded = req.tokenDecoded
+    const { email, code } = req.body;
     try{
-        const user = await User.findById(tokenDecoded.id)
-        if(!user){
-            return res.status(404).json({ error: 'User not found' }); 
+        const check = await VerifyEmail.findOne({email})
+
+        if(!check){
+            return res.status(401).json({
+                msg: 'Expired code'
+            })
         }
 
-        const token = jwt.sign({id: user._id, email: user.email}, process.env.TOKEN_SECRET,{
-            expiresIn: '30 days'
-        });
+        if( code != check.code ){
+            return res.status(400).json({
+                msg: 'Invalid code'
+            })
+        }
 
+        await VerifyEmail.deleteOne({email});
+        
         return res.status(200).json({
-            user,
-            token
+            msg: 'Email validated'
         })
-    }catch(err){
+        
+    }catch(error){
         return res.status(500).json({
-            msg: 'An error occurred while finding the user',
-            emailRequested: tokenDecoded.email,
+            msg: 'An error occurred while getting the code',
+            error
         });
     }
 }

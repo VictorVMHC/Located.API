@@ -12,8 +12,8 @@ const VerifyEmailSchema = Schema({
     },
     createdAt: {
         type: Date,
-        expire: '10m',
-        default: Date.now()
+        expires: '600s',
+        default: Date.now
     }
 });
 
