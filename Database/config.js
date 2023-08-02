@@ -21,12 +21,12 @@ const dbConnection = () => {
             });
         
         VerifyEmail.createIndexes({ createdAt: 1 }, { expireAfterSeconds: 600 })
-        .then(() => {
-            console.log('Index TTL for Verify Email successfully created.');
-        })
-        .catch((err) => {
-            console.error('Error when creating index TTL for Verify Email:', err);
-        });
+            .then(() => {
+                console.log('Index TTL for Verify Email successfully created.');
+            })
+            .catch((err) => {
+                console.error('Error when creating index TTL for Verify Email:', err);
+            });
 } 
 
 module.exports = dbConnection;

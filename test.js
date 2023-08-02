@@ -7,56 +7,56 @@ class NaiveBayesClassifier {
     }
 
 // Función para agregar un ejemplo con su etiqueta al clasificador
-addExample(example, label) {
-    if (!this.classes[label]) {
-    this.classes[label] = 1;
-    } else {
-    this.classes[label]++;
-    }
+    addExample(example, label) {
+        if (!this.classes[label]) {
+        this.classes[label] = 1;
+        } else {
+        this.classes[label]++;
+        }
 
-    if (!this.wordCounts[label]) {
-    this.wordCounts[label] = {};
-    }
+        if (!this.wordCounts[label]) {
+        this.wordCounts[label] = {};
+        }
 
-    example.split(' ').forEach(word => {
-    this.vocab.add(word);
-    if (!this.wordCounts[label][word]) {
-        this.wordCounts[label][word] = 1;
-    } else {
-        this.wordCounts[label][word]++;
-    }
-    });
+        example.split(' ').forEach(word => {
+        this.vocab.add(word);
+        if (!this.wordCounts[label][word]) {
+            this.wordCounts[label][word] = 1;
+        } else {
+            this.wordCounts[label][word]++;
+        }
+        });
 
-    this.totalDocs++;
-}
+        this.totalDocs++;
+    }
 
 // Función para clasificar un nuevo ejemplo y devolver la clase más probable
-classify(example) {
+    classify(example) {
 
-    const words = example.toLowerCase().split(' ');
+        const words = example.toLowerCase().split(' ');
 
-    let maxProb = -Infinity;
-    let bestClass = null;
+        let maxProb = -Infinity;
+        let bestClass = null;
 
-    Object.keys(this.classes).forEach(label => {
-    const classProb = this.classes[label] / this.totalDocs;
+        Object.keys(this.classes).forEach(label => {
+        const classProb = this.classes[label] / this.totalDocs;
 
-    let logProb = Math.log(classProb);
+        let logProb = Math.log(classProb);
 
-    words.forEach(word => {
-        console.log(this.wordCounts[label][word])
-        const wordProb = (this.wordCounts[label][word] || 0.1) / this.totalDocs;
-        logProb += Math.log(wordProb);
-    });
+        words.forEach(word => {
+            console.log(this.wordCounts[label][word])
+            const wordProb = (this.wordCounts[label][word] || 0.1) / this.totalDocs;
+            logProb += Math.log(wordProb);
+        });
 
-    if (logProb > maxProb) {
-        maxProb = logProb;
-        bestClass = label;
+        if (logProb > maxProb) {
+            maxProb = logProb;
+            bestClass = label;
+        }
+        });
+        console.log(this.totalDocs);
+        return bestClass;
     }
-    });
-    console.log(this.totalDocs);
-    return bestClass;
-}
 }
 
 // Ejemplo de uso
