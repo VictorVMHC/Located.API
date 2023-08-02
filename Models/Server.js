@@ -11,6 +11,7 @@ class Server {
         this.localRootPath = '/api/locals';
         this.productsRootPath = '/api/products';
         this.guestUserRootPath = '/api/guest/users';
+        this.verifyEmailRootPath = '/api/verifyEmail';
         this.ConnectDb();
         this.middleware();
         this.routes();
@@ -31,6 +32,7 @@ class Server {
         this.app.use(this.productsRootPath, require('../Routes/Products') );
         this.app.use(this.authRootPath, require('../Routes/Auth') );
         this.app.use(this.guestUserRootPath, require('../Routes/GuestUser') );
+        this.app.use(this.verifyEmailRootPath, require('../Routes/VerifyEmail') );
     }
     
     listen() {
@@ -38,6 +40,7 @@ class Server {
             console.log('Server Running on the port:', this.PORT)
         });
     }
+    
 }
 
 module.exports = Server;

@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="dfq4scQvj7t1t1Jvq5pm" name="Database">
-        <mxGraphModel dx="1589" dy="1825" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1589" dy="1493" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -270,7 +270,7 @@
         </mxGraphModel>
     </diagram>
     <diagram id="1ptKOYtLsiTsGE3Xk_gv" name="Comments">
-        <mxGraphModel dx="1589" dy="725" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1589" dy="393" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -285,6 +285,20 @@
                 </mxCell>
                 <mxCell id="Ea1p-Pury4z-DoApzVZW-4" value="replyId: ObjectId&#10;commentId: ObjectId&#10;UserId:ObjectId&#10;reply:string(256)&#10;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" parent="Ea1p-Pury4z-DoApzVZW-3" vertex="1">
                     <mxGeometry y="30" width="160" height="190" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="lXiH23BoyuXyMfAQ4f1b" name="VerifyEmail">
+        <mxGraphModel dx="1589" dy="393" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="HJjaZ7ZI8QGbXZ1ixgoa-1" value="VerifyEmail" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="300" y="80" width="160" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="HJjaZ7ZI8QGbXZ1ixgoa-2" value="Email: string&#10;Code: string&#10;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" vertex="1" parent="HJjaZ7ZI8QGbXZ1ixgoa-1">
+                    <mxGeometry y="30" width="160" height="60" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
