@@ -8,6 +8,8 @@ const addEmailToVerify = async (req = request, res = response) => {
         const ran = Math.floor(Math.random() * 1000000);
         const code = String(ran).padStart(6, '0');
         const emailToVerify = new VerifyEmail({email, code});
+
+        
         await emailToVerify.save();
 
         return res.status(200).json({

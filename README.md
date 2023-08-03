@@ -25,5 +25,5 @@ This repo contains all the endpoints to located
 | ----   | ---------------------            | -----------       |
 | 8080   | Located.Api                      | Node Js Server    |
 | 8081   | Mongo manager(in docker compose) | Mongo express     |
-| 27027  | Mongo db (in docker compose)     | MongodB           |
+| 27017  | Mongo db (in docker compose)     | MongodB           |
 | 8082   | Located                          | Metro             |
