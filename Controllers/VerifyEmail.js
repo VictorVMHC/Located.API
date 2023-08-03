@@ -15,14 +15,14 @@ const addEmailToVerify = async (req = request, res = response) => {
         
         const mailOptions = lang == 'es' ? getMailEs(code, email) : getMailEn(code, email);
 
-        const mailResponse = await transporter.sendMail(mailOptions);
+        // const mailResponse = await transporter.sendMail(mailOptions);
 
-        if(mailResponse.rejected.length > 0){
-            return res.status(400).json({
-                msg: 'was not possible to sent the message',
-                mail: mailResponse.rejected
-            });
-        }
+        // if(mailResponse.rejected.length > 0){
+        //     return res.status(400).json({
+        //         msg: 'was not possible to sent the message',
+        //         mail: mailResponse.rejected
+        //     });
+        // }
 
         await emailToVerify.save();
 
