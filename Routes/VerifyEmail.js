@@ -12,7 +12,7 @@ router.post('/',[
     validationResults,
 ], addEmailToVerify);
 
-router.get('/',[
+router.get('/:email/:code',[
     check('code', 'Token is require').notEmpty(),
     check('email', 'The email is mandatory').notEmpty(),
     check('email', 'The email does not have a correct format').isEmail(),

@@ -1,15 +1,29 @@
-const { response, request } = require ('express');
+const { response, request, json } = require ('express');
 const jwt = require('jsonwebtoken');
 const VerifyEmail = require('../Models/VerifyEmail');
+const { transporter, mailOptions } = require('../Utils/MailSenderConfig');
+const { getMailEs, getMailEn } = require('../Utils/MailLanguages');
+const { getCode } = require('../Utils/GenerateCode');
+
 const addEmailToVerify = async (req = request, res = response) => {
-    const { email } = req.body;
+    const { email, lang } = req.body;
     try{
 
-        const ran = Math.floor(Math.random() * 1000000);
-        const code = String(ran).padStart(6, '0');
-        const emailToVerify = new VerifyEmail({email, code});
+        const code = getCode();
 
+        const emailToVerify = new VerifyEmail({email, code});
         
+        const mailOptions = lang == 'es' ? getMailEs(code, email) : getMailEn(code, email);
+
+        const mailResponse = await transporter.sendMail(mailOptions);
+
+        if(mailResponse.rejected.length > 0){
+            return res.status(400).json({
+                msg: 'was not possible to sent the message',
+                mail: mailResponse.rejected
+            });
+        }
+
         await emailToVerify.save();
 
         return res.status(200).json({
@@ -25,7 +39,7 @@ const addEmailToVerify = async (req = request, res = response) => {
 }
 
 const verifyCode = async (req = request, res = response) => {
-    const { email, code } = req.body;
+    const { email, code } = req.params;
     try{
         const check = await VerifyEmail.findOne({email})
 
