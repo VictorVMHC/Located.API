@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="dfq4scQvj7t1t1Jvq5pm" name="Database">
-        <mxGraphModel dx="1589" dy="1493" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1869" dy="1902" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -119,13 +119,13 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="70LDlbrw-JERDDGiXMj8-56" value="LikedProducts" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;" parent="1" vertex="1">
-                    <mxGeometry x="380" y="-120" width="160" height="100" as="geometry"/>
+                    <mxGeometry x="375" y="-390" width="160" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="70LDlbrw-JERDDGiXMj8-57" value="+  User: string,&#10;+  Product: string," style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" parent="70LDlbrw-JERDDGiXMj8-56" vertex="1">
                     <mxGeometry y="30" width="160" height="70" as="geometry"/>
                 </mxCell>
                 <mxCell id="70LDlbrw-JERDDGiXMj8-58" value="LikedLocal" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;" parent="1" vertex="1">
-                    <mxGeometry x="380" width="160" height="100" as="geometry"/>
+                    <mxGeometry x="375" y="-270" width="160" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="70LDlbrw-JERDDGiXMj8-59" value="+  User: string,&#10;+  Local: string," style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" parent="70LDlbrw-JERDDGiXMj8-58" vertex="1">
                     <mxGeometry y="30" width="160" height="70" as="geometry"/>
@@ -173,7 +173,7 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="r5jr3pNOG1lA3lrCErKS-54" value="LikedComments" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;" parent="1" vertex="1">
-                    <mxGeometry x="380" y="-240" width="160" height="100" as="geometry"/>
+                    <mxGeometry x="375" y="-160" width="160" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="r5jr3pNOG1lA3lrCErKS-55" value="+  User: string,&#10;+  Comment: string," style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" parent="r5jr3pNOG1lA3lrCErKS-54" vertex="1">
                     <mxGeometry y="30" width="160" height="70" as="geometry"/>
@@ -182,6 +182,30 @@
                     <mxGeometry width="100" height="100" relative="1" as="geometry">
                         <mxPoint x="310" y="155" as="sourcePoint"/>
                         <mxPoint x="390" y="57.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="GpoZdMVEa_vxiwaz0cy8-56" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERmandOne;startArrow=ERmandOne;exitX=0.428;exitY=-0.017;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitPerimeter=0;" edge="1" parent="1" source="mbUt-W5NrpNwAsDVjMWK-54" target="r5jr3pNOG1lA3lrCErKS-55">
+                    <mxGeometry width="100" height="100" relative="1" as="geometry">
+                        <mxPoint x="340" y="140" as="sourcePoint"/>
+                        <mxPoint x="740" y="-40" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="sHkhhgN5T9ELdEEyjeLo-54" value="DisLikedComments" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="500" y="-40" width="160" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="sHkhhgN5T9ELdEEyjeLo-55" value="+  User: string,&#10;+  Comment: string," style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" vertex="1" parent="sHkhhgN5T9ELdEEyjeLo-54">
+                    <mxGeometry y="30" width="160" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="sHkhhgN5T9ELdEEyjeLo-56" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERmandOne;startArrow=ERmandOne;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="mbUt-W5NrpNwAsDVjMWK-54" target="sHkhhgN5T9ELdEEyjeLo-54">
+                    <mxGeometry width="100" height="100" relative="1" as="geometry">
+                        <mxPoint x="380" y="150" as="sourcePoint"/>
+                        <mxPoint x="470" y="-70" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="sHkhhgN5T9ELdEEyjeLo-57" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERoneToMany;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="13" target="sHkhhgN5T9ELdEEyjeLo-55">
+                    <mxGeometry width="100" height="100" relative="1" as="geometry">
+                        <mxPoint x="370" y="30" as="sourcePoint"/>
+                        <mxPoint x="470" y="-70" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
             </root>
@@ -244,7 +268,7 @@
         </mxGraphModel>
     </diagram>
     <diagram id="IiMBS5ljEN6D9kfixFfi" name="Likes">
-        <mxGraphModel dx="1589" dy="725" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1589" dy="682" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -260,10 +284,10 @@
                 <mxCell id="DuvrvsMX7kfASkCNhGuI-4" value="+  User: string,&#10;+  Local: string," style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" parent="DuvrvsMX7kfASkCNhGuI-3" vertex="1">
                     <mxGeometry y="30" width="160" height="70" as="geometry"/>
                 </mxCell>
-                <mxCell id="8h3GSRWmZR3c02rdFf-o-1" value="LikedComments" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;" vertex="1" parent="1">
+                <mxCell id="8h3GSRWmZR3c02rdFf-o-1" value="LikedComments" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;" parent="1" vertex="1">
                     <mxGeometry x="420" y="40" width="160" height="100" as="geometry"/>
                 </mxCell>
-                <mxCell id="8h3GSRWmZR3c02rdFf-o-2" value="+  User: string,&#10;+  Comment: string," style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" vertex="1" parent="8h3GSRWmZR3c02rdFf-o-1">
+                <mxCell id="8h3GSRWmZR3c02rdFf-o-2" value="+  User: string,&#10;+  Comment: string," style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" parent="8h3GSRWmZR3c02rdFf-o-1" vertex="1">
                     <mxGeometry y="30" width="160" height="70" as="geometry"/>
                 </mxCell>
             </root>
@@ -299,6 +323,20 @@
                 </mxCell>
                 <mxCell id="HJjaZ7ZI8QGbXZ1ixgoa-2" value="Email: string&#10;Code: string&#10;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" vertex="1" parent="HJjaZ7ZI8QGbXZ1ixgoa-1">
                     <mxGeometry y="30" width="160" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="UdcbJMe37pucz0GjNTOE" name="Dislike">
+        <mxGraphModel dx="1589" dy="1782" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="uXZTG4O3NQpjmdwQcE0_-1" value="DisLikedComments" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="200" width="160" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="uXZTG4O3NQpjmdwQcE0_-2" value="+  User: string,&#10;+  Comment: string," style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" vertex="1" parent="uXZTG4O3NQpjmdwQcE0_-1">
+                    <mxGeometry y="30" width="160" height="70" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
