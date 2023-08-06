@@ -1,7 +1,7 @@
 const { Router } = require('express');
-const {likeCommentPost, likeCommentGet, likeCommentDelete} = require('../Controllers/LikeComments')
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
+const { DislikeCommentPost, DislikeCommentGet, DislikeCommentDelete } = require('../Controllers/DislikeComment');
 const router = Router();
 
 router.post('/',
@@ -9,17 +9,17 @@ router.post('/',
         check('userId', 'The userId is mandatory').notEmpty(),
         check('commentId', 'The commentId is mandatory').notEmpty(),
         validationResults
-    ],likeCommentPost);
+    ],DislikeCommentPost);
 
     router.get('/:Id',
     [
         check('Id', "The Id must not be empty").notEmpty(),
         validationResults
-    ],likeCommentGet);
+    ],DislikeCommentGet);
     
     router.delete('/:Id',[
         check('Id', 'The ID is mandatory').notEmpty(),
         validationResults
-    ], likeCommentDelete);
+    ], DislikeCommentDelete);
 
 module.exports = router; 
