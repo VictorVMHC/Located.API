@@ -13,9 +13,13 @@ class Server {
         this.guestUserRootPath = '/api/guest/users';
         this.verifyEmailRootPath = '/api/verifyEmail';
         this.likeRootPath = '/api/like';
+        this.likedCommentPath = this.likeRootPath + '/comment';
+        this.likedLocalPath = this.likeRootPath + '/local';
+        this.likedProductPath = this.likeRootPath + '/product';
         this.dislikeRootPath = '/api/dislike';
         this.dislikeCommentPath = this.dislikeRootPath + '/comment';
         
+
         this.ConnectDb();
         this.middleware();
         this.routes();
@@ -37,7 +41,12 @@ class Server {
         this.app.use(this.authRootPath, require('../Routes/Auth') );
         this.app.use(this.guestUserRootPath, require('../Routes/GuestUser') );
         this.app.use(this.verifyEmailRootPath, require('../Routes/VerifyEmail') );
-        this.app.use(this.dislikeCommentPath, require('../Routes/DislikeComment.js') );
+        this.app.use(this.dislikeCommentPath, require('../Routes/DislikeComment') );
+        this.app.use(this.likedCommentPath, require('../Routes/LikeComments') );
+        this.app.use(this.likedLocalPath, require('../Routes/LikedLocals') );
+        this.app.use(this.likedProductPath, require('../Routes/LikeProducts') );
+
+        
     }
     
     listen() {
