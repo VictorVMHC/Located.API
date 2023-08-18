@@ -13,7 +13,7 @@ const VerifyEmailSchema = Schema({
     createdAt: {
         type: Date,
         expires: '600s',
-        default: Date.now
+        default: Date.now()
     }
 });
 

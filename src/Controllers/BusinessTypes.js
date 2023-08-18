@@ -1,7 +1,4 @@
 const { response, request } = require('express');
-const   Comment = require('../Models/Comment')
-const User = require('../Models/User')
-const Local = require('../Models/Locals');
 const BusinessTypes = require('../Models/BusinessTypes');
 
 const businessTypesPost = async( req, res = response ) => {

@@ -1,9 +1,9 @@
 const { Schema, model } = require('mongoose');
 
 const GuestUserSchema = Schema({
-    logDate:{
+    createdAt: {
         type: Date,
-        expire: '1d',
+        expires: '86400s',
         default: Date.now()
     },
     state:{
