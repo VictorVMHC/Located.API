@@ -69,7 +69,25 @@ const verifyCode = async (req = request, res = response) => {
     }
 }
 
+const verifyDelete = async ( req = request, res = response ) => {
+    const email  = req.params.email;
+    try {
+        const deleteVerifyEmail = await VerifyEmail.findOneAndDelete({ email: email });
+        res.status(200).json({
+            msg: "VerifyEmail deleted successfully",
+            "email": email,
+            deleteVerifyEmail
+        });
+    } catch (error) {
+        res.status(500).json({
+            msg: 'An error occurred while deleting the verify',
+            emailRequested: email,
+        });
+    }
+}
+
 module.exports = {
     addEmailToVerify,
-    verifyCode
+    verifyCode,
+    verifyDelete
 }
