@@ -12,7 +12,7 @@ const dbConnection = () => {
         .then(() => console.log('Connection Successful'))
         .catch((err) => console.error('Error connecting to MongoDB:', err));
 
-        GuestUser.createIndexes({ logDate: 1 }, { expireAfterSeconds: 86400 })
+        GuestUser.createIndexes({ createdAt: 1 }, { expireAfterSeconds: 86400 })
             .then(() => {
                 console.log('Index TTL for guest user successfully created.');
             })
