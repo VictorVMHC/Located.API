@@ -20,7 +20,7 @@ class Server {
         this.dislikeCommentPath = this.dislikeRootPath + '/comment';
         this.businessTypes = '/api/businessTypes';
         this.categoriesPath = '/api/categories'
-        
+        this.verifyUserInfoPath = '/api/verifyUserInfo'
 
         this.ConnectDb();
         this.middleware();
@@ -49,6 +49,7 @@ class Server {
         this.app.use(this.likedProductPath, require('../Routes/LikeProducts') );
         this.app.use(this.businessTypes, require('../Routes/BusinessTypes') );
         this.app.use(this.categoriesPath, require( '../Routes/Categories') );
+        this.app.use(this.verifyUserInfoPath, require('../Routes/VerifyUserInfo') );
     }
     
     listen() {
