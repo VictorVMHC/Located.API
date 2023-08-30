@@ -66,35 +66,40 @@ const usersGet = async (req = request,  res = response) =>{
     }
 }
 
-const userPut = async ( req, res ) => {
+const userPut = async (req, res) => {
     const emailParams = req.params.email;
-    const {email, ...userData} = req.body;
-    try{
-        const userUpdate = await User.findOneAndUpdate({email: emailParams}, userData, { new: true })
-        if(!userUpdate){
+    const { email, ...userData } = req.body; // Omitimos el campo "email" del objeto "userData"
+    try {
+        // Verificamos si el campo "phone" está presente en el cuerpo de la solicitud
+        if ('phone' in req.body) {
+            userData.phone = req.body.phone; // Actualizamos el campo "phone"
+        }
+
+        const userUpdate = await User.findOneAndUpdate({ email: emailParams }, userData, { new: true });
+        if (!userUpdate) {
             return res.status(404).json({ error: 'User not found to update it' });
         }
         res.status(200).json({
             msg: 'User updated successfully',
             user: userUpdate
-        })
-    }catch(err){
+        });
+    } catch (err) {
         res.status(500).json({
             msg: 'An error occurred while updating the user',
             emailRequested: email,
             dataToUpdate: data
         });
     }
-}
+};
 
 const userDelete = async ( req = request, res = response ) => {
-    const { email } = req.params.email;
+    const  email = req.params.email;
     try {
-        const response = await User.findOneAndUpdate(email, {state: false}, {new: true});
+        const deleteUser = await User.findOneAndDelete({email: email});
         res.status(200).json({
             msg: "User deleted successfully",
             "email": email,
-            response
+            deleteUser
         });
     } catch (error) {
         res.status(500).json({
