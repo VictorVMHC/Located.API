@@ -67,22 +67,26 @@ const usersGet = async (req = request,  res = response) =>{
 }
 
 const userPut = async (req, res) => {
-    const emailParams = req.params.email;
-    const { email, ...userData } = req.body; // Omitimos el campo "email" del objeto "userData"
+    const tokenDecoded = req.tokenDecoded
+    const {...userData } = req.body;
     try {
-        // Verificamos si el campo "phone" está presente en el cuerpo de la solicitud
-        if ('phone' in req.body) {
-            userData.phone = req.body.phone; // Actualizamos el campo "phone"
-        }
 
-        const userUpdate = await User.findOneAndUpdate({ email: emailParams }, userData, { new: true });
-        if (!userUpdate) {
+        const userUpdated = await User.findByIdAndUpdate({ _id: tokenDecoded.id }, userData, { new: true });
+
+        if (!userUpdated) {
             return res.status(404).json({ error: 'User not found to update it' });
         }
+
+        const token = jwt.sign({id: userUpdated._id, email: userUpdated.email}, process.env.TOKEN_SECRET,{
+            expiresIn: '30 days'
+        });
+
         res.status(200).json({
             msg: 'User updated successfully',
-            user: userUpdate
+            user: userUpdated,
+            token
         });
+
     } catch (err) {
         res.status(500).json({
             msg: 'An error occurred while updating the user',
