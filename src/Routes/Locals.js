@@ -25,6 +25,8 @@ router.post('/',[
         check('address', 'The address of your local is mandatory').notEmpty(),
         check('products', 'you must provide products o services').notEmpty(),
         check('schedules', 'The schedule of your local is mandatory').notEmpty(),
+        check('latitude', 'The latitude of your local is mandatory').notEmpty(),
+        check('longitude', 'The longitude of your local is mandatory').notEmpty(),
         check('tags', 'A tag for your local it is required').notEmpty(),
         validationResults
 ], localsPost);

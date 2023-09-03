@@ -24,12 +24,20 @@ const LocalsSchema = Schema({
         type: String,
         require: [true, "The schedule is a required field"]
     },
-    rate:{
+    latitude:{
         type: Number,
+        require: [true, "The latitude is a required field"]
     },
-    quantityRate:{
+    longitude:{
         type: Number,
+        require: [true, "The longitude is a required field"]
     },
+    //rate:{
+    //    type: Number,
+    //},
+    //quantityRate:{
+    //   type: Number,
+    //},
     tags:{
         type: String,
     },

@@ -1,12 +1,11 @@
 const { response, request } = require ('express');
-const bcryptjs = require('bcryptjs');
 const Locals = require ('../Models/Locals');
 
 const localsPost = async (req, res = response) =>{
-    const {name, address, isVerify, products, schedules, tags} = req.body;
+    const {name, address, products, schedules, latitude, longitude, tags} = req.body;
     let rate = 0;
     let quantityRate = 0;
-    const locals = new Locals({name, address, isVerify, products, schedules, rate, quantityRate, tags})
+    const locals = new Locals({name, address, products, schedules, latitude, longitude, tags})
     try{
         await locals.save();
         res.status(200).json({

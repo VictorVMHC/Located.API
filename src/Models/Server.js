@@ -24,6 +24,7 @@ class Server {
         this.categoriesPath = '/api/categories';
         this.verifyUserInfoPath = '/api/verifyUserInfo';
         this.uploadImagePath = '/api/uploadImage';
+        this.searchLocalsPath = '/api/searchLocals';
 
         this.ConnectDb();
         this.middleware();
@@ -58,6 +59,7 @@ class Server {
         this.app.use(this.categoriesPath, require( '../Routes/Categories') );
         this.app.use(this.verifyUserInfoPath, require('../Routes/VerifyUserInfo') );
         this.app.use(this.uploadImagePath, require('../Routes/UploadImage') );
+        this.app.use(this.searchLocalsPath, require('../Routes/SearchLocals') );
     }
     
     listen() {
