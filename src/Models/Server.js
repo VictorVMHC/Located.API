@@ -21,6 +21,7 @@ class Server {
         this.businessTypes = '/api/businessTypes';
         this.categoriesPath = '/api/categories'
         this.verifyUserInfoPath = '/api/verifyUserInfo'
+        this.googleUserRootPath = '/api/google/users';
 
         this.ConnectDb();
         this.middleware();
@@ -50,6 +51,7 @@ class Server {
         this.app.use(this.businessTypes, require('../Routes/BusinessTypes') );
         this.app.use(this.categoriesPath, require( '../Routes/Categories') );
         this.app.use(this.verifyUserInfoPath, require('../Routes/VerifyUserInfo') );
+        this.app.use(this.googleUserRootPath, require('../Routes/GoogleUser') );
     }
     
     listen() {
