@@ -2,7 +2,7 @@ const { Response } = require('express');
 const {ObjectId}= require('mongoose').Types;
 const Locals = require ('../Models/Locals');
 
-const coleccionesPermitidas = [
+const collectionAllowed = [
     'locals'
 ];
 
@@ -30,24 +30,23 @@ const calculateRange = (latitude = Number, longitude = Number, kilometers = Numb
 
 
 
-const searchLocals = async (termino1 = Number, termino2 = Number, termino3 = Number, res = Response) => {
+const searchLocals = async (Latitude = Number, Longitude = Number, kilometers = Number, res = Response) => {
     const allLocals = await Locals.find({});
-    const resultado = calculateRange(termino1, termino2, termino3);
+    const resultCalculateRange = calculateRange(Latitude, Longitude, kilometers);
 
-    // Filtrar los locales dentro del rango
     const filteredLocals = allLocals.filter((local) => {
-        const latitud = Math.abs(Number(local.latitude));
-        const longitud = Math.abs(Number(local.longitude));
+        const latitude = Math.abs(Number(local.latitude));
+        const longitude = Math.abs(Number(local.longitude));
 
-        const latitudMaximaAbs = Math.abs(resultado.latitudeMaximum);
-        const latitudMinimaAbs = Math.abs(resultado.latitudeMinimum);
-        const longitudMaximaAbs = Math.abs(resultado.longitudeMaxima);
-        const longitudMinimaAbs = Math.abs(resultado.longitudeMinimum);
+        const latitudeMaxiAbs = Math.abs(resultCalculateRange.latitudeMaximum);
+        const latitudeMinimumAbs = Math.abs(resultCalculateRange.latitudeMinimum);
+        const longitudeMaximaAbs = Math.abs(resultCalculateRange.longitudeMaxima);
+        const longitudeMinimumAbs = Math.abs(resultCalculateRange.longitudeMinimum);
         
-        console.log(latitudMaximaAbs + '-' + latitudMinimaAbs + '/' + latitud);
-        console.log(longitudMaximaAbs + '-' + longitudMinimaAbs + '/' + longitud);
+        console.log(latitudeMaxiAbs + '-' + latitudeMinimumAbs + '/' + latitude);
+        console.log(longitudeMaximaAbs + '-' + longitudeMinimumAbs + '/' + longitude);
 
-        return latitud >= latitudMinimaAbs && latitud <= latitudMaximaAbs && longitud >= longitudMinimaAbs && longitud <= longitudMaximaAbs;
+        return latitude >= latitudeMinimumAbs && latitude <= latitudeMaxiAbs && longitude >= longitudeMinimumAbs && longitude <= longitudeMaximaAbs;
     });
 
     res.json({
@@ -57,21 +56,21 @@ const searchLocals = async (termino1 = Number, termino2 = Number, termino3 = Num
 
 
 const search = (req, res = Response ) =>{
-    const {coleccion, termino, termino2, termino3} = req.params;
-    if(!coleccionesPermitidas.includes(coleccion)){
+    const {collection, var1 ,var2, var3} = req.params;
+    if(!collectionAllowed.includes(collection)){
         return res.status(400).json({
-            msg: `Las colecciones permitidas son: ${coleccionesPermitidas}`
+            msg: `The allowed collections are: ${collectionAllowed}`
         })
     }
 
-    switch (coleccion) {
+    switch (collection) {
         case 'locals':
-            searchLocals (termino, termino2, termino3, res)
+            searchLocals (var1, var2, var3, res)
             break;
     
         default:
             res.status(500).json({
-                msg: 'Se le olvido hacer esta busqueda'
+                msg: 'You forgot to do this search'
             })
             break;
     }
