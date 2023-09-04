@@ -3,6 +3,6 @@ const {search} = require('../Controllers/SearchLocals');
 
 const route = Router(); 
 
-route.get('/:coleccion/:termino/:termino2', search)
+route.get('/:coleccion/:termino/:termino2/:termino3', search)
 
 module.exports = route;
