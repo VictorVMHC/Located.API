@@ -6,33 +6,32 @@ const coleccionesPermitidas = [
     'locals'
 ];
 
-const calculateRange = (termino1 = Number, termino2 = Number, termino3 = Number) => {
-    const radioKm = termino3;
-    const radioTierraKm = 6371.0;
-    const latitudReferenciaRad = termino1 * (Math.PI / 180);
-    const longitudReferenciaRad = termino2 * (Math.PI / 180);
+const calculateRange = (latitude = Number, longitude = Number, kilometers = Number) => {
+    const radioKm = kilometers;
+    const radiusEarthKm = 6371.0;
 
-    const latitudMaximaRad = latitudReferenciaRad + (radioKm / radioTierraKm);
-    const latitudMinimaRad = latitudReferenciaRad - (radioKm / radioTierraKm);
+    
+    const latitudeReferenceRad = latitude * (Math.PI / 180);
+    const lengthReferenceRad = longitude * (Math.PI / 180);
 
-    const longitudMaximaRad = longitudReferenciaRad + (radioKm / (radioTierraKm * Math.cos(latitudReferenciaRad)));
-    const longitudMinimaRad = longitudReferenciaRad - (radioKm / (radioTierraKm * Math.cos(latitudReferenciaRad)));
+    const latitudeMaximaRad = latitudeReferenceRad + (radioKm / radiusEarthKm);
+    const latitudeMinimumRad = latitudeReferenceRad - (radioKm / radiusEarthKm);
+
+    const longitudeMaximaRad = lengthReferenceRad + (radioKm / (radiusEarthKm * Math.cos(latitudeReferenceRad)));
+    const longitudeMinimumRad = lengthReferenceRad - (radioKm / (radiusEarthKm * Math.cos(latitudeReferenceRad)));
 
     return {
-        latitudMaxima: latitudMaximaRad * (180 / Math.PI),
-        latitudMinima: latitudMinimaRad * (180 / Math.PI),
-        longitudMinima: longitudMaximaRad * (180 / Math.PI),
-        longitudMaxima: longitudMinimaRad * (180 / Math.PI)
+        latitudeMaximum: latitudeMaximaRad * (180 / Math.PI),
+        latitudeMinimum: latitudeMinimumRad * (180 / Math.PI),
+        longitudeMinimum: longitudeMaximaRad * (180 / Math.PI),
+        longitudeMaxima: longitudeMinimumRad * (180 / Math.PI)
     };
 }
 
 
 
 const searchLocals = async (termino1 = Number, termino2 = Number, termino3 = Number, res = Response) => {
-    // Obtener todos los locales de la base de datos
     const allLocals = await Locals.find({});
-    
-    // Calcular el rango de latitud y longitud
     const resultado = calculateRange(termino1, termino2, termino3);
 
     // Filtrar los locales dentro del rango
@@ -40,10 +39,10 @@ const searchLocals = async (termino1 = Number, termino2 = Number, termino3 = Num
         const latitud = Math.abs(Number(local.latitude));
         const longitud = Math.abs(Number(local.longitude));
 
-        const latitudMaximaAbs = Math.abs(resultado.latitudMaxima);
-        const latitudMinimaAbs = Math.abs(resultado.latitudMinima);
-        const longitudMaximaAbs = Math.abs(resultado.longitudMaxima);
-        const longitudMinimaAbs = Math.abs(resultado.longitudMinima);
+        const latitudMaximaAbs = Math.abs(resultado.latitudeMaximum);
+        const latitudMinimaAbs = Math.abs(resultado.latitudeMinimum);
+        const longitudMaximaAbs = Math.abs(resultado.longitudeMaxima);
+        const longitudMinimaAbs = Math.abs(resultado.longitudeMinimum);
         
         console.log(latitudMaximaAbs + '-' + latitudMinimaAbs + '/' + latitud);
         console.log(longitudMaximaAbs + '-' + longitudMinimaAbs + '/' + longitud);
