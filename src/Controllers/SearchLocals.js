@@ -42,15 +42,19 @@ const searchLocals = async (Latitude = Number, Longitude = Number, kilometers = 
         const latitudeMinimumAbs = Math.abs(resultCalculateRange.latitudeMinimum);
         const longitudeMaximaAbs = Math.abs(resultCalculateRange.longitudeMaxima);
         const longitudeMinimumAbs = Math.abs(resultCalculateRange.longitudeMinimum);
-        
-        console.log(latitudeMaxiAbs + '-' + latitudeMinimumAbs + '/' + latitude);
-        console.log(longitudeMaximaAbs + '-' + longitudeMinimumAbs + '/' + longitude);
 
         return latitude >= latitudeMinimumAbs && latitude <= latitudeMaxiAbs && longitude >= longitudeMinimumAbs && longitude <= longitudeMaximaAbs;
     });
 
+    const startIndex = (1 - 1) * 10;
+    const endIndex = 1 * 10;
+
+    const paginatedResults = filteredLocals.slice(startIndex, endIndex);
+
     res.json({
-        results: filteredLocals
+        results: paginatedResults,
+        currentPage: 1,
+        totalPages: Math.ceil(filteredLocals.length / 10)
     });
 }
 
@@ -65,7 +69,7 @@ const search = (req, res = Response ) =>{
 
     switch (collection) {
         case 'locals':
-            searchLocals (var1, var2, var3, res)
+            searchLocals(var1, var2, var3, res);
             break;
     
         default:
