@@ -33,17 +33,11 @@ const calculateRange = (latitude = Number, longitude = Number, kilometers = Numb
 const searchLocals = async (Latitude = Number, Longitude = Number, kilometers = Number, res = Response) => {
     const allLocals = await Locals.find({});
     const resultCalculateRange = calculateRange(Latitude, Longitude, kilometers);
-
+    console.log(resultCalculateRange.latitudeMaximum + '/' + resultCalculateRange.latitudeMinimum + '/' + resultCalculateRange.longitudeMaxima + '/' + resultCalculateRange.longitudeMinimum  );
+    
     const filteredLocals = allLocals.filter((local) => {
-        const latitude = Math.abs(Number(local.latitude));
-        const longitude = Math.abs(Number(local.longitude));
-
-        const latitudeMaxiAbs = Math.abs(resultCalculateRange.latitudeMaximum);
-        const latitudeMinimumAbs = Math.abs(resultCalculateRange.latitudeMinimum);
-        const longitudeMaximaAbs = Math.abs(resultCalculateRange.longitudeMaxima);
-        const longitudeMinimumAbs = Math.abs(resultCalculateRange.longitudeMinimum);
-
-        return latitude >= latitudeMinimumAbs && latitude <= latitudeMaxiAbs && longitude >= longitudeMinimumAbs && longitude <= longitudeMaximaAbs;
+        console.log(local.latitude + '/' + local.longitude );
+        return local.latitude >= resultCalculateRange.latitudeMinimum && local.latitude <= resultCalculateRange.latitudeMaximum && local.longitude <= resultCalculateRange.longitudeMinimum && local.longitude >= resultCalculateRange.longitudeMaxima;
     });
 /*
     const startIndex = (1 - 1) * 10;
