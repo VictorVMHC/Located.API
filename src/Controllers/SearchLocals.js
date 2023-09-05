@@ -45,16 +45,14 @@ const searchLocals = async (Latitude = Number, Longitude = Number, kilometers = 
 
         return latitude >= latitudeMinimumAbs && latitude <= latitudeMaxiAbs && longitude >= longitudeMinimumAbs && longitude <= longitudeMaximaAbs;
     });
-
+/*
     const startIndex = (1 - 1) * 10;
     const endIndex = 1 * 10;
 
     const paginatedResults = filteredLocals.slice(startIndex, endIndex);
-
+*/
     res.json({
-        results: paginatedResults,
-        currentPage: 1,
-        totalPages: Math.ceil(filteredLocals.length / 10)
+        results: filteredLocals,
     });
 }
 
