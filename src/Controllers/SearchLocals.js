@@ -7,6 +7,7 @@ const collectionAllowed = [
 ];
 
 const calculateRange = (latitude = Number, longitude = Number, kilometers = Number) => {
+    //Ley de Haversine
     const radioKm = kilometers;
     const radiusEarthKm = 6371.0;
 
@@ -31,23 +32,27 @@ const calculateRange = (latitude = Number, longitude = Number, kilometers = Numb
 
 
 const searchLocals = async (Latitude = Number, Longitude = Number, kilometers = Number, res = Response) => {
-    const allLocals = await Locals.find({});
     const resultCalculateRange = calculateRange(Latitude, Longitude, kilometers);
-    console.log(resultCalculateRange.latitudeMaximum + '/' + resultCalculateRange.latitudeMinimum + '/' + resultCalculateRange.longitudeMaxima + '/' + resultCalculateRange.longitudeMinimum  );
-    
-    const filteredLocals = allLocals.filter((local) => {
-        console.log(local.latitude + '/' + local.longitude );
-        return local.latitude >= resultCalculateRange.latitudeMinimum && local.latitude <= resultCalculateRange.latitudeMaximum && local.longitude <= resultCalculateRange.longitudeMinimum && local.longitude >= resultCalculateRange.longitudeMaxima;
-    });
-/*
-    const startIndex = (1 - 1) * 10;
-    const endIndex = 1 * 10;
 
-    const paginatedResults = filteredLocals.slice(startIndex, endIndex);
-*/
-    res.json({
-        results: filteredLocals,
-    });
+    (async () => {
+        try {
+            const filteredLocals = await Locals.find({
+                latitude: {
+                    $gte: resultCalculateRange.latitudeMinimum,
+                    $lte: resultCalculateRange.latitudeMaximum
+                },
+                longitude: {
+                    $gte: resultCalculateRange.longitudeMaxima,
+                    $lte: resultCalculateRange.longitudeMinimum
+                }
+            });
+            res.json({
+                results: filteredLocals,
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    })();
 }
 
 
