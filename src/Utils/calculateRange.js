@@ -21,6 +21,21 @@ const calculateRange = (latitude = Number, longitude = Number, kilometers = Numb
     };
 }
 
+const searchLatitudeandLongitud = (Latitude = Number, Longitude = Number, kilometers = Number) => {
+    const resultCalculateRange = calculateRange(Latitude, Longitude, kilometers);
+    return {
+        latitude: {
+            $gte: resultCalculateRange.latitudeMinimum,
+            $lte: resultCalculateRange.latitudeMaximum
+        },
+        longitude: {
+            $gte: resultCalculateRange.longitudeMaxima,
+            $lte: resultCalculateRange.longitudeMinimum
+        }
+    };
+};
+
 module.exports ={
-    calculateRange
+    calculateRange,
+    searchLatitudeandLongitud
 }
