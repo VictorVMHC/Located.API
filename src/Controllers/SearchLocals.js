@@ -1,7 +1,7 @@
 const { Response } = require('express');
 const {ObjectId}= require('mongoose').Types;
 const Locals = require ('../Models/Locals');
-const {calculateRange, searchLatitudeandLongitud} = require('../Utils/calculateRange');
+const {calculateRange, searchLatitudeAndLongitude} = require('../Utils/calculateRange');
 
 
 const collectionAllowed = [
@@ -10,7 +10,7 @@ const collectionAllowed = [
 ];
 
 const searchLocals = async (Latitude = Number, Longitude = Number, kilometers = Number, res = Response) => {
-    const filteredLocals = searchLatitudeandLongitud(Latitude, Longitude, kilometers);
+    const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
     try {
         const locals = await Locals.find(filteredLocals);
         res.json({
@@ -21,9 +21,9 @@ const searchLocals = async (Latitude = Number, Longitude = Number, kilometers = 
     }
 }
 
-const  searchFoodView = async (Latitude = Number, Longitude = Number, kilometers = Number, termino = String, res = Response) => {
-    const regex = new RegExp(termino, 'i');
-    const localsQuery = searchLatitudeandLongitud(Latitude, Longitude, kilometers);
+const  searchFoodView = async (Latitude = Number, Longitude = Number, kilometers = Number, term = String, res = Response) => {
+    const regex = new RegExp(term, 'i');
+    const localsQuery = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
     
     const locals = await Locals.find({
         $or: [

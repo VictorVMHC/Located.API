@@ -21,7 +21,7 @@ const calculateRange = (latitude = Number, longitude = Number, kilometers = Numb
     };
 }
 
-const searchLatitudeandLongitud = (Latitude = Number, Longitude = Number, kilometers = Number) => {
+const searchLatitudeAndLongitude = (Latitude = Number, Longitude = Number, kilometers = Number) => {
     const resultCalculateRange = calculateRange(Latitude, Longitude, kilometers);
     return {
         latitude: {
@@ -37,5 +37,5 @@ const searchLatitudeandLongitud = (Latitude = Number, Longitude = Number, kilome
 
 module.exports ={
     calculateRange,
-    searchLatitudeandLongitud
+    searchLatitudeAndLongitude
 }
