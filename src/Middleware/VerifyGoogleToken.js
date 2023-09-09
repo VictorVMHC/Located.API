@@ -1,19 +1,18 @@
 const { OAuth2Client } = require('google-auth-library');
 
-const client = new OAuth2Client(process.env.GOOGLE_ID_TOKEN); // Reemplaza con tu ID de cliente de Google
+const client = new OAuth2Client(process.env.GOOGLE_ID_TOKEN);
 
 const verifyGoogleToken = async ( token, req) => {
     try {
 
         const ticket = await client.verifyIdToken({
             idToken: token,
-            audience: process.env.GOOGLE_ID_TOKEN, // Reemplaza con tu ID de cliente de Google
+            audience: process.env.GOOGLE_ID_TOKEN,
         });
 
         const payload = ticket.getPayload();
         const userId = payload['sub'];
 
-        // Puedes agregar el ID de usuario verificado a la solicitud para que el controlador lo utilice
         req.userId = userId;
         
     } catch (error) {

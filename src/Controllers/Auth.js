@@ -34,6 +34,38 @@ const AuthLogin = async (req = request, res = response) => {
     }
 }
 
+const AuthGoogleLogin = async (req = request, res = response) => {
+    const { email } = req.body;
+    const userId = req.userId;
+    try{
+        const user = await User.findOne({email});
+
+        if(!user){
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const compare = userId == user.googleId ? true : false
+
+        if(!compare){
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+        const token = jwt.sign({id: user._id, email: user.email}, process.env.TOKEN_SECRET,{
+            expiresIn: '30 days'
+        });
+
+        return res.status(200).json({
+            user,
+            token: token
+        });
+
+    }catch(err){
+        return res.status(500).json({
+            msg: 'An error occurred while trying to log in user',
+            err
+        });
+    }
+}
+
 const Auth = async (req = request, res = response) => {
     const tokenDecoded = req.tokenDecoded
     try{
@@ -73,6 +105,7 @@ const test = async (req = request, res = response) => {
 
 module.exports = {
     AuthLogin,
+    AuthGoogleLogin,
     Auth,
     test
 }
