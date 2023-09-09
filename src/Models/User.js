@@ -37,7 +37,7 @@ const UserSchema = Schema({
         default: false
     },
     locals:{
-        type: String,
+        type: [],
     },
     state:{
         type: Boolean,

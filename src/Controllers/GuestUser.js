@@ -23,6 +23,7 @@ const GuestUserPost = async (_, res = response) => {
             msg: 'An error occurred while saving the guest user',
             error
         });
+        
     }
 }
 
