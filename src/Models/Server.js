@@ -25,6 +25,7 @@ class Server {
         this.verifyUserInfoPath = '/api/verifyUserInfo';
         this.uploadImagePath = '/api/uploadImage';
         this.searchLocalsPath = '/api/searchLocals';
+        this.googleUserRootPath = '/api/google/users';
 
         this.ConnectDb();
         this.middleware();

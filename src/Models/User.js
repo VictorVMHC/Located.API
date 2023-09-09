@@ -12,7 +12,6 @@ const UserSchema = Schema({
     },
     password: {
         type: String,
-        required: [true, "The password is a required field"]
     },
     image: {
         type: String,
@@ -24,6 +23,9 @@ const UserSchema = Schema({
     google: {
         type: Boolean,
         default: false
+    },
+    googleId:{
+        type: String,
     },
     facebook: {
         type: Boolean,
@@ -37,7 +39,7 @@ const UserSchema = Schema({
         default: false
     },
     locals:{
-        type: String,
+        type: [],
     },
     state:{
         type: Boolean,

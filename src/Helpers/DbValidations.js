@@ -33,5 +33,5 @@ module.exports = {
     existEmail,
     existPhone,
     existLocal,
-    existUserName
+    existUserName,
 }
