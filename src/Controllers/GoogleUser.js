@@ -4,9 +4,12 @@ const User = require('../Models/User');
 
 
 const googleUserPost = async ( req, res = response ) => {
+
     const { name, email, photo, id } = req.body;
+    
     try{
-        const googleUser = new User({name, email, image: photo, username: email, googleId: id});
+
+        const googleUser = new User({name, email, image: photo, username: email, googleId: id, google: true});
 
         await googleUser.save();
 
@@ -18,7 +21,7 @@ const googleUserPost = async ( req, res = response ) => {
             googleUser,
             token
         });
-        
+
     }catch(err){
         return res.status(500).json({
             msg: 'An error occurred while saving the user',
