@@ -53,14 +53,17 @@ router.get('/:email',[
 
 router.get('/', [check(), validationResults], usersGet);
 
-router.put('/:email',[
+router.put('/',[
     check('password', 'The password needs to have a min length of 8, at last 1 Uppercase, 1 number ans 1 symbol')
         .isStrongPassword({minLength:8, minUppercase:1, minNumbers:1, minSymbols:1 }).optional(),
-    check('email', "The email is no valid").isEmail(),
+    check('email', "The email is no valid").isEmail().optional(),
     check('phone', 'The needs to be an string').isString().optional(),
     check('phone', 'The phone number must not have alpha characters').matches(/^[^a-zA-Z]+$/).optional(),
     check('phone', 'The phone number needs to be between 10 - 15 digits').isLength({max: 15, min: 10}).optional(),
     check('phone', 'The needs to be unique').custom(existPhone).optional(),
+    check('x-token', 'Token is require').notEmpty(),
+    check('x-token', 'Token is not a JWT').isJWT(),
+    check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
     validationResults
 ], userPut);
 

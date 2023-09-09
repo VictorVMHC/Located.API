@@ -4,7 +4,9 @@ const LocalsSchema = Schema({
     name:{
         type: String,
         require: [true, "The name is a required field"],
-        unique: true,
+    },
+    description:{
+        type: String,
     },
     address:{
         type: String,
@@ -15,25 +17,49 @@ const LocalsSchema = Schema({
     },
     isVerify:{
         type: Boolean,
-        default: false
+        default: true
     },
     products:{
         type: String,
     },
-    schedules:{
+    country:{
         type: String,
+    },
+    state:{
+        type: String,
+    },
+    town:{
+        type: String,
+    },
+    postalCode:{
+        type: String,
+    },
+    contact: {
+        type: {}
+    },
+    schedules:{
+        type: [],
         require: [true, "The schedule is a required field"]
     },
     rate:{
         type: Number,
+        default: 0
     },
     quantityRate:{
         type: Number,
+        default: 0
     },
     tags:{
-        type: String,
+        type: [],
     },
-    state:{
+    location:{
+        type: {}
+    },
+    open:{
+        type: Boolean,
+        default: false
+    },
+    deleted:{
         type: Boolean,
     },
 })

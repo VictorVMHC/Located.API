@@ -1,26 +1,66 @@
 const { response, request } = require ('express');
-const bcryptjs = require('bcryptjs');
 const Locals = require ('../Models/Locals');
+const User = require('../Models/User');
 
 const localsPost = async (req, res = response) =>{
-    const {name, address, isVerify, products, schedules, tags} = req.body;
-    let rate = 0;
-    let quantityRate = 0;
-    const locals = new Locals({name, address, isVerify, products, schedules, rate, quantityRate, tags})
-    try{
-        await locals.save();
+    try {
+        const tokenDecoded = req.tokenDecoded;
+        const {
+            name,
+            description,
+            address,
+            businessType,
+            country,
+            state,
+            town,
+            postalCode,
+            location,
+            contact,
+            schedules,
+            tags
+        } = req.body;
+
+        const locals = new Locals({
+            name,
+            description,
+            address,
+            businessType,
+            country,
+            state,
+            town,
+            postalCode,
+            location,
+            schedules,
+            contact,
+            tags
+        });
+
+        const user = await User.findById(tokenDecoded.id);
+
+        if (!user) {
+            return res.status(400).json({
+                msg: 'Error trying to create the local'
+            });
+        }
+
+        const newLocal = await locals.save();
+
+        user.locals.push(newLocal._id);
+        user.haveLocals = true;
+        await user.save();
+
         res.status(200).json({
             msg: 'Local was created successfully',
-            locals
+            locals: newLocal
         });
-    }catch{
+
+    } catch (error) {
+        console.error(error);
         res.status(500).json({
-            msg: 'Error trying to create the local',
-            locals
+            msg: 'Error trying to create the local'
         });
     }
 }
-
 const localsGet = async (req, res = response ) =>{
     const _Id = req.params.Id;
     try{

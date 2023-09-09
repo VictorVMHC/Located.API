@@ -1,6 +1,8 @@
 const express = require('express');
 const dbConnection = require('../Database/config');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
+
 
 class Server {
     constructor() {
@@ -19,8 +21,9 @@ class Server {
         this.dislikeRootPath = '/api/dislike';
         this.dislikeCommentPath = this.dislikeRootPath + '/comment';
         this.businessTypes = '/api/businessTypes';
-        this.categoriesPath = '/api/categories'
-        this.verifyUserInfoPath = '/api/verifyUserInfo'
+        this.categoriesPath = '/api/categories';
+        this.verifyUserInfoPath = '/api/verifyUserInfo';
+        this.uploadImagePath = '/api/uploadImage';
         this.googleUserRootPath = '/api/google/users';
 
         this.ConnectDb();
@@ -35,6 +38,10 @@ class Server {
     middleware() {
         this.app.use(express.json());
         this.app.use(cors());
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/'
+        }));
     }
 
     routes() {
@@ -51,7 +58,6 @@ class Server {
         this.app.use(this.businessTypes, require('../Routes/BusinessTypes') );
         this.app.use(this.categoriesPath, require( '../Routes/Categories') );
         this.app.use(this.verifyUserInfoPath, require('../Routes/VerifyUserInfo') );
-        this.app.use(this.googleUserRootPath, require('../Routes/GoogleUser') );
     }
     
     listen() {
