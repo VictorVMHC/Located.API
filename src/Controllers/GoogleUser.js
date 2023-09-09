@@ -1,23 +1,24 @@
 const { response, request, json } = require('express');
 const jwt = require('jsonwebtoken');
-const GoogleUser = require('../Models/GoogleUser')
+const User = require('../Models/User');
 
 
-const googleuserPost = async ( req, res = response ) => {
-    const { name, email, givenName, photo, googletoken} = req.body;
+const googleUserPost = async ( req, res = response ) => {
+    const { name, email, photo, id } = req.body;
     try{
-        const googleuser = new GoogleUser({name, email,givenName,photo});
+        const googleUser = new User({name, email, image: photo, username: email, googleId: id});
 
-        await googleuser.save();
+        await googleUser.save();
 
-        const token = jwt.sign({id: googleuser._id, email: googleuser.email}, process.env.TOKEN_SECRET,{
+        const token = jwt.sign({id: googleUser._id, email: googleUser.email }, process.env.TOKEN_SECRET,{
             expiresIn: '30 days'
         });
 
         return res.status(200).json({
-            googleuser,
+            googleUser,
             token
         });
+        
     }catch(err){
         return res.status(500).json({
             msg: 'An error occurred while saving the user',
@@ -26,30 +27,10 @@ const googleuserPost = async ( req, res = response ) => {
     }
 }
 
-const googleuserGet =  async (req = request, res = response ) => { 
-    const tokenDecoded = req.tokenDecoded
-    try{
-        const googleuser = await GoogleUser.findById(tokenDecoded.id)
-        if(!googleuser){
-            return res.status(404).json({ error: 'User not found' }); 
-        }
-
-        return res.status(200).json({
-            msg: 'User found',
-            googleuser
-        })
-    }catch(err){
-        return res.status(500).json({
-            msg: 'An error occurred while finding the user',
-            emailRequested: tokenDecoded.email,
-        });
-    }
-}
-
-const googleuserDelete = async ( req = request, res = response ) => {
+const googleUserDelete = async ( req = request, res = response ) => {
     const { email } = req.params.email;
     try {
-        const response = await GoogleUser.findOneAndUpdate(email, {state: false}, {new: true});
+        const response = await User.findOneAndUpdate(email, {state: false}, {new: true});
         res.status(200).json({
             msg: "User deleted successfully",
             "email": email,
@@ -64,7 +45,6 @@ const googleuserDelete = async ( req = request, res = response ) => {
 }
 
 module.exports = {
-    googleuserPost,
-    googleuserGet,
-    googleuserDelete,
+    googleUserPost,
+    googleUserDelete,
 }
