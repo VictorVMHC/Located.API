@@ -85,11 +85,11 @@ const localsPut = async ( req, res ) => {
     const {_Id, ...localData} = req.body;
     try{
         const localUpdate = await Locals.findByIdAndUpdate(localIdParams, localData, {new: true});
-        console.log(localUpdate);
-        console.log(localData);
+
         if(!localUpdate){
             return res.status(404).json({error: 'local not found to update it'});
         }
+        
         res.status(200).json({
             msg: 'local updated successfully',
             locals: localUpdate
