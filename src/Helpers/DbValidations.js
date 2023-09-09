@@ -29,17 +29,9 @@ const existLocal = async (name = '')=>{
     }
 };
 
-const existGoogleUserName = async (givenName = '') => {
-    const existGoogleUserName = await GoogleUser.findOne({givenName});
-    if(existGoogleUserName){ 
-        throw new Error(`The username: ${givenName} is already registered`);
-    }
-};
-
 module.exports = {
     existEmail,
     existPhone,
     existLocal,
     existUserName,
-    existGoogleUserName
 }
