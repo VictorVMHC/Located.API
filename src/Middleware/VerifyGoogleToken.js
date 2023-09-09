@@ -16,8 +16,7 @@ const verifyGoogleToken = async ( token, req) => {
         req.userId = userId;
         
     } catch (error) {
-        console.error('Error al verificar el token de Google:', error);
-        throw new Error(`Token no válido`);
+        throw new Error(`not valid Token`, error);
     }
 };
 
