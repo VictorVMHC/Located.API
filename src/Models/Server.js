@@ -57,10 +57,11 @@ class Server {
         this.app.use(this.likedLocalPath, require('../Routes/LikedLocals') );
         this.app.use(this.likedProductPath, require('../Routes/LikeProducts') );
         this.app.use(this.businessTypes, require('../Routes/BusinessTypes') );
-        this.app.use(this.categoriesPath, require( '../Routes/Categories') );
+        this.app.use(this.categoriesPath, require('../Routes/Categories') );
         this.app.use(this.verifyUserInfoPath, require('../Routes/VerifyUserInfo') );
         this.app.use(this.uploadImagePath, require('../Routes/UploadImage') );
         this.app.use(this.searchLocalsPath, require('../Routes/SearchLocals') );
+        this.app.use(this.googleUserRootPath, require('../Routes/GoogleUser') );
     }
     
     listen() {
