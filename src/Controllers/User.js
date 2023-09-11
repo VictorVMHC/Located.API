@@ -96,6 +96,29 @@ const userPut = async (req, res) => {
     }
 };
 
+const userPasswordPut = async (req, res) => {
+    const tokenDecoded = req.tokenDecoded
+    const {password,...userData} = req.body;
+    try{
+    const salt = bcryptjs.genSaltSync();
+    userData.password = bcryptjs.hashSync( password, salt );
+    
+    const passwordUpdate = await User.findByIdAndUpdate(tokenDecoded.id, userData);
+    if (!passwordUpdate) {
+        return res.status(404).json({ error: 'User not found to update teh password' });
+    }
+    res.status(200).json({
+        msg:'User password updated successfully',
+        passwordUpdate:userData.password,
+    });
+    }catch(err){
+        res.status(500).json({
+            msg: 'An error occurred while updating the password',
+        });
+    }
+};
+
+
 const userDelete = async ( req = request, res = response ) => {
     const  email = req.params.email;
     try {
@@ -118,5 +141,6 @@ module.exports = {
     userGet,
     usersGet,
     userPut,
+    userPasswordPut,
     userDelete
 }

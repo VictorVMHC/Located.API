@@ -53,7 +53,7 @@ const UserSchema = Schema({
 });
 
 UserSchema.methods.toJSON = function() {
-    const {password, ...user} = this.toObject({ versionKey: false });
+    const {__v, ...user} = this.toObject({ versionKey: false });
     return user;
 }
 

@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { userPost, userGet, usersGet,userPut, userDelete } = require('../Controllers/User');
+const { userPost, userGet, usersGet,userPut, userPasswordPut, userDelete } = require('../Controllers/User');
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
 const { existEmail, existPhone, existUserName } = require('../helpers/DbValidations');
@@ -66,6 +66,14 @@ router.put('/',[
     check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
     validationResults
 ], userPut);
+
+router.put('/:id',[
+    check('id','No es un Id valido').isMongoId(),
+    check('x-token', 'Token is require').notEmpty(),
+    check('x-token', 'Token is not a JWT').isJWT(),
+    check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
+    validationResults
+],userPasswordPut)
 
 router.delete('/:email',[
     check('email', "The email must not to be empty").notEmpty(),
