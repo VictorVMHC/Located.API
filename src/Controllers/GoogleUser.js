@@ -6,10 +6,12 @@ const User = require('../Models/User');
 const googleUserPost = async ( req, res = response ) => {
 
     const { name, email, photo, id } = req.body;
+
+    const username = email;
     
     try{
 
-        const googleUser = new User({name, email, image: photo, username: email, googleId: id, google: true});
+        const googleUser = new User({name, email, image: photo, username, googleId: id, google: true});
 
         await googleUser.save();
 
@@ -18,7 +20,7 @@ const googleUserPost = async ( req, res = response ) => {
         });
 
         return res.status(200).json({
-            googleUser,
+            user: googleUser,
             token
         });
 
