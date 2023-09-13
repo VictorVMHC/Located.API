@@ -96,6 +96,38 @@ const userPut = async (req, res) => {
     }
 };
 
+const userPasswordPut = async (req, res) => {
+    try {
+        
+        const tokenDecoded = req.tokenDecoded
+        const {password, newPassword} = req.body;
+
+        const user = await User.findById(tokenDecoded.id);
+        const comparePassword = await bcryptjs.compare(password, user.password);
+
+        if(!comparePassword){
+            return res.status(401).json({ error: 'Invalid Old Password' });
+        }
+        const salt = bcryptjs.genSaltSync();
+        const newHashedPassword = bcryptjs.hashSync(newPassword, salt);
+
+        user.password = newHashedPassword;
+        
+        await user.save();
+
+        return res.status(200).json({
+            msg: 'User password updated successfully',
+            user,
+        });
+
+    }catch(err){
+        res.status(500).json({
+            msg: 'An error occurred while updating the new password',
+        });
+    }
+};
+
+
 const userDelete = async ( req = request, res = response ) => {
     const  email = req.params.email;
     try {
@@ -118,5 +150,6 @@ module.exports = {
     userGet,
     usersGet,
     userPut,
+    userPasswordPut,
     userDelete
 }
