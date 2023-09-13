@@ -97,23 +97,29 @@ const userPut = async (req, res) => {
 };
 
 const userPasswordPut = async (req, res) => {
-    const tokenDecoded = req.tokenDecoded
-    const {password,newPassword} = req.body;
     try {
+        
+        const tokenDecoded = req.tokenDecoded
+        const {password, newPassword} = req.body;
+
         const user = await User.findById(tokenDecoded.id);
         const comparePassword = await bcryptjs.compare(password, user.password);
+
         if(!comparePassword){
             return res.status(401).json({ error: 'Invalid Old Password' });
         }
         const salt = bcryptjs.genSaltSync();
         const newHashedPassword = bcryptjs.hashSync(newPassword, salt);
+
         user.password = newHashedPassword;
         
         await user.save();
-        res.status(200).json({
-        msg: 'User password updated successfully',
-        user,
+
+        return res.status(200).json({
+            msg: 'User password updated successfully',
+            user,
         });
+
     }catch(err){
         res.status(500).json({
             msg: 'An error occurred while updating the new password',

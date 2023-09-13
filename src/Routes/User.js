@@ -67,8 +67,11 @@ router.put('/',[
     validationResults
 ], userPut);
 
-router.put('/:id',[
-    check('id','No es un Id valido').isMongoId(),
+router.put('/changePassword',[
+    check('password', 'The password is mandatory').notEmpty(),
+    check('newPassword', 'The password is mandatory').notEmpty(),
+    check('newPassword', 'The password needs to have a min length of 8, at last 1 Uppercase, 1 number ans 1 symbol')
+        .isStrongPassword({minLength:8, minUppercase:1, minNumbers:1, minSymbols:1 }),
     check('x-token', 'Token is require').notEmpty(),
     check('x-token', 'Token is not a JWT').isJWT(),
     check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
