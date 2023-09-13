@@ -12,7 +12,10 @@ const collectionAllowed = [
 const searchLocals = async (Latitude = Number, Longitude = Number, kilometers = Number, res = Response) => {
     const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
     try {
-        const locals = await Locals.find(filteredLocals);
+        const locals = await Locals.find({
+            'location.latitude': filteredLocals.latitude,           
+            'location.longitude': filteredLocals.longitude,
+        });
         res.json({
             results: locals,
         });
@@ -21,22 +24,27 @@ const searchLocals = async (Latitude = Number, Longitude = Number, kilometers = 
     }
 }
 
-const  searchFoodView = async (Latitude = Number, Longitude = Number, kilometers = Number, term = String, res = Response) => {
+const  searchCloseTome = async (Latitude = Number, Longitude = Number, kilometers = Number, term = String, res = Response) => {
     const regex = new RegExp(term, 'i');
-    const localsQuery = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
+    const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
     
-    const locals = await Locals.find({
-        $or: [
-            { tags: regex },
-            { name: regex }
-        ],
-        ...localsQuery 
-    });
-
-    res.json({
-        results: locals
-    });
-
+    try {
+        
+        const locals = await Locals.find({
+            'location.latitude': filteredLocals.latitude,           
+            'location.longitude': filteredLocals.longitude,
+            $or: [
+                { tags: regex },
+                { name: regex }
+            ]
+        });
+        
+        res.json({
+            results: locals,
+        });
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 
@@ -54,7 +62,7 @@ const search = (req, res = Response ) =>{
             break;
 
         case 'closetome':
-            searchFoodView(var1 ,var2 ,var3 ,var4 ,res)
+            searchCloseTome(var1 ,var2 ,var3 ,var4 ,res)
             break;
     
         default:

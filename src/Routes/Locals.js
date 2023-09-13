@@ -25,8 +25,6 @@ router.post('/',[
         check('name', 'The name of your local is mandatory').notEmpty(),
         check('address', 'The address of your local is mandatory').notEmpty(),
         check('schedules', 'The schedule of your local is mandatory').notEmpty(),
-        check('latitude', 'The latitude of your local is mandatory').notEmpty(),
-        check('longitude', 'The longitude of your local is mandatory').notEmpty(),
         check('tags', 'A tag for your local it is required').notEmpty(),
         check('x-token', 'Token is require').notEmpty(),
         check('x-token', 'Token is not a JWT').isJWT(),
