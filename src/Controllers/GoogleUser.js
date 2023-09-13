@@ -2,7 +2,6 @@ const { response, request, json } = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../Models/User');
 
-
 const googleUserPost = async ( req, res = response ) => {
 
     const { name, email, photo, id } = req.body;

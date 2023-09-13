@@ -50,6 +50,23 @@ const likeLocalGet = async (req = request, res = response) =>{
     }
 }
 
+const likeLocalGetCount = async (req = request, res = response) =>{
+    const id = req.params.localId;
+    try{
+        const localLikes = await LikeLocal.countDocuments({localId: id})
+
+        return res.status(200).json({
+            msg: 'Local likes found',
+            localLikes
+        });
+
+    }catch(err){
+        res.status(500).json({
+            msg: ' An error ocurred while trying to find the like local'
+        });
+    }
+}
+
 const likeLocalDelete = async (req=request, res=response ) => {
     const id = req.params.Id;
     try{
@@ -70,4 +87,5 @@ module.exports={
     likeLocalPost,
     likeLocalGet,
     likeLocalDelete,
+    likeLocalGetCount
 }

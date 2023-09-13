@@ -1,5 +1,5 @@
 const {Router} = require('express');
-const {likeLocalPost, likeLocalGet, likeLocalDelete} = require('../Controllers/LikedLocals');
+const {likeLocalPost, likeLocalGet, likeLocalGetCount, likeLocalDelete} = require('../Controllers/LikedLocals');
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
 const router = Router();
@@ -16,6 +16,8 @@ const router = Router();
         check('Id', "The Id must not be empty").notEmpty(),
         validationResults
     ], likeLocalGet);
+
+    router.get('/count/:localId', likeLocalGetCount );
 
     router.delete('/:Id',[
         check('Id', 'The Id is mandatory').notEmpty(),
