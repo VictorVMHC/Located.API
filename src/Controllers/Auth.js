@@ -35,9 +35,10 @@ const AuthLogin = async (req = request, res = response) => {
 }
 
 const AuthGoogleLogin = async (req = request, res = response) => {
-    const { email } = req.body;
-    const userId = req.userId;
     try{
+        const { email } = req.body;
+        const userId = req.userId;
+        
         const user = await User.findOne({email});
 
         if(!user){

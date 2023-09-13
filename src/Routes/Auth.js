@@ -30,6 +30,7 @@ router.get('/',[
     validationResults,
 ], Auth);
 
-router.post('/login/test', test);
+router.get('/login/test', test);
+
 
 module.exports = router;
