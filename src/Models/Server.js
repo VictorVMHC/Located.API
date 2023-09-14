@@ -25,6 +25,7 @@ class Server {
         this.verifyUserInfoPath = '/api/verifyUserInfo';
         this.uploadImagePath = '/api/uploadImage';
         this.googleUserRootPath = '/api/google/users';
+        this.searchLocals = '/api/searchLocals';
 
         this.ConnectDb();
         this.middleware();
@@ -59,6 +60,7 @@ class Server {
         this.app.use(this.categoriesPath, require('../Routes/Categories') );
         this.app.use(this.verifyUserInfoPath, require('../Routes/VerifyUserInfo') );
         this.app.use(this.googleUserRootPath, require('../Routes/GoogleUser') );
+        this.app.use(this.searchLocals, require('../Routes/SearchLocals') );
     }
     
     listen() {
