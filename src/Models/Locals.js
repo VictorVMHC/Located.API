@@ -53,7 +53,10 @@ const LocalsSchema = Schema({
         type: [],
     },
     location:{
-        type: {}
+        type: {
+            latitude: Number,
+            longitude: Number,
+        }
     },
     open:{
         type: Boolean,

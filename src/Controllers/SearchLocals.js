@@ -1,0 +1,78 @@
+const { Response } = require('express');
+const {ObjectId}= require('mongoose').Types;
+const Locals = require ('../Models/Locals');
+const {calculateRange, searchLatitudeAndLongitude} = require('../Utils/calculateRange');
+
+
+const collectionAllowed = [
+    'locals',
+    'closetome'
+];
+
+const searchLocals = async (Latitude = Number, Longitude = Number, kilometers = Number, res = Response) => {
+    const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
+    try {
+        const locals = await Locals.find({
+            'location.latitude': filteredLocals.latitude,           
+            'location.longitude': filteredLocals.longitude,
+        });
+        res.json({
+            results: locals,
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const  searchCloseTome = async (Latitude = Number, Longitude = Number, kilometers = Number, term = String, res = Response) => {
+    const regex = new RegExp(term, 'i');
+    const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
+    
+    try {
+        
+        const locals = await Locals.find({
+            'location.latitude': filteredLocals.latitude,           
+            'location.longitude': filteredLocals.longitude,
+            $or: [
+                { tags: regex },
+                { name: regex }
+            ]
+        });
+        
+        res.json({
+            results: locals,
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+const search = (req, res = Response ) =>{
+    const {collection, var1 ,var2, var3, var4} = req.params;
+    if(!collectionAllowed.includes(collection)){
+        return res.status(400).json({
+            msg: `The allowed collections are: ${collectionAllowed}`
+        })
+    }
+
+    switch (collection) {
+        case 'locals':
+            searchLocals(var1, var2, var3, res);
+            break;
+
+        case 'closetome':
+            searchCloseTome(var1 ,var2 ,var3 ,var4 ,res)
+            break;
+    
+        default:
+            res.status(500).json({
+                msg: 'You forgot to do this search'
+            })
+            break;
+    }
+}
+
+module.exports={
+    search
+}
