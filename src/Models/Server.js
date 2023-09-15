@@ -32,7 +32,6 @@ class Server {
         this.middleware();
         this.routes();
     }
-
     ConnectDb(){
         dbConnection();
     }
