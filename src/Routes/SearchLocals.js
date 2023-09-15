@@ -1,10 +1,10 @@
 const {Router} = require('express');
-const {search} = require('../Controllers/SearchLocals');
+const {searchLocals, searchByTags} = require('../Controllers/SearchLocals')
 
 const route = Router(); 
 
-route.get('/:collection/:var1/:var2/:var3', search)
+route.get('/byRange/:Latitude/:Longitude/:kilometers', searchLocals);
 
-route.get('/:collection/:var1/:var2/:var3/:var4', search)
+route.get('/byTags/:Latitude/:Longitude/:kilometers/:tags', searchByTags);
 
 module.exports = route;
