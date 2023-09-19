@@ -4,6 +4,7 @@ const VerifyEmail = require('../Models/VerifyEmail');
 const { transporter, mailOptions } = require('../Utils/MailSenderConfig');
 const { getMailEs, getMailEn } = require('../Utils/MailLanguages');
 const { getCode } = require('../Utils/GenerateCode');
+const User = require('../Models/User');
 
 const addEmailToVerify = async (req = request, res = response) => {
     const { email, lang } = req.body;
@@ -85,8 +86,44 @@ const verifyDelete = async ( req = request, res = response ) => {
     }
 }
 
+const verifiedEmailToPassword = async (req = request, res = response) => {
+    const { email, lang } = req.params;
+    console.log('correo ingresado',email);
+    console.log('lenguaje ',lang);
+    try{
+        const checkEmailUser = await User.findOne({email});
+        if(!checkEmailUser){
+            return res.status(404).json({
+                error: 'Email not found'
+            });
+        }
+        const code = getCode();
+        const emailToVerify = new VerifyEmail({email, code});
+        const mailOptions = lang == 'es-MX' ? getMailEs(code, email) : getMailEn(code, email);
+        
+            const mailResponse = await transporter.sendMail(mailOptions);
+            if(mailResponse.rejected.length > 0){
+                return res.status(400).json({
+                    msg: 'was not possible to sent the message',
+                    mail: mailResponse.rejected
+                });
+            }
+            await emailToVerify.save();
+            return res.status(200).json({
+                msg: 'success'
+            });
+    }catch(err){
+        return res.status(500).json({
+            msg: 'An error occurred while trying to save email to verify',
+            err
+        });
+    }
+}
+
+
 module.exports = {
     addEmailToVerify,
     verifyCode,
-    verifyDelete
+    verifyDelete,
+    verifiedEmailToPassword,
 }
