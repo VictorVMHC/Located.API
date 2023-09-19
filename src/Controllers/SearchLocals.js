@@ -18,12 +18,11 @@ const searchLocals = async (req, res = Response ) =>{
 }
     
 const searchByTags = async (req, res = Response ) =>{
-    const {Latitude ,Longitude, kilometers, tags} = req.params;
+    const {Latitude ,Longitude, kilometers, tags, limit } = req.params;
     const regex = new RegExp(tags, 'i');
     const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
     
     try {
-        
         const locals = await Locals.find({
             'location.latitude': filteredLocals.latitude,           
             'location.longitude': filteredLocals.longitude,
@@ -31,7 +30,7 @@ const searchByTags = async (req, res = Response ) =>{
                 { tags: regex },
                 { name: regex }
             ]
-        });
+        }).limit(parseInt(limit));
         
         res.json({
             results: locals,

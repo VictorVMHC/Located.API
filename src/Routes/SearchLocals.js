@@ -5,6 +5,6 @@ const route = Router();
 
 route.get('/byRange/:Latitude/:Longitude/:kilometers', searchLocals);
 
-route.get('/byTags/:Latitude/:Longitude/:kilometers/:tags', searchByTags);
+route.get('/byTags/:Latitude/:Longitude/:kilometers/:tags/:limit', searchByTags);
 
 module.exports = route;
