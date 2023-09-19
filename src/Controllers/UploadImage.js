@@ -24,7 +24,9 @@ const uploadImage = async (req, res) => {
         })
 
     }catch(err){
-        res.json(err)
+        res.status(500).json({
+            err
+        });
     }
 
 };
