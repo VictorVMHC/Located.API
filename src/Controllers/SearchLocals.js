@@ -18,11 +18,16 @@ const searchLocals = async (req, res = Response ) =>{
 }
     
 const searchByTags = async (req, res = Response ) =>{
-    const {Latitude ,Longitude, kilometers, tags, limit } = req.params;
+    try {
+    const {Latitude ,Longitude, kilometers, tags} = req.params;
+    const page = parseInt(req.query.page) || 1;
+    const perPage = parseInt(req.query.perPage) || 10;
+
     const regex = new RegExp(tags, 'i');
     const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
     
-    try {
+        const totalPages = Math.ceil(totalCategories / perPage);
+
         const locals = await Locals.find({
             'location.latitude': filteredLocals.latitude,           
             'location.longitude': filteredLocals.longitude,
@@ -30,9 +35,14 @@ const searchByTags = async (req, res = Response ) =>{
                 { tags: regex },
                 { name: regex }
             ]
-        }).limit(parseInt(limit));
+        })
+        .skip((page - 1) * perPage)
+        .limit(parseInt(perPage))
+        .exec();
         
         res.json({
+            current_page: page,
+            total_pages: totalPages,
             results: locals,
         });
     } catch (error) {
