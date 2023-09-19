@@ -61,6 +61,7 @@ const localsPost = async (req, res = response) =>{
         });
     }
 }
+
 const localsGet = async (req, res = response ) =>{
     const _Id = req.params.Id;
     try{
