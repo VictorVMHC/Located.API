@@ -88,8 +88,6 @@ const verifyDelete = async ( req = request, res = response ) => {
 
 const verifiedEmailToPassword = async (req = request, res = response) => {
     const { email, lang } = req.params;
-    console.log('correo ingresado',email);
-    console.log('lenguaje ',lang);
     try{
         const checkEmailUser = await User.findOne({email});
         if(!checkEmailUser){

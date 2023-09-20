@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { userPost, userGet, usersGet,userPut, userPasswordPut, userDelete } = require('../Controllers/User');
+const { userPost, userGet, usersGet,userPut, userPasswordPut, userDelete, userPasswordRecoveryPut } = require('../Controllers/User');
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
 const { existEmail, existPhone, existUserName } = require('../helpers/DbValidations');
@@ -77,6 +77,15 @@ router.put('/changePassword',[
     check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
     validationResults
 ],userPasswordPut)
+
+router.put('/recoveryPassword',[
+    check('email', "The email must not to be empty").notEmpty(),
+    check('email', "the email needs to be in the correct format").isEmail(),
+    check('password', 'The password is mandatory').notEmpty(),
+    check('password', 'The password needs to have a min length of 8, at last 1 Uppercase, 1 number ans 1 symbol')
+        .isStrongPassword({minLength:8, minUppercase:1, minNumbers:1, minSymbols:1 }),
+    validationResults
+],userPasswordRecoveryPut)
 
 router.delete('/:email',[
     check('email', "The email must not to be empty").notEmpty(),
