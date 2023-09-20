@@ -59,9 +59,8 @@ const searchByUser = async (req, res = Response ) =>{
         const locals = await Locals.find({
             _id: { $in: userLocals },          
         });
-        
         return res.status(200).json({
-            results: locals,
+            locals,
         });
 
     } catch (error) {

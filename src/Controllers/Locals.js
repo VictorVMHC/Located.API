@@ -17,7 +17,8 @@ const localsPost = async (req, res = response) =>{
             location,
             contact,
             schedules,
-            tags
+            tags,
+            uriImage,
         } = req.body;
 
         const locals = new Locals({
@@ -32,7 +33,8 @@ const localsPost = async (req, res = response) =>{
             location,
             schedules,
             contact,
-            tags
+            tags,
+            uriImage,
         });
 
         const user = await User.findById(tokenDecoded.id);
@@ -55,7 +57,6 @@ const localsPost = async (req, res = response) =>{
         });
 
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             msg: 'Error trying to create the local'
         });
