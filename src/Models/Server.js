@@ -25,7 +25,6 @@ class Server {
         this.uploadImagePath = '/api/uploadImage';
         this.searchLocalsPath = '/api/searchLocals';
         this.googleUserRootPath = '/api/google/users';
-        this.searchLocals = '/api/searchLocals';
 
         this.ConnectDb();
         this.middleware();
@@ -61,7 +60,6 @@ class Server {
         this.app.use(this.uploadImagePath, require('../Routes/UploadImage') );
         this.app.use(this.searchLocalsPath, require('../Routes/SearchLocals') );
         this.app.use(this.googleUserRootPath, require('../Routes/GoogleUser') );
-        this.app.use(this.searchLocals, require('../Routes/SearchLocals') );
     }
     
     listen() {
