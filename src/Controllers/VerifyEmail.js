@@ -4,6 +4,7 @@ const VerifyEmail = require('../Models/VerifyEmail');
 const { transporter, mailOptions } = require('../Utils/MailSenderConfig');
 const { getMailEs, getMailEn } = require('../Utils/MailLanguages');
 const { getCode } = require('../Utils/GenerateCode');
+const User = require('../Models/User');
 
 const addEmailToVerify = async (req = request, res = response) => {
     const { email, lang } = req.body;
@@ -85,8 +86,6 @@ const verifyDelete = async ( req = request, res = response ) => {
     }
 }
 
-<<<<<<< Updated upstream
-=======
 const verifiedEmailToPassword = async (req = request, res = response) => {
     const { email, lang } = req.params;
     try{
@@ -125,10 +124,9 @@ const verifiedEmailToPassword = async (req = request, res = response) => {
     }
 }
 
-
->>>>>>> Stashed changes
 module.exports = {
     addEmailToVerify,
     verifyCode,
-    verifyDelete
+    verifyDelete,
+    verifiedEmailToPassword,
 }
