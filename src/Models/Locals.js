@@ -19,9 +19,6 @@ const LocalsSchema = Schema({
         type: Boolean,
         default: true
     },
-    products:{
-        type: String,
-    },
     country:{
         type: String,
     },

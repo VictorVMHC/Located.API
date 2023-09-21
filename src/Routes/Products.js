@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { productsPost, productsGet, productsPut, productsDelete } = require('../Controllers/Products');
+const { productsPost, productsGet, productsPut, productsDelete, getProductsByLocalId } = require('../Controllers/Products');
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
 const router = Router();
@@ -7,9 +7,9 @@ const router = Router();
 router.post('/',
     [
         check('productName', 'The name of the product is mandatory').notEmpty(),
+        check('localId', 'The name of the product is mandatory').notEmpty(),
         check('price', 'The price is mandatory').notEmpty(),
         check('img', 'The image is mandatory').notEmpty(),
-        check('punctuation', 'The punctuation is mandatory').notEmpty(),
         check('description', 'The description is mandatory').notEmpty(),
         check('tags', 'The tags is mandatory').notEmpty(),
         validationResults
@@ -22,6 +22,12 @@ router.get('/:Id',
     validationResults
     ], 
     productsGet);
+
+router.get('/byLocalId/:localId',[
+    check('localId', "The Id must not be empty").notEmpty(),
+    validationResults
+], 
+getProductsByLocalId);
 
 
 /**

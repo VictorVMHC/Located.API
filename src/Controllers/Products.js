@@ -1,23 +1,35 @@
-const { response, request, json } = require('express');
-const Products = require('../Models/Products')
+const { response, request } = require('express');
+const Products = require('../Models/Products');
+const Locals = require('../Models/Locals');
 
 const productsPost = async ( req, res = response ) => {
-    const { productName, price, img, punctuation, description, tags } = req.body;
-    const products = new Products({productName, price, img, punctuation, description, tags })
     try{
-        await products.save();
+        const { productName, price, img, punctuation, description, tags, localId } = req.body;
+
+        const checkLocal = Locals.findById(localId);
+
+        if(!checkLocal){
+            return res.status(404).json({
+                err: 'Local not found',
+            })
+        }
+        
+        const product = new Products({productName, localId, price, img, punctuation, description, tags })
+        
+        await product.save();
+
         res.status(200).json({
             msg: 'product created successfully',
-            products
+            product
         })
-    }catch{
+
+    }catch(err){
         res.status(500).json({
             msg: 'An error occurred while saving the product',
-            products
+            err
         });
     }
 }
-
 
 const productsGet = async (req, res = response ) => { 
     const _Id = req.params.Id;
@@ -37,6 +49,42 @@ const productsGet = async (req, res = response ) => {
         });
     }
 }
+
+const getProductsByLocalId = async (req, res = response) => {
+    try {
+        const localId = req.params.localId;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+
+        const skip = (page - 1) * limit;
+
+        const products = await Products.find({ localId })
+            .skip(skip)
+            .limit(limit);
+
+        const totalProducts = await Products.find({ localId }).countDocuments();
+
+        console.log(products.length, " / ", limit);
+        if (products.length === 0) {
+            return res.status(404).json({
+                err: 'No products were found for this page',
+            });
+        }
+
+        res.status(200).json({
+            msg: 'Products found',
+            products,
+            page,
+            totalPages: Math.ceil(totalProducts / limit),
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            err: 'An error occurred while getting the local products',
+        });
+    }
+}
+
 
 const productsPut = async( req, res) =>{
     const productsIdParams = req.params.Id;
@@ -82,4 +130,5 @@ module.exports = {
     productsGet,
     productsPut,
     productsDelete,
+    getProductsByLocalId
 }
