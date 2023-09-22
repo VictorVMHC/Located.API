@@ -21,7 +21,7 @@ router.get('/:email/:code',[
     validationResults,
 ], verifyCode);
 
-router.get('/:email/:lang',[
+router.get('/:email/lang/:lang',[
     check('email', "The email must not to be empty").notEmpty(),
     check('email', "the email needs to be in the correct format").isEmail(),
     validationResults

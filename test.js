@@ -62,7 +62,17 @@ class NaiveBayesClassifier {
 // Ejemplo de uso
 const classifier = new NaiveBayesClassifier();
 
-// Datos de entrenamiento
+//  Ejemplos Positivos
+classifier.addExample('La comida en este restaurante es excepcional, definitivamente volveré.', 'positivo');
+classifier.addExample('El servicio en esta ferretería es rápido y amable, siempre encuentro lo que necesito.', 'positivo');
+classifier.addExample('Las paletas de esta paletería son deliciosas, mi favorita es la de fresa.', 'positivo');
+classifier.addExample('Los empleados de esta tienda de botanas son muy atentos y serviciales.', 'positivo');
+classifier.addExample('El ambiente en este café es acogedor y tranquilo, perfecto para relajarse.', 'positivo');
+classifier.addExample('Me encanta comprar en esta tienda de ropa, siempre tienen las últimas tendencias.', 'positivo');
+classifier.addExample('Este gimnasio tiene equipos de alta calidad y entrenadores expertos.', 'positivo');
+classifier.addExample('La selección de libros en esta librería es impresionante, siempre encuentro algo interesante.', 'positivo');
+classifier.addExample('La calidad de los productos en esta tienda de electrónica es inigualable.', 'positivo');
+classifier.addExample('El parque de diversiones ofrece una experiencia emocionante para toda la familia.', 'positivo');
 classifier.addExample('Me encantó este producto', 'positivo');
 classifier.addExample('No puedo creer lo malo que es este servicio', 'negativo');
 classifier.addExample('El artículo es perfecto para mis necesidades', 'positivo');
@@ -115,9 +125,9 @@ classifier.addExample('Recomiendo encarecidamente este producto', 'positivo');
 classifier.addExample('La experiencia del cliente fue decepcionante', 'negativo');
 classifier.addExample('Estoy muy contento con mi compra', 'positivo');
 classifier.addExample('El producto no duró mucho tiempo', 'negativo');
-classifier.addExample('Este comentario es neutral', 'neutro');
+classifier.addExample('Este comentario es neutro', 'neutro');
 classifier.addExample('No tengo una opinión clara sobre este producto', 'neutro');
-classifier.addExample('Este comentario es neutral', 'neutro');
+classifier.addExample('Este comentario es neutro', 'neutro');
 classifier.addExample('El clima está agradable hoy', 'neutro');
 classifier.addExample('El evento fue regular, ni bueno ni malo', 'neutro');
 classifier.addExample('Este libro es promedio, no destaca en nada', 'neutro');
@@ -173,54 +183,16 @@ classifier.addExample('El servicio de entrega fue normal', 'neutro');
 classifier.addExample('La película no me impactó mucho', 'neutro');
 classifier.addExample('El sabor del platillo es decente', 'neutro');
 classifier.addExample('El nivel de ruido en el lugar es regular', 'neutro');
-
-// Ejemplos negativos
-classifier.addExample('No me gustó la comida de este restaurante', 'negativo');
-classifier.addExample('El servicio al cliente fue pésimo', 'negativo');
-classifier.addExample('El equipo de soporte no respondió a mis problemas', 'negativo');
-classifier.addExample('Estoy muy insatisfecho con la compra que hice', 'negativo');
-classifier.addExample('El producto no funcionó como se esperaba', 'negativo');
-classifier.addExample('No recomendaría este lugar a nadie', 'negativo');
-classifier.addExample('El envío llegó tarde y dañado', 'negativo');
-classifier.addExample('El personal del hotel fue grosero y poco atento', 'negativo');
-classifier.addExample('Odié la última película que vi', 'negativo');
-classifier.addExample('La calidad del producto es mala y se rompió rápidamente', 'negativo');
-classifier.addExample('El servicio de entrega fue terrible, nunca llegó mi pedido', 'negativo');
-classifier.addExample('Me siento frustrado con los resultados obtenidos', 'negativo');
-classifier.addExample('El producto no cumplió con lo prometido', 'negativo');
-classifier.addExample('El personal del evento fue incompetente', 'negativo');
-classifier.addExample('Este libro es aburrido y no me gusta', 'negativo');
-classifier.addExample('El rendimiento del equipo ha sido decepcionante', 'negativo');
-classifier.addExample('El servicio de atención al cliente fue lento y poco útil', 'negativo');
-classifier.addExample('Detesto cómo se ve mi nueva habitación', 'negativo');
-classifier.addExample('El platillo que pedí en este restaurante estaba mal preparado', 'negativo');
-classifier.addExample('El lugar es muy ruidoso y no se puede disfrutar', 'negativo');
-
-classifier.addExample('El pedido fue facil, nos dieron una hora de entrega pero llego antes y ademas habia un jovencito niño ENTANTADOR Y BIEN EDUCADO PARA ENTREGARLO', 'positivo');
-classifier.addExample('El nuevo diseño del sitio web es increíble', 'negativo');
-
-classifier.addExample('Excelente restaurante, la comida es deliciosa y el servicio es inmejorable', 'positivo');
-classifier.addExample('La atención en esta farmacia siempre es amable y rápida', 'positivo');
-classifier.addExample('Me encanta comprar en esta tienda, siempre tienen productos de alta calidad', 'positivo');
-classifier.addExample('El gimnasio cuenta con excelentes instalaciones y personal capacitado', 'positivo');
-classifier.addExample('Este hotel es simplemente increíble, la habitación es espaciosa y cómoda', 'positivo');
-classifier.addExample('La tienda de electrónicos tiene una gran variedad de productos y precios competitivos', 'positivo');
-classifier.addExample('El personal de la peluquería es muy profesional y siempre hacen un gran trabajo', 'positivo');
-classifier.addExample('El parque es perfecto para disfrutar de un día al aire libre en familia', 'positivo');
-classifier.addExample('El cine cuenta con pantallas de alta calidad y un sonido impresionante', 'positivo');
-classifier.addExample('La librería tiene un ambiente acogedor y una gran selección de libros', 'positivo');
-classifier.addExample('Esta tienda de ropa siempre tiene las últimas tendencias de moda', 'positivo');
-classifier.addExample('El centro comercial ofrece muchas opciones de entretenimiento para todas las edades', 'positivo');
-classifier.addExample('El museo tiene una colección fascinante y exhibiciones interesantes', 'positivo');
-classifier.addExample('El personal de la clínica es muy atento y brinda un excelente cuidado', 'positivo');
-classifier.addExample('Este café es mi lugar favorito para relajarme y tomar un buen café', 'positivo');
-classifier.addExample('El supermercado tiene productos frescos y una gran variedad de alimentos', 'positivo');
-classifier.addExample('La ferretería tiene todo lo que necesito para mis proyectos de bricolaje', 'positivo');
-classifier.addExample('El teatro ofrece espectáculos de alta calidad que siempre son impresionantes', 'positivo');
-classifier.addExample('La gasolinera tiene precios competitivos y un buen servicio', 'positivo');
-classifier.addExample('Este spa es el lugar perfecto para consentirse y relajarse', 'positivo');
-
-// Ejemplos neutros
+classifier.addExample('La comida en este restaurante es decente, nada extraordinario.', 'neutro');
+classifier.addExample('En la ferretería tienen lo básico, pero podría ser mejor.', 'neutro');
+classifier.addExample('Las paletas de esta paletería son comunes, sin nada especial.', 'neutro');
+classifier.addExample('La tienda de botanas tiene una selección estándar de productos.', 'neutro');
+classifier.addExample('El café es un lugar normal para tomar un café rápido.', 'neutro');
+classifier.addExample('La tienda de ropa tiene una variedad promedio de prendas.', 'neutro');
+classifier.addExample('El gimnasio ofrece lo que se espera de un gimnasio típico.', 'neutro');
+classifier.addExample('La librería tiene una colección estándar de libros.', 'neutro');
+classifier.addExample('La tienda de electrónica tiene productos habituales.', 'neutro');
+classifier.addExample('El parque de diversiones es una opción común para entretenerse.', 'neutro');
 classifier.addExample('La comida en este restaurante es decente, ni buena ni mala', 'neutro');
 classifier.addExample('La farmacia tiene los productos básicos que necesito', 'neutro');
 classifier.addExample('La tienda de electrónicos es bastante grande, pero los precios son normales', 'neutro');
@@ -262,9 +234,63 @@ classifier.addExample('La ferretería tiene una selección limitada de herramien
 classifier.addExample('El teatro tiene un sonido deficiente y las butacas son incómodas', 'negativo');
 classifier.addExample('La gasolinera tiene precios muy altos', 'negativo');
 classifier.addExample('Este spa es muy caro para la calidad del servicio que ofrece', 'negativo');
+classifier.addExample('La comida en este restaurante es terrible, no volveré nunca más.', 'negativo');
+classifier.addExample('El personal de esta ferretería es grosero y no tienen lo que necesito.', 'negativo');
+classifier.addExample('Las paletas de esta paletería saben mal, no entiendo por qué la gente las elogia.', 'negativo');
+classifier.addExample('Los empleados de esta tienda de botanas son descorteses y desatentos.', 'negativo');
+classifier.addExample('El ambiente en este café es ruidoso y desagradable, no lo recomiendo.', 'negativo');
+classifier.addExample('La ropa en esta tienda es de mala calidad y sobrevalorada.', 'negativo');
+classifier.addExample('El gimnasio está sucio y desorganizado, no es un buen lugar para entrenar.', 'negativo');
+classifier.addExample('La librería tiene un catálogo limitado y los precios son excesivos.', 'negativo');
+classifier.addExample('La electrónica en esta tienda es obsoleta y cara.', 'negativo');
+classifier.addExample('El parque de diversiones es peligroso y poco emocionante, no lo recomendaría.', 'negativo');
+classifier.addExample('No me gustó la comida de este restaurante', 'negativo');
+classifier.addExample('El servicio al cliente fue pésimo', 'negativo');
+classifier.addExample('El equipo de soporte no respondió a mis problemas', 'negativo');
+classifier.addExample('Estoy muy insatisfecho con la compra que hice', 'negativo');
+classifier.addExample('El producto no funcionó como se esperaba', 'negativo');
+classifier.addExample('No recomendaría este lugar a nadie', 'negativo');
+classifier.addExample('El envío llegó tarde y dañado', 'negativo');
+classifier.addExample('El personal del hotel fue grosero y poco atento', 'negativo');
+classifier.addExample('Odié la última película que vi', 'negativo');
+classifier.addExample('La calidad del producto es mala y se rompió rápidamente', 'negativo');
+classifier.addExample('El servicio de entrega fue terrible, nunca llegó mi pedido', 'negativo');
+classifier.addExample('Me siento frustrado con los resultados obtenidos', 'negativo');
+classifier.addExample('El producto no cumplió con lo prometido', 'negativo');
+classifier.addExample('El personal del evento fue incompetente', 'negativo');
+classifier.addExample('Este libro es aburrido y no me gusta', 'negativo');
+classifier.addExample('El rendimiento del equipo ha sido decepcionante', 'negativo');
+classifier.addExample('El servicio de atención al cliente fue lento y poco útil', 'negativo');
+classifier.addExample('Detesto cómo se ve mi nueva habitación', 'negativo');
+classifier.addExample('El platillo que pedí en este restaurante estaba mal preparado', 'negativo');
+classifier.addExample('El lugar es muy ruidoso y no se puede disfrutar', 'negativo');
+classifier.addExample('El pedido fue facil, nos dieron una hora de entrega pero llego antes y ademas habia un jovencito niño ENTANTADOR Y BIEN EDUCADO PARA ENTREGARLO', 'positivo');
+classifier.addExample('El nuevo diseño del sitio web es increíble', 'negativo');
+classifier.addExample('Excelente restaurante, la comida es deliciosa y el servicio es inmejorable', 'positivo');
+classifier.addExample('La atención en esta farmacia siempre es amable y rápida', 'positivo');
+classifier.addExample('Me encanta comprar en esta tienda, siempre tienen productos de alta calidad', 'positivo');
+classifier.addExample('El gimnasio cuenta con excelentes instalaciones y personal capacitado', 'positivo');
+classifier.addExample('Este hotel es simplemente increíble, la habitación es espaciosa y cómoda', 'positivo');
+classifier.addExample('La tienda de electrónicos tiene una gran variedad de productos y precios competitivos', 'positivo');
+classifier.addExample('El personal de la peluquería es muy profesional y siempre hacen un gran trabajo', 'positivo');
+classifier.addExample('El parque es perfecto para disfrutar de un día al aire libre en familia', 'positivo');
+classifier.addExample('El cine cuenta con pantallas de alta calidad y un sonido impresionante', 'positivo');
+classifier.addExample('La librería tiene un ambiente acogedor y una gran selección de libros', 'positivo');
+classifier.addExample('Esta tienda de ropa siempre tiene las últimas tendencias de moda', 'positivo');
+classifier.addExample('El centro comercial ofrece muchas opciones de entretenimiento para todas las edades', 'positivo');
+classifier.addExample('El museo tiene una colección fascinante y exhibiciones interesantes', 'positivo');
+classifier.addExample('El personal de la clínica es muy atento y brinda un excelente cuidado', 'positivo');
+classifier.addExample('Este café es mi lugar favorito para relajarme y tomar un buen café', 'positivo');
+classifier.addExample('El supermercado tiene productos frescos y una gran variedad de alimentos', 'positivo');
+classifier.addExample('La ferretería tiene todo lo que necesito para mis proyectos de bricolaje', 'positivo');
+classifier.addExample('El teatro ofrece espectáculos de alta calidad que siempre son impresionantes', 'positivo');
+classifier.addExample('La gasolinera tiene precios competitivos y un buen servicio', 'positivo');
+classifier.addExample('Este spa es el lugar perfecto para consentirse y relajarse', 'positivo');
+
+
 
 // Clasificar nuevos ejemplos
-const newComment = 'La tienda de deportes tiene variedad, pero los precios son un poco altos';
+const newComment = 'Esta algo bien el lugar';
 const result = classifier.classify(newComment);
 console.log(newComment);
 console.log('Sentimiento:', result); 
