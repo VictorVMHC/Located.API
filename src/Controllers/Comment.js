@@ -2,9 +2,11 @@ const { response, request } = require('express');
 const   Comment = require('../Models/Comment')
 const User = require('../Models/User')
 const Local = require('../Models/Locals')
+const classifier = require('../Middleware/NaiveBayesMiddleware')();
+
 
 const commentPost = async( req, res = response ) => {
-    const {localId, userId, comments} = req.body;
+    const {localId, userId, comment} = req.body;
     try{
         const local = await Local.findById(localId)
         const user = await User.findById(userId)
@@ -13,11 +15,12 @@ const commentPost = async( req, res = response ) => {
                 error: "User or local not found"
             })
         }
-        const comment = new Comment({localId, userId, comments});
-        await comment.save()
+        const label = classifier.classify(comment)
+        const newComment = new Comment({localId, userId, comment, label});
+        await newComment.save();
         return res.status(200).json({
             msg: 'Comment created successfully',
-            comment,
+            newComment,
         });
     }catch(err){
         return res.status(500).json({

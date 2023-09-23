@@ -2,6 +2,7 @@ const express = require('express');
 const dbConnection = require('../Database/config');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
+const initializeClassifier = require('../Middleware/NaiveBayesMiddleware');
 
 class Server {
     constructor() {
@@ -14,6 +15,7 @@ class Server {
         this.guestUserRootPath = '/api/guest/users';
         this.verifyEmailRootPath = '/api/verifyEmail';
         this.likeRootPath = '/api/like';
+        this.commentsRootPath = '/api/comments';
         this.likedCommentPath = this.likeRootPath + '/comment';
         this.likedLocalPath = this.likeRootPath + '/local';
         this.likedProductPath = this.likeRootPath + '/product';
@@ -27,11 +29,17 @@ class Server {
         this.googleUserRootPath = '/api/google/users';
 
         this.ConnectDb();
+        this.initializeClassifier();
         this.middleware();
         this.routes();
     }
+
     ConnectDb(){
         dbConnection();
+    }
+
+    initializeClassifier() {
+        initializeClassifier(null, null, () => {}); // Llama al middleware aquí
     }
 
     middleware() {
@@ -60,6 +68,7 @@ class Server {
         this.app.use(this.uploadImagePath, require('../Routes/UploadImage') );
         this.app.use(this.searchLocalsPath, require('../Routes/SearchLocals') );
         this.app.use(this.googleUserRootPath, require('../Routes/GoogleUser') );
+        this.app.use(this.commentsRootPath, require('../Routes/Comment') );
     }
     
     listen() {

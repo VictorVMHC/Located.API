@@ -64,7 +64,6 @@ const getProductsByLocalId = async (req, res = response) => {
 
         const totalProducts = await Products.find({ localId }).countDocuments();
 
-        console.log(products.length, " / ", limit);
         if (products.length === 0) {
             return res.status(404).json({
                 err: 'No products were found for this page',
