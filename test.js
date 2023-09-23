@@ -62,7 +62,17 @@ class NaiveBayesClassifier {
 // Ejemplo de uso
 const classifier = new NaiveBayesClassifier();
 
-// Datos de entrenamiento
+//  Ejemplos Positivos
+classifier.addExample('La comida en este restaurante es excepcional, definitivamente volveré.', 'positivo');
+classifier.addExample('El servicio en esta ferretería es rápido y amable, siempre encuentro lo que necesito.', 'positivo');
+classifier.addExample('Las paletas de esta paletería son deliciosas, mi favorita es la de fresa.', 'positivo');
+classifier.addExample('Los empleados de esta tienda de botanas son muy atentos y serviciales.', 'positivo');
+classifier.addExample('El ambiente en este café es acogedor y tranquilo, perfecto para relajarse.', 'positivo');
+classifier.addExample('Me encanta comprar en esta tienda de ropa, siempre tienen las últimas tendencias.', 'positivo');
+classifier.addExample('Este gimnasio tiene equipos de alta calidad y entrenadores expertos.', 'positivo');
+classifier.addExample('La selección de libros en esta librería es impresionante, siempre encuentro algo interesante.', 'positivo');
+classifier.addExample('La calidad de los productos en esta tienda de electrónica es inigualable.', 'positivo');
+classifier.addExample('El parque de diversiones ofrece una experiencia emocionante para toda la familia.', 'positivo');
 classifier.addExample('Me encantó este producto', 'positivo');
 classifier.addExample('No puedo creer lo malo que es este servicio', 'negativo');
 classifier.addExample('El artículo es perfecto para mis necesidades', 'positivo');
@@ -116,7 +126,9 @@ classifier.addExample('La experiencia del cliente fue decepcionante', 'negativo'
 classifier.addExample('Estoy muy contento con mi compra', 'positivo');
 classifier.addExample('El producto no duró mucho tiempo', 'negativo');
 classifier.addExample('Este comentario es neutro', 'neutro');
+classifier.addExample('Este comentario es neutro', 'neutro');
 classifier.addExample('No tengo una opinión clara sobre este producto', 'neutro');
+classifier.addExample('Este comentario es neutro', 'neutro');
 classifier.addExample('Este comentario es neutro', 'neutro');
 classifier.addExample('El clima está agradable hoy', 'neutro');
 classifier.addExample('El evento fue regular, ni bueno ni malo', 'neutro');
@@ -297,7 +309,7 @@ classifier.addExample('Los helados de esta heladería saben mal', 'negativo');
 
 
 // Clasificar nuevos ejemplos
-const newComment = 'La tienda de deportes tiene variedad, pero los precios son un poco altos';
+const newComment = 'Esta algo bien el lugar';
 const result = classifier.classify(newComment);
 console.log(newComment);
 console.log('Sentimiento:', result); 
