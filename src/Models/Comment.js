@@ -11,9 +11,14 @@ const CommentSchema = Schema({
         ref: 'User',
         required: [true, "The userId is a required field"]
     },
-    comments:{
+    comment:{
         type: String,
         required: [true, "The comment is a required field"]
+    },
+    label: {
+        type: String,
+        enum: ["positive", "neutral", "negative"],
+        required:  [true, "The label is a required field"]
     },
     state:{
         type: Boolean,

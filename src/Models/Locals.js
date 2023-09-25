@@ -19,9 +19,6 @@ const LocalsSchema = Schema({
         type: Boolean,
         default: true
     },
-    products:{
-        type: String,
-    },
     country:{
         type: String,
     },
@@ -65,6 +62,9 @@ const LocalsSchema = Schema({
     deleted:{
         type: Boolean,
     },
+    businessType:{
+        type: String
+    }
 })
 
 LocalsSchema.methods.toJSON = function(){

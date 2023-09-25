@@ -5,6 +5,10 @@ const ProductsSchema = Schema({
         type: String,
         required: [true, "The name is a required field"]
     },
+    localId:{
+        type: Schema.Types.ObjectId,
+        required: true
+    },
     price: {
         type: String,
         required: [true, "The price is a required field"]
@@ -19,7 +23,7 @@ const ProductsSchema = Schema({
         type: String,
     },
     tags: {
-        type: String, 
+        type: [], 
     }
 });
 
