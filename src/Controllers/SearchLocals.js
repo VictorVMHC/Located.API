@@ -18,35 +18,33 @@ const searchLocals = async (req, res = Response ) =>{
 }
     
 const searchByTags = async (req, res = Response) => {
-    const { Latitude, Longitude, kilometers, tags} = req.params;
-    const regexTags = new RegExp(tags.split(',').join('|'), 'i'); 
+    const { Latitude, Longitude, kilometers, tags } = req.params;
+    const regexTags = tags ? new RegExp(tags.split(',').join('|'), 'i') : /.*/; // Si tags está vacío, se usará una expresión regular que coincida con cualquier cosa
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
     const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
 
     try {
-        const locals = await Locals.find({
+        let localsQuery = {
             'location.latitude': filteredLocals.latitude,
-            'location.longitude': filteredLocals.longitude,
-            $or: [
-                { tags: regexTags }, 
-                { name: regexTags }  
-            ]
-        })
-        .skip((page - 1) * limit) 
-        .limit(limit);
+            'location.longitude': filteredLocals.longitude
+        };
 
-        const totalLocals =  await Locals.find({
-            'location.latitude': filteredLocals.latitude,
-            'location.longitude': filteredLocals.longitude,
-            $or: [
-                { tags: regexTags }, 
-                { name: regexTags }  
-            ]
-        }).countDocuments();
+        if (tags) {
+            localsQuery.$or = [
+                { tags: regexTags },
+                { name: regexTags }
+            ];
+        }
 
-        if(!locals){
+        const locals = await Locals.find(localsQuery)
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        const totalLocals = await Locals.find(localsQuery).countDocuments();
+
+        if (!locals) {
             return res.status(404).json({
                 err: 'No locals were found '
             });
