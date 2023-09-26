@@ -8,16 +8,22 @@ const classifier = require('../Middleware/NaiveBayesMiddleware')();
 const commentPost = async( req, res = response ) => {
     const {localId, userId, comment} = req.body;
     try{
+
         const local = await Local.findById(localId)
         const user = await User.findById(userId)
+
         if(!user || !local ){
             return res.status(404).json({
                 error: "User or local not found"
             })
         }
+
         const label = classifier.classify(comment)
+
         const newComment = new Comment({localId, userId, comment, label});
+
         await newComment.save();
+        
         return res.status(200).json({
             msg: 'Comment created successfully',
             newComment,

@@ -24,7 +24,6 @@ function initializeClassifier() {
     }finally{
         loading= false;
     }
-    
 
     return classifier;
 }
