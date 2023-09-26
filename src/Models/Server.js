@@ -27,6 +27,7 @@ class Server {
         this.uploadImagePath = '/api/uploadImage';
         this.searchLocalsPath = '/api/searchLocals';
         this.googleUserRootPath = '/api/google/users';
+        this.popularLocals = '/api/popularLocals';
 
         this.ConnectDb();
         this.initializeClassifier();
@@ -69,6 +70,7 @@ class Server {
         this.app.use(this.searchLocalsPath, require('../Routes/SearchLocals') );
         this.app.use(this.googleUserRootPath, require('../Routes/GoogleUser') );
         this.app.use(this.commentsRootPath, require('../Routes/Comment') );
+        this.app.use(this.popularLocals, require('../Routes/PopularLocals') );
     }
     
     listen() {
