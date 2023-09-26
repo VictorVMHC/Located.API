@@ -20,7 +20,7 @@ const searchLocals = async (req, res = Response ) =>{
     
 const searchByTags = async (req, res = Response) => {
     const { Latitude, Longitude, kilometers, tags } = req.params;
-    const regexTags = tags ? new RegExp(tags.split(',').join('|'), 'i') : /.*/; // Si tags está vacío, se usará una expresión regular que coincida con cualquier cosa
+    const regexTags = tags ? new RegExp(tags.split(',').join('|'), 'i') : /.*/; 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
@@ -51,7 +51,6 @@ const searchByTags = async (req, res = Response) => {
             });
         }
 
-        console.log(totalLocals, limit);
         return res.status(200).json({
             locals,
             page,
@@ -88,7 +87,7 @@ const searchByUser = async (req, res = Response ) =>{
 
     } catch (error) {
         res.status(500).json({ 
-            error: 'Error interno del servidor' 
+            error: 'Internal Server Error' 
         });
     }
 }
