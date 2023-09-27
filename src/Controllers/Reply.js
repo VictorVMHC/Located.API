@@ -1,24 +1,30 @@
 const { response, request, json } = require('express');
 const Reply = require('../Models/Reply')
 const User = require('../Models/User')
-const Comment = require('../Models/Comment')
+const Comment = require('../Models/Comment');
+const classifier = require('../Middleware/NaiveBayesMiddleware')();
 
 const replyPost = async(req, res = response)=>{
-    const {commentId, userId, replied} = req.body;
     try{
+        const {commentId, userId, replied} = req.body;
         const comment = await Comment.findById(commentId)
         const user = await User.findById(userId)
+
         if(!user || !comment ){
             return res.status(404).json({
                 error: "User or comment not found"
             })
         }
-        const reply = new Reply({commentId, userId, replied})
+        const label = classifier.classify(replied)
+        const reply = new Reply({commentId, userId, replied, label})
+
         await reply.save()
+
         return res.status(200).json({
             msg: 'reply created successfully',
             reply,
         });
+
     }catch(err){
         return res.status(500).json({
             msg: 'An error occurred while saving the reply',

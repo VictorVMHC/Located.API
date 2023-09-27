@@ -15,6 +15,11 @@ const ReplySchema = Schema({
         type: String,
         required: [true, "The reply is a required field"]
     },
+    label: {
+        type: String,
+        enum: ["positive", "neutral", "negative"],
+        required:  [true, "The label is a required field"]
+    },
     state:{
         type: Boolean,
     }
