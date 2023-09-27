@@ -58,12 +58,20 @@ const commentGet = async (req = request,  res = response) =>{
 const searchByLocalId = async (req = request, res = response) => {
     try {
         const { localId } = req.params;
-    
-        const comments = await Comment.find({ localId });
+        const { page = 1, limit = 10 } = req.query;
         
-        if(!comments){
+        const skip = (parseInt(page) - 1) * parseInt(limit);
+        const limitValue = parseInt(limit);
+    
+        const comments = await Comment.find({ localId })
+            .skip(skip)
+            .limit(limitValue);
+        
+        const totalComments = await Comment.countDocuments({ localId });
+
+        if (comments.length === 0) {
             return res.status(404).json({
-                err: 'Not Comments were found'
+                err: 'No comments were found'
             });
         }
     
@@ -76,14 +84,18 @@ const searchByLocalId = async (req = request, res = response) => {
                 localId: comment.localId,
                 userId: comment.userId,
                 comment: comment.comment,
+                label: comment.label,
                 replies: replies
             };
             commentsWithReplies.push(commentData);
         }
     
-        return res.status(200).json(
-            commentsWithReplies
-        );
+        return res.status(200).json({
+            comments: commentsWithReplies,
+            totalPages: Math.ceil(totalComments / limitValue),
+            currentPage: parseInt(page),
+            totalComments: totalComments
+        });
 
     } catch (error) {
         res.status(500).json({ 
@@ -91,6 +103,9 @@ const searchByLocalId = async (req = request, res = response) => {
         });
     }
 };
+
+
+
 
 
 const commentPut = async ( req, res ) => {
