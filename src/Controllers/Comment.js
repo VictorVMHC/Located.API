@@ -62,7 +62,7 @@ const searchByLocalId = async (req = request, res = response) => {
         
         const totalComments = await Comment.countDocuments({ localId });
 
-        if (comments.length === 0) {
+        if (totalComments.length === 0) {
             return res.status(404).json({
                 err: 'No comments were found'
             });
@@ -74,20 +74,21 @@ const searchByLocalId = async (req = request, res = response) => {
         const comments = await Comment.find({ localId })
             .skip(skip)
             .limit(limitValue);
-        
     
         const commentsWithReplies = [];
     
         for (const comment of comments) {
-            const replies = await Reply.find({ commentId: comment._id });
+
+            const replies = await Reply.countDocuments({ commentId: comment._id });
             
             const commentData = {
                 localId: comment.localId,
                 userId: comment.userId,
                 comment: comment.comment,
                 label: comment.label,
-                replies: replies
+                countReplies: replies
             };
+
             commentsWithReplies.push(commentData);
         }
     
