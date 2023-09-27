@@ -28,6 +28,7 @@ class Server {
         this.searchLocalsPath = '/api/searchLocals';
         this.googleUserRootPath = '/api/google/users';
         this.popularLocals = '/api/popularLocals';
+        this.replyRootPath = '/api/reply';
 
         this.ConnectDb();
         this.initializeClassifier();
@@ -71,6 +72,7 @@ class Server {
         this.app.use(this.googleUserRootPath, require('../Routes/GoogleUser') );
         this.app.use(this.commentsRootPath, require('../Routes/Comment') );
         this.app.use(this.popularLocals, require('../Routes/PopularLocals') );
+        this.app.use(this.replyRootPath, require('../Routes/Reply') );
     }
     
     listen() {

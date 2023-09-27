@@ -1,7 +1,8 @@
 const { response, request } = require('express');
 const   Comment = require('../Models/Comment')
 const User = require('../Models/User')
-const Local = require('../Models/Locals')
+const Local = require('../Models/Locals');
+const Reply = require('../Models/Reply');
 const classifier = require('../Middleware/NaiveBayesMiddleware')();
 
 
@@ -23,7 +24,7 @@ const commentPost = async( req, res = response ) => {
         const newComment = new Comment({localId, userId, comment, label});
 
         await newComment.save();
-        
+
         return res.status(200).json({
             msg: 'Comment created successfully',
             newComment,
@@ -53,6 +54,44 @@ const commentGet = async (req = request,  res = response) =>{
         });
     }
 }
+
+const searchByLocalId = async (req = request, res = response) => {
+    try {
+        const { localId } = req.params;
+    
+        const comments = await Comment.find({ localId });
+        
+        if(!comments){
+            return res.status(404).json({
+                err: 'Not Comments were found'
+            });
+        }
+    
+        const commentsWithReplies = [];
+    
+        for (const comment of comments) {
+            const replies = await Reply.find({ commentId: comment._id });
+            
+            const commentData = {
+                localId: comment.localId,
+                userId: comment.userId,
+                comment: comment.comment,
+                replies: replies
+            };
+            commentsWithReplies.push(commentData);
+        }
+    
+        return res.status(200).json(
+            commentsWithReplies
+        );
+
+    } catch (error) {
+        res.status(500).json({ 
+            error: 'Error trying to get the comment and its answers' 
+        });
+    }
+};
+
 
 const commentPut = async ( req, res ) => {
     const id = req.params.Id;
@@ -95,6 +134,6 @@ module.exports = {
     commentPost,
     commentGet,
     commentPut,
-    commentDelete
-    
+    commentDelete,
+    searchByLocalId
 }

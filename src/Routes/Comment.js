@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const {commentPost, commentGet,commentPut, commentDelete} = require('../Controllers/Comment')
+const {commentPost, commentGet,commentPut, commentDelete, searchByLocalId} = require('../Controllers/Comment')
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
 const router = Router();
@@ -34,6 +34,19 @@ router.get('/:Id',[
     validationResults
 ],commentGet);
 
+/**
+ * Get the information of the Comment by commentId
+ *
+ * @route GET api/comment/:commentId
+ * @param {} localId - unique commentId of the comment
+ * @returns {object} reply information
+ * @throws {Error} If the comment doesn't exist
+ */
+router.get('/localId/:localId',[
+    check('localId', "The local local Id must not to be empty").notEmpty(),
+    validationResults
+], searchByLocalId);
+
 router.put('/:Id',[
     check('Id', 'The Id is mandatory').notEmpty(),
     validationResults
@@ -43,8 +56,6 @@ router.delete('/:Id',[
     check('Id', 'The Id is mandatory').notEmpty(),
     validationResults
 ], commentDelete);
-
-
 
 
 module.exports = router; 
