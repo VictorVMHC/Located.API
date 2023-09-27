@@ -60,13 +60,6 @@ const searchByLocalId = async (req = request, res = response) => {
         const { localId } = req.params;
         const { page = 1, limit = 10 } = req.query;
         
-        const skip = (parseInt(page) - 1) * parseInt(limit);
-        const limitValue = parseInt(limit);
-    
-        const comments = await Comment.find({ localId })
-            .skip(skip)
-            .limit(limitValue);
-        
         const totalComments = await Comment.countDocuments({ localId });
 
         if (comments.length === 0) {
@@ -74,6 +67,14 @@ const searchByLocalId = async (req = request, res = response) => {
                 err: 'No comments were found'
             });
         }
+        
+        const skip = (parseInt(page) - 1) * parseInt(limit);
+        const limitValue = parseInt(limit);
+    
+        const comments = await Comment.find({ localId })
+            .skip(skip)
+            .limit(limitValue);
+        
     
         const commentsWithReplies = [];
     

@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const {replyPost, replyGet, replyPut, replyDelete} = require('../Controllers/Reply')
+const {replyPost, replyGet, replyPut, replyDelete, getReplyByCommentId} = require('../Controllers/Reply')
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
 const router = Router();
@@ -36,6 +36,19 @@ router.get('/:Id',
     check('Id', "The Id must not be Reply").notEmpty(),
     validationResults
 ],replyGet);
+
+/**
+ * Get the information of the Reply by replyId
+ *
+ * @route GET api/reply/:replyId
+ * @param {} LocalId - unique replyId of the reply
+ * @returns {object} reply information
+ * @throws {Error} If the reply doesn't exist
+ */
+    router.get('/byCommentId/:commentId', [
+        check('commentId', "The localId must not be empty").notEmpty(),
+        validationResults
+    ], getReplyByCommentId);
 
 router.put('/:Id',[
     check('Id', 'The ID is mandatory').notEmpty(),

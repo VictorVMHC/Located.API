@@ -51,6 +51,40 @@ const replyGet = async (req = request,  res = response) =>{
     }
 }
 
+const getReplyByCommentId = async (req = request,  res = response) =>{
+    try{
+        const commentId = req.params.commentId;
+        const { page = 1, limit = 10 } = req.query;
+        
+        const skip = (parseInt(page) - 1) * parseInt(limit);
+        const limitValue = parseInt(limit);
+    
+        const totalReplies = await Reply.countDocuments({ commentId });
+
+        if (totalReplies.length === 0) {
+            return res.status(404).json({
+                err: 'No replies were found'
+            });
+        }
+
+        const reply  = await Reply.find({ commentId })
+            .skip(skip)
+            .limit(limitValue);
+            
+        return res.status(200).json({
+            msg: 'replies found',
+            reply,
+            totalPages: Math.ceil(totalReplies / limitValue),
+            currentPage: parseInt(page),
+            totalComments: totalReplies
+        })
+    }catch(err){
+        res.status(500).json({
+            msg: ' An error ocurred while trying to find the reply'
+        });
+    }
+}
+
 const replyPut = async ( req, res ) => {
     const id = req.params.Id;
     const {_Id, ...replyData} = req.body;
@@ -92,5 +126,6 @@ module.exports = {
     replyPost,
     replyGet,
     replyPut,
-    replyDelete
+    replyDelete,
+    getReplyByCommentId
 }
