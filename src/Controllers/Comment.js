@@ -3,6 +3,7 @@ const   Comment = require('../Models/Comment')
 const User = require('../Models/User')
 const Local = require('../Models/Locals');
 const Reply = require('../Models/Reply');
+const LikeComments = require('../Models/LikeComments');
 const classifier = require('../Middleware/NaiveBayesMiddleware')();
 
 
@@ -81,13 +82,14 @@ const searchByLocalId = async (req = request, res = response) => {
         for (const comment of comments) {
 
             const replies = await Reply.countDocuments({ commentId: comment._id });
-            
+            const likes = await LikeComments.countDocuments({ commentId: comment._id });
             const commentData = {
                 localId: comment.localId,
                 userId: comment.userId,
                 comment: comment.comment,
                 label: comment.label,
-                countReplies: replies
+                countReplies: replies,
+                likes
             };
 
             commentsWithReplies.push(commentData);
