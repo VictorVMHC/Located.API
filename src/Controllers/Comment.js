@@ -72,6 +72,7 @@ const searchByLocalId = async (req = request, res = response) => {
         const limitValue = parseInt(limit);
     
         const comments = await Comment.find({ localId })
+            .populate('userId', 'image name')
             .skip(skip)
             .limit(limitValue);
     

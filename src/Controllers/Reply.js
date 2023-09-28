@@ -69,6 +69,7 @@ const getReplyByCommentId = async (req = request,  res = response) =>{
 
         const reply = await Reply.find({ commentId })
             .populate('userRepliedId', 'name')
+            .populate('userId', 'image name')
             .skip(skip)
             .limit(limitValue);
             
