@@ -20,6 +20,11 @@ const ReplySchema = Schema({
         enum: ["positive", "neutral", "negative"],
         required:  [true, "The label is a required field"]
     },
+    userRepliedId:{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    },
     state:{
         type: Boolean,
     }

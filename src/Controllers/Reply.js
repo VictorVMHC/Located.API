@@ -6,7 +6,7 @@ const classifier = require('../Middleware/NaiveBayesMiddleware')();
 
 const replyPost = async(req, res = response)=>{
     try{
-        const {commentId, userId, replied} = req.body;
+        const {commentId, userId, replied, userRepliedId} = req.body;
         const comment = await Comment.findById(commentId)
         const user = await User.findById(userId)
 
@@ -16,7 +16,7 @@ const replyPost = async(req, res = response)=>{
             })
         }
         const label = classifier.classify(replied)
-        const reply = new Reply({commentId, userId, replied, label})
+        const reply = new Reply({commentId, userId, replied, userRepliedId,label})
 
         await reply.save()
 
@@ -67,7 +67,8 @@ const getReplyByCommentId = async (req = request,  res = response) =>{
             });
         }
 
-        const reply  = await Reply.find({ commentId })
+        const reply = await Reply.find({ commentId })
+            .populate('userRepliedId', 'name')
             .skip(skip)
             .limit(limitValue);
             
