@@ -43,7 +43,7 @@ const searchByTags = async (req, res = Response) => {
             .skip((page - 1) * limit)
             .limit(limit);
 
-        const totalLocals = await Locals.find(localsQuery).countDocuments();
+        const totalLocals = await Locals.countDocuments(localsQuery);
 
         if (!locals) {
             return res.status(404).json({
