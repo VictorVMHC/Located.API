@@ -6,7 +6,6 @@ const router = Router();
 
     router.get('/:Latitude/:Longitude/:kilometers',
     [
-        
         validationResults
     ], getPopularLocals);
 

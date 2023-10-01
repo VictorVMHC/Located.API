@@ -1,5 +1,6 @@
 const Locals = require ('../Models/Locals');
 const User = require('../Models/User');
+const LikedLocals = require('../Models/LikedLocals');
 const {searchLatitudeAndLongitude} = require('../Utils/calculateRange');
 
 const searchLocals = async (req, res = Response ) =>{
@@ -64,6 +65,40 @@ const searchByTags = async (req, res = Response) => {
     }
 }
 
+const searchPopularLocals = async (req, res = Response) =>{
+    const {Latitude ,Longitude, kilometers} = req.params;
+    const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
+    try {
+        const popularLocals = await LikedLocals.aggregate([
+            {
+                $group:{
+                    _id: "$localId",
+                    likeCount: {$sum: 1}
+                }
+            },
+            {
+                $sort: { likeCount: -1 }
+            },
+            {
+                $limit: 20
+            }
+        ]);
+        const popularLocalIds = popularLocals.map(local => local._id);
+        const locals = await Locals.find({
+            'location.latitude': filteredLocals.latitude,
+            'location.longitude': filteredLocals.longitude,
+            _id: { $in: popularLocalIds }
+        });
+        res.json({
+            results: locals
+        });
+    } catch (error) {
+        res.status(500).json({
+            msg: 'An error occurred while trying to find popular locals',
+        });
+    }
+}
+
 const searchByUser = async (req, res = Response ) =>{
     
     try {
@@ -96,5 +131,6 @@ const searchByUser = async (req, res = Response ) =>{
 module.exports={
     searchLocals,
     searchByTags,
+    searchPopularLocals,
     searchByUser
 }
