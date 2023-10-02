@@ -65,33 +65,50 @@ const searchByTags = async (req, res = Response) => {
     }
 }
 
-const searchPopularLocals = async (req, res = Response) =>{
-    const {Latitude ,Longitude, kilometers} = req.params;
-    const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
+const searchPopularLocals = async (req, res = Response) => {
     try {
-        const popularLocals = await LikedLocals.aggregate([
-            {
-                $group:{
-                    _id: "$localId",
-                    likeCount: {$sum: 1}
+        const {Latitude ,Longitude, kilometers} = req.params;
+        const [popularLocals, filteredLocals] = await Promise.all([
+            LikedLocals.aggregate([
+                {
+                    $group: {
+                        _id: "$localId",
+                        likeCount: {$sum: 1}
+                    }
+                },
+                {
+                    $sort: { likeCount: -1 }
+                },
+                {
+                    $limit: 20
                 }
-            },
-            {
-                $sort: { likeCount: -1 }
-            },
-            {
-                $limit: 20
-            }
+            ]),
+            searchLatitudeAndLongitude(Latitude, Longitude, kilometers)
         ]);
+
         const popularLocalIds = popularLocals.map(local => local._id);
+
+        const likeCounts = popularLocals.reduce((map, local) => {
+            map[local._id.toString()] = local.likeCount;
+            return map;
+        }, {});
+
         const locals = await Locals.find({
             'location.latitude': filteredLocals.latitude,
             'location.longitude': filteredLocals.longitude,
             _id: { $in: popularLocalIds }
         });
-        res.json({
+
+        locals.sort((a, b) => {
+            const likeCountA = likeCounts[a._id.toString()] || 0;
+            const likeCountB = likeCounts[b._id.toString()] || 0;
+            return likeCountB - likeCountA;
+        });
+
+        return res.status(200).json({
             results: locals
         });
+
     } catch (error) {
         res.status(500).json({
             msg: 'An error occurred while trying to find popular locals',
