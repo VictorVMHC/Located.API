@@ -11,7 +11,7 @@ const searchLocals = async (req, res = Response ) =>{
             'location.latitude': filteredLocals.latitude,           
             'location.longitude': filteredLocals.longitude,
         });
-        res.json({
+        return res.json({
             results: locals,
         });
     } catch (error) {
@@ -66,52 +66,51 @@ const searchByTags = async (req, res = Response) => {
 }
 
 const searchPopularLocals = async (req, res = Response) => {
+    const { Latitude, Longitude, kilometers } = req.params;
+
     try {
-        const {Latitude ,Longitude, kilometers} = req.params;
-        const [popularLocals, filteredLocals] = await Promise.all([
-            LikedLocals.aggregate([
-                {
-                    $group: {
-                        _id: "$localId",
-                        likeCount: {$sum: 1}
-                    }
-                },
-                {
-                    $sort: { likeCount: -1 }
-                },
-                {
-                    $limit: 20
-                }
-            ]),
-            searchLatitudeAndLongitude(Latitude, Longitude, kilometers)
-        ]);
-
-        const popularLocalIds = popularLocals.map(local => local._id);
-
-        const likeCounts = popularLocals.reduce((map, local) => {
-            map[local._id.toString()] = local.likeCount;
-            return map;
-        }, {});
-
-        const locals = await Locals.find({
+        const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
+        const localesEnRango = await Locals.find({
             'location.latitude': filteredLocals.latitude,
             'location.longitude': filteredLocals.longitude,
-            _id: { $in: popularLocalIds }
         });
 
-        locals.sort((a, b) => {
-            const likeCountA = likeCounts[a._id.toString()] || 0;
-            const likeCountB = likeCounts[b._id.toString()] || 0;
-            return likeCountB - likeCountA;
-        });
+        const localesConLikes = await LikedLocals.aggregate([
+            {
+                $match: {
+                    localId: { $in: localesEnRango.map(local => local._id) },
+                }
+            },
+            {
+                $group: {
+                    _id: "$localId",
+                    likeCount: { $sum: 1 }
+                }
+            },
+            {
+                $sort: { likeCount: -1 } 
+            },
+            {
+                $limit: 20
+            }
+        ]);
 
-        return res.status(200).json({
-            results: locals
+        const localesPopular = await Promise.all(localesConLikes.map(async (localConLikes) => {
+            const local = await Locals.findById(localConLikes._id);
+            return {
+                ...local,
+                likeCount: localConLikes.likeCount
+            };
+        }));
+        
+console.log(localesPopular);
+        return res.json({
+            localesPopular,
         });
 
     } catch (error) {
-        res.status(500).json({
-            msg: 'An error occurred while trying to find popular locals',
+        return res.status(500).json({
+            err: 'An error occurred while searching for popular locations'
         });
     }
 }
