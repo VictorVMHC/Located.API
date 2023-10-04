@@ -15,6 +15,7 @@ class Server {
         this.guestUserRootPath = '/api/guest/users';
         this.verifyEmailRootPath = '/api/verifyEmail';
         this.likeRootPath = '/api/like';
+        this.likeReplyPath = this.likeRootPath + '/reply';
         this.commentsRootPath = '/api/comments';
         this.likedCommentPath = this.likeRootPath + '/comment';
         this.likedLocalPath = this.likeRootPath + '/local';
@@ -73,6 +74,7 @@ class Server {
         this.app.use(this.commentsRootPath, require('../Routes/Comment') );
         this.app.use(this.popularLocals, require('../Routes/PopularLocals') );
         this.app.use(this.replyRootPath, require('../Routes/Reply') );
+        this.app.use(this.likeReplyPath, require('../Routes/LikeReply') );
     }
     
     listen() {

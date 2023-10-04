@@ -2,6 +2,8 @@ const { response, request, json } = require('express');
 const Reply = require('../Models/Reply')
 const User = require('../Models/User')
 const Comment = require('../Models/Comment');
+const LikeComments = require('../Models/LikeComments');
+const LikeReply = require('../Models/LikeReply');
 const classifier = require('../Middleware/NaiveBayesMiddleware')();
 
 const replyPost = async(req, res = response)=>{
@@ -54,7 +56,7 @@ const replyGet = async (req = request,  res = response) =>{
 const getReplyByCommentId = async (req = request,  res = response) =>{
     try{
         const commentId = req.params.commentId;
-        const { page = 1, limit = 10 } = req.query;
+        const { page = 1, limit = 10, userId } = req.query;
         
         const skip = (parseInt(page) - 1) * parseInt(limit);
         const limitValue = parseInt(limit);
@@ -72,7 +74,15 @@ const getReplyByCommentId = async (req = request,  res = response) =>{
             .populate('userId', 'image name')
             .skip(skip)
             .limit(limitValue);
-            
+
+            await Promise.all(reply.map(async (reply) => {
+                const likesCount = await LikeReply.countDocuments({ replyId: reply._id });
+                const resultLikes = await LikeReply.findOne({ replyId: reply._id, userId: userId }).select('_id');
+                const liked = resultLikes ? true : false;
+                reply._doc.likes = likesCount;
+                reply._doc.liked = liked;
+            }));
+
         return res.status(200).json({
             msg: 'replies found',
             reply,

@@ -60,7 +60,7 @@ const commentGet = async (req = request,  res = response) =>{
 const searchByLocalId = async (req = request, res = response) => {
     try {
         const { localId } = req.params;
-        const { page = 1, limit = 10 } = req.query;
+        const { page = 1, limit = 10, userId } = req.query;
         
         const totalComments = await Comment.countDocuments({ localId });
 
@@ -84,7 +84,7 @@ const searchByLocalId = async (req = request, res = response) => {
 
             const replies = await Reply.countDocuments({ commentId: comment._id });
             const likeCount = await LikeComments.countDocuments({ commentId: comment._id });
-            const resultLikes = await LikeComments.findOne({ commentId: comment._id, userId: comment.userId }).select('_id');
+            const resultLikes = await LikeComments.findOne({ commentId: comment._id, userId: userId }).select('_id');
             const liked = resultLikes ? true : false;
 
             const commentData = {
