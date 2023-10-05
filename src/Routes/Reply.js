@@ -47,6 +47,9 @@ router.get('/:Id',
  */
     router.get('/byCommentId/:commentId', [
         check('commentId', "The localId must not be empty").notEmpty(),
+        check('x-token', 'Token is require').notEmpty(),
+        check('x-token', 'Token is not a JWT').isJWT(),
+        check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
         validationResults
     ], getReplyByCommentId);
 

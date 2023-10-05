@@ -71,6 +71,7 @@ const Auth = async (req = request, res = response) => {
     const tokenDecoded = req.tokenDecoded
     try{
         const user = await User.findById(tokenDecoded.id)
+        
         if(!user){
             return res.status(404).json({ error: 'User not found' }); 
         }

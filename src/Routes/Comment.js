@@ -44,6 +44,9 @@ router.get('/:Id',[
  */
 router.get('/localId/:localId',[
     check('localId', "The local local Id must not to be empty").notEmpty(),
+    check('x-token', 'Token is require').notEmpty(),
+    check('x-token', 'Token is not a JWT').isJWT(),
+    check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
     validationResults
 ], searchByLocalId);
 

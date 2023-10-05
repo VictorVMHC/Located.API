@@ -4,7 +4,6 @@ const {validationResults } = require('../Middleware/validationResult');
 const { check } = require('express-validator');
 const { verifyToken} = require('../Middleware/VerifyToken');
 
-
 const route = Router(); 
 
 route.get('/byRange/:Latitude/:Longitude/:kilometers', searchLocals);

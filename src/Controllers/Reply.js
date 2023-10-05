@@ -56,7 +56,9 @@ const replyGet = async (req = request,  res = response) =>{
 const getReplyByCommentId = async (req = request,  res = response) =>{
     try{
         const commentId = req.params.commentId;
-        const { page = 1, limit = 10, userId } = req.query;
+        const { page = 1, limit = 10 } = req.query;
+        const tokenDecoded = req.tokenDecoded;
+
         
         const skip = (parseInt(page) - 1) * parseInt(limit);
         const limitValue = parseInt(limit);
@@ -77,7 +79,7 @@ const getReplyByCommentId = async (req = request,  res = response) =>{
 
             await Promise.all(reply.map(async (reply) => {
                 const likesCount = await LikeReply.countDocuments({ replyId: reply._id });
-                const resultLikes = await LikeReply.findOne({ replyId: reply._id, userId: userId }).select('_id');
+                const resultLikes = await LikeReply.findOne({ replyId: reply._id, userId: tokenDecoded.id }).select('_id');
                 const liked = resultLikes ? true : false;
                 reply._doc.likes = likesCount;
                 reply._doc.liked = liked;
