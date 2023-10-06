@@ -1,5 +1,5 @@
 const {Router} = require('express');
-const {searchLocals, searchByTags,searchPopularLocals, searchByUser} = require('../Controllers/SearchLocals');
+const {searchLocals, searchByTags,searchPopularLocals, searchByUser, searchLocalsAndLikes} = require('../Controllers/SearchLocals');
 const {validationResults } = require('../Middleware/validationResult');
 const { check } = require('express-validator');
 const { verifyToken} = require('../Middleware/VerifyToken');
@@ -21,5 +21,9 @@ route.get('/byUser',[
     check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
     validationResults,
 ], searchByUser);
+
+route.get('/searchLocalsAndLikes/:Latitude/:Longitude/:kilometers',[
+    validationResults
+], searchLocalsAndLikes);
 
 module.exports = route;
