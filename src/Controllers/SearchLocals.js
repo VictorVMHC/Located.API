@@ -20,42 +20,43 @@ const searchLocals = async (req, res = Response ) =>{
 }
     
 const searchByTags = async (req, res = Response) => {
-    const { Latitude, Longitude, kilometers, tags } = req.params;
+    const { Latitude, Longitude, kilometers, tags, userId } = req.params;
     const regexTags = tags ? new RegExp(tags.split(',').join('|'), 'i') : /.*/; 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
-    const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
-
     try {
-        let localsQuery = {
+        const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
+        const localsInRange = await Locals.find({
             'location.latitude': filteredLocals.latitude,
-            'location.longitude': filteredLocals.longitude
-        };
+            'location.longitude': filteredLocals.longitude,
+        });
 
-        if (tags) {
-            localsQuery.$or = [
-                { tags: regexTags },
-                { name: regexTags }
-            ];
-        }
-
-        const locals = await Locals.find(localsQuery)
-            .skip((page - 1) * limit)
-            .limit(limit);
-
-        const totalLocals = await Locals.countDocuments(localsQuery);
-
-        if (!locals) {
-            return res.status(404).json({
-                err: 'No locals were found '
+        const localsWithLikes = [];
+        for (const local of localsInRange) {
+            const localLikes = await LikeLocal.countDocuments({localId: local._id })
+            const resultLikes = await LikeLocal.findOne({ userId: userId, localId: local._id }).select('_id');
+            const liked = resultLikes ? true : false;
+            localsWithLikes.push({
+                ...local.toObject(),
+                localLikes,
+                liked
             });
         }
 
+        const filteredLocalsByTags = localsWithLikes.filter(local => local.tags.some(tag => regexTags.test(tag)));
+
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+        const paginatedLocals = filteredLocalsByTags.slice(startIndex, endIndex);
+
+        const totalLocals = filteredLocalsByTags.length;
+        const totalPages = Math.ceil(totalLocals / limit);
+
         return res.status(200).json({
-            locals,
+            locals: paginatedLocals,
             page,
-            totalPages: Math.ceil(totalLocals / limit)
+            totalPages
         });
 
     } catch (error) {

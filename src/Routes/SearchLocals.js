@@ -9,7 +9,7 @@ const route = Router();
 
 route.get('/byRange/:Latitude/:Longitude/:kilometers', searchLocals);
 
-route.get('/byTags/:Latitude/:Longitude/:kilometers/:tags', searchByTags);
+route.get('/byTags/:Latitude/:Longitude/:kilometers/:tags/:userId', searchByTags);
 
 route.get('/localsPopular/:Latitude/:Longitude/:kilometers/:userId',[
     validationResults
