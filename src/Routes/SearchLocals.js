@@ -11,7 +11,7 @@ route.get('/byRange/:Latitude/:Longitude/:kilometers', searchLocals);
 
 route.get('/byTags/:Latitude/:Longitude/:kilometers/:tags', searchByTags);
 
-route.get('/localsPopular/:Latitude/:Longitude/:kilometers',[
+route.get('/localsPopular/:Latitude/:Longitude/:kilometers/:userId',[
     validationResults
 ], searchPopularLocals);
 
@@ -22,7 +22,7 @@ route.get('/byUser',[
     validationResults,
 ], searchByUser);
 
-route.get('/searchLocalsAndLikes/:Latitude/:Longitude/:kilometers',[
+route.get('/searchLocalsAndLikes/:Latitude/:Longitude/:kilometers/:userId',[
     validationResults
 ], searchLocalsAndLikes);
 
