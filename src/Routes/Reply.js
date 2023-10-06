@@ -2,8 +2,9 @@ const { Router } = require('express');
 const {replyPost, replyGet, replyPut, replyDelete, getReplyByCommentId} = require('../Controllers/Reply')
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
-const router = Router();
+const { verifyToken } = require('../Middleware/VerifyToken');
 
+const router = Router();
 
 /**
  * Create a new Reply 
