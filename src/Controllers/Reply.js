@@ -77,13 +77,13 @@ const getReplyByCommentId = async (req = request,  res = response) =>{
             .skip(skip)
             .limit(limitValue);
 
-            await Promise.all(reply.map(async (reply) => {
-                const likesCount = await LikeReply.countDocuments({ replyId: reply._id });
-                const resultLikes = await LikeReply.findOne({ replyId: reply._id, userId: tokenDecoded.id }).select('_id');
-                const liked = resultLikes ? true : false;
-                reply._doc.likes = likesCount;
-                reply._doc.liked = liked;
-            }));
+        await Promise.all(reply.map(async (reply) => {
+            const likesCount = await LikeReply.countDocuments({ replyId: reply._id });
+            const resultLikes = await LikeReply.findOne({ replyId: reply._id, userId: tokenDecoded.id }).select('_id');
+            const liked = resultLikes ? true : false;
+            reply._doc.likes = likesCount;
+            reply._doc.liked = liked;
+        }));
 
         return res.status(200).json({
             msg: 'replies found',
