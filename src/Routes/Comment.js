@@ -2,6 +2,8 @@ const { Router } = require('express');
 const {commentPost, commentGet,commentPut, commentDelete, searchByLocalId} = require('../Controllers/Comment')
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
+const { verifyToken } = require('../Middleware/VerifyToken');
+
 const router = Router();
 
 /**
