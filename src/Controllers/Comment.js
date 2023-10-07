@@ -10,7 +10,7 @@ const classifier = require('../Middleware/NaiveBayesMiddleware')();
 
 const commentPost = async( req, res = response ) => {
     try{
-        const {localId, comment} = req.body;
+        const { localId, comment } = req.body;
         const tokenDecoded = req.tokenDecoded;
 
         const local = await Local.findById(localId);
@@ -24,7 +24,7 @@ const commentPost = async( req, res = response ) => {
 
         const label = classifier.classify(comment)
 
-        const newComment = new Comment({localId, userId, comment, label});
+        const newComment = new Comment({localId, userId: tokenDecoded.id , comment, label});
 
         await newComment.save();
 
