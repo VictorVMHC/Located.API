@@ -8,9 +8,11 @@ const classifier = require('../Middleware/NaiveBayesMiddleware')();
 
 const replyPost = async(req, res = response)=>{
     try{
-        const {commentId, userId, replied, userRepliedId} = req.body;
-        const comment = await Comment.findById(commentId)
-        const user = await User.findById(userId)
+        const {commentId, replied, userRepliedId} = req.body;
+        const tokenDecoded = req.tokenDecoded;
+        
+        const comment = await Comment.findById(commentId);
+        const user = await User.findById(tokenDecoded.id);
 
         if(!user || !comment ){
             return res.status(404).json({

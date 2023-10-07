@@ -19,7 +19,9 @@ const router = Router();
 router.post('/',
     [
         check('commentId', 'The commentId is mandatory').notEmpty(),
-        check('userId', 'The userId is mandatory').notEmpty(),
+        check('x-token', 'Token is require').notEmpty(),
+        check('x-token', 'Token is not a JWT').isJWT(),
+        check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
         check('replied', 'The replies is mandatory').notEmpty(),
         validationResults
     ],replyPost);

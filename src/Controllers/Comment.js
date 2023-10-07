@@ -9,9 +9,9 @@ const classifier = require('../Middleware/NaiveBayesMiddleware')();
 
 
 const commentPost = async( req, res = response ) => {
-    const {localId, comment} = req.body;
-    const tokenDecoded = req.tokenDecoded;
     try{
+        const {localId, comment} = req.body;
+        const tokenDecoded = req.tokenDecoded;
 
         const local = await Local.findById(localId);
         const user = await User.findById(tokenDecoded.id);
