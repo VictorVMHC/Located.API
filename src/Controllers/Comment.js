@@ -9,11 +9,12 @@ const classifier = require('../Middleware/NaiveBayesMiddleware')();
 
 
 const commentPost = async( req, res = response ) => {
-    const {localId, userId, comment} = req.body;
+    const {localId, comment} = req.body;
+    const tokenDecoded = req.tokenDecoded;
     try{
 
-        const local = await Local.findById(localId)
-        const user = await User.findById(userId)
+        const local = await Local.findById(localId);
+        const user = await User.findById(tokenDecoded.id);
 
         if(!user || !local ){
             return res.status(404).json({
@@ -31,6 +32,7 @@ const commentPost = async( req, res = response ) => {
             msg: 'Comment created successfully',
             newComment,
         });
+
     }catch(err){
         return res.status(500).json({
             msg: 'An error occurred while saving the comment',
@@ -65,7 +67,7 @@ const searchByLocalId = async (req = request, res = response) => {
         
         const totalComments = await Comment.countDocuments({ localId });
 
-        if (totalComments.length === 0) {
+        if (totalComments === 0) {
             return res.status(404).json({
                 err: 'No comments were found'
             });
