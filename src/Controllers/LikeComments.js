@@ -48,20 +48,25 @@ const likeCommentGet = async (req = request,  res = response) =>{
     }
 }
 
-const likeCommentDelete = async (req=request, res=response ) => {
+const likeCommentDelete = async (req = request, res = response) => {
     const likeComment_id = req.params.Id;
-    try{
+    try {
+        const deletedLikeComment = await LikeComment.findOneAndRemove({ commentId: likeComment_id });
 
-        await LikeComment.findByIdAndRemove(likeComment_id);
-        
+        if (!deletedLikeComment) {
+            return res.status(404).json({
+                msg: 'Like comment not found',
+            });
+        }
+
         res.status(200).json({
             msg: 'Like has been deleted',
         });
-        
-    }catch(err){
+    } catch (err) {
+
         res.status(500).json({
             msg: 'An error occurred while deleting the Like',
-            emailRequested: likeComment_id,
+            commentRequested: likeComment_id,
         });
     }
 }
