@@ -1,5 +1,6 @@
 const Locals = require ('../Models/Locals');
 const User = require('../Models/User');
+const LikeLocal = require('../Models/LikedLocals');
 const {searchLatitudeAndLongitude} = require('../Utils/calculateRange');
 
 const searchLocals = async (req, res = Response ) =>{
@@ -10,57 +11,95 @@ const searchLocals = async (req, res = Response ) =>{
             'location.latitude': filteredLocals.latitude,           
             'location.longitude': filteredLocals.longitude,
         });
-        res.json({
+        return res.json({
             results: locals,
         });
     } catch (error) {
-        console.error(error);
+        return res.status(500).json({ 
+            error: 'Internal Server Error' 
+        });
     }
 }
     
 const searchByTags = async (req, res = Response) => {
-    const { Latitude, Longitude, kilometers, tags } = req.params;
+    const { Latitude, Longitude, kilometers, tags, userId } = req.params;
     const regexTags = tags ? new RegExp(tags.split(',').join('|'), 'i') : /.*/; 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
-    const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
-
     try {
-        let localsQuery = {
+        const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
+        const localsInRange = await Locals.find({
             'location.latitude': filteredLocals.latitude,
-            'location.longitude': filteredLocals.longitude
-        };
+            'location.longitude': filteredLocals.longitude,
+        });
 
-        if (tags) {
-            localsQuery.$or = [
-                { tags: regexTags },
-                { name: regexTags }
-            ];
-        }
-
-        const locals = await Locals.find(localsQuery)
-            .skip((page - 1) * limit)
-            .limit(limit);
-
-        const totalLocals = await Locals.find(localsQuery).countDocuments();
-
-        if (!locals) {
-            return res.status(404).json({
-                err: 'No locals were found '
+        const localsWithLikes = [];
+        for (const local of localsInRange) {
+            const localLikes = await LikeLocal.countDocuments({localId: local._id })
+            const resultLikes = await LikeLocal.findOne({ userId: userId, localId: local._id }).select('_id');
+            const liked = resultLikes ? true : false;
+            localsWithLikes.push({
+                ...local.toObject(),
+                localLikes,
+                liked
             });
         }
 
+        const filteredLocalsByTags = localsWithLikes.filter(local => local.tags.some(tag => regexTags.test(tag)));
+
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+        const paginatedLocals = filteredLocalsByTags.slice(startIndex, endIndex);
+
+        const totalLocals = filteredLocalsByTags.length;
+        const totalPages = Math.ceil(totalLocals / limit);
+
         return res.status(200).json({
-            locals,
+            locals: paginatedLocals,
             page,
-            totalPages: Math.ceil(totalLocals / limit)
+            totalPages
         });
 
     } catch (error) {
         return res.status(500).json({
             err: 'An error occurred while getting the locals'
         })
+    }
+}
+
+const searchPopularLocals = async (req, res = Response) => {
+    const { Latitude, Longitude, kilometers, userId } = req.params;
+
+    try {
+        const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
+        const localsInRange = await Locals.find({
+            'location.latitude': filteredLocals.latitude,
+            'location.longitude': filteredLocals.longitude,
+        });
+        const localsWithLikes = [];
+        for (const local of localsInRange) {
+            const localLikes = await LikeLocal.countDocuments({localId: local._id })
+            const resultLikes = await LikeLocal.findOne({ userId: userId, localId: local._id }).select('_id');
+            const liked = resultLikes ? true : false;
+            if(localLikes > 0){
+                localsWithLikes.push({
+                    ...local.toObject(),
+                    localLikes,
+                    liked
+                });
+            }
+        }
+
+        localsWithLikes.sort((a, b) => b.localLikes - a.localLikes);
+        const top20Locals = localsWithLikes.slice(0, 20);
+        return res.status(200).json({
+            results: top20Locals,
+        });
+    } catch (error) {
+        return res.status(500).json({ 
+            error: 'Internal Server Error' 
+        });
     }
 }
 
@@ -92,9 +131,41 @@ const searchByUser = async (req, res = Response ) =>{
     }
 }
 
+const searchLocalsAndLikes = async (req, res = Response) => {
+    const { Latitude, Longitude, kilometers, userId} = req.params;
+    try{
+        const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
+        const localsInRange = await Locals.find({
+            'location.latitude': filteredLocals.latitude,
+            'location.longitude': filteredLocals.longitude,
+        });
+
+        const localsWithLikes = [];
+        for (const local of localsInRange) {
+            const localLikes = await LikeLocal.countDocuments({localId: local._id })
+            const resultLikes = await LikeLocal.findOne({ userId: userId, localId: local._id }).select('_id');
+            const liked = resultLikes ? true : false;
+            localsWithLikes.push({
+                ...local.toObject(),
+                localLikes,
+                liked
+            });
+        }
+    
+        return res.status(200).json({
+            results: localsWithLikes,
+        });
+
+    }catch(error){
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 
 module.exports={
     searchLocals,
     searchByTags,
-    searchByUser
+    searchPopularLocals,
+    searchByUser,
+    searchLocalsAndLikes
 }
