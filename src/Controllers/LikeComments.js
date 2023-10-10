@@ -51,11 +51,13 @@ const likeCommentGet = async (req = request,  res = response) =>{
 const likeCommentDelete = async (req=request, res=response ) => {
     const likeComment_id = req.params.Id;
     try{
-        const likeCommentResponse = await LikeComment.findByIdAndUpdate(likeComment_id, {state: false}, {new: true});
+
+        await LikeComment.findByIdAndRemove(likeComment_id);
+        
         res.status(200).json({
             msg: 'Like has been deleted',
-            likeCommentResponse
         });
+        
     }catch(err){
         res.status(500).json({
             msg: 'An error occurred while deleting the Like',
