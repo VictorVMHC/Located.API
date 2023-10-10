@@ -80,11 +80,13 @@ const searchPopularLocals = async (req, res = Response) => {
             const localLikes = await LikeLocal.countDocuments({localId: local._id })
             const resultLikes = await LikeLocal.findOne({ userId: userId, localId: local._id }).select('_id');
             const liked = resultLikes ? true : false;
-            localsWithLikes.push({
-                ...local.toObject(),
-                localLikes,
-                liked
-            });
+            if(localLikes > 0){
+                localsWithLikes.push({
+                    ...local.toObject(),
+                    localLikes,
+                    liked
+                });
+            }
         }
 
         localsWithLikes.sort((a, b) => b.localLikes - a.localLikes);
@@ -152,7 +154,6 @@ const searchLocalsAndLikes = async (req, res = Response) => {
         });
 
     }catch(error){
-        console.error(error);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
