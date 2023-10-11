@@ -4,7 +4,6 @@ const User = require('../Models/User')
 const Local = require('../Models/Locals');
 const Reply = require('../Models/Reply');
 const LikeComments = require('../Models/LikeComments');
-const DisLikeComment = require('../Models/DisLikeComment');
 const classifier = require('../Middleware/NaiveBayesMiddleware')();
 
 

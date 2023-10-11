@@ -132,7 +132,8 @@ const searchByUser = async (req, res = Response ) =>{
 }
 
 const searchLocalsAndLikes = async (req, res = Response) => {
-    const { Latitude, Longitude, kilometers, userId} = req.params;
+    const { Latitude, Longitude, kilometers} = req.params;
+    const tokenDecoded = req.tokenDecoded;
     try{
         const filteredLocals = searchLatitudeAndLongitude(Latitude, Longitude, kilometers);
         const localsInRange = await Locals.find({
@@ -143,7 +144,7 @@ const searchLocalsAndLikes = async (req, res = Response) => {
         const localsWithLikes = [];
         for (const local of localsInRange) {
             const localLikes = await LikeLocal.countDocuments({localId: local._id })
-            const resultLikes = await LikeLocal.findOne({ userId: userId, localId: local._id }).select('_id');
+            const resultLikes = await LikeLocal.findOne({ userId: tokenDecoded.id, localId: local._id }).select('_id');
             const liked = resultLikes ? true : false;
             localsWithLikes.push({
                 ...local.toObject(),

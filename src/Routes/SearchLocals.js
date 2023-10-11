@@ -21,7 +21,10 @@ route.get('/byUser',[
     validationResults,
 ], searchByUser);
 
-route.get('/searchLocalsAndLikes/:Latitude/:Longitude/:kilometers/:userId',[
+route.get('/searchLocalsAndLikes/:Latitude/:Longitude/:kilometers',[
+    check('x-token', 'Token is require').notEmpty(),
+    check('x-token', 'Token is not a JWT').isJWT(),
+    check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
     validationResults
 ], searchLocalsAndLikes);
 
