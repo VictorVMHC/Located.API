@@ -6,7 +6,9 @@ const router = Router();
 
     router.post('/',
     [
-        check('userId', 'The user Id is mandatory').notEmpty(),
+        check('x-token', 'Token is require').notEmpty(),
+        check('x-token', 'Token is not a JWT').isJWT(),
+        check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
         check('localId', 'The local Id is mandatory').notEmpty(),
         validationResults
     ], likeLocalPost);

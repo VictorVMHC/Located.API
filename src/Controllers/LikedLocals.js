@@ -4,10 +4,11 @@ const User = require('../Models/User');
 const Locals = require('../Models/Locals');
 
 const likeLocalPost = async (req, res = response) =>{
-    const {userId, localId} = req.body;
+    const {localId} = req.body;
+    const tokenDecoded = req.tokenDecoded;
     try{
         const [user, local] = await Promise.all([
-            User.findById(userId),
+            User.findById(tokenDecoded.id),
             Locals.findById(localId)
         ]);
 
@@ -17,13 +18,13 @@ const likeLocalPost = async (req, res = response) =>{
             })
         }
 
-        const existingLike = await LikeLocal.findOne({userId, localId});
+        const existingLike = await LikeLocal.findOne({userId: tokenDecoded.id , localId});
         if(existingLike){
             return res.status(400).json({
                 error: "The user has already liked this place"
             });
         }
-        const likedLocal = new LikeLocal({userId,localId});
+        const likedLocal = new LikeLocal({userId: tokenDecoded.id,localId});
         await likedLocal.save();
 
         return res.status(200).json({
