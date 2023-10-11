@@ -10,7 +10,10 @@ route.get('/byRange/:Latitude/:Longitude/:kilometers', searchLocals);
 
 route.get('/byTags/:Latitude/:Longitude/:kilometers/:tags/:userId', searchByTags);
 
-route.get('/localsPopular/:Latitude/:Longitude/:kilometers/:userId',[
+route.get('/localsPopular/:Latitude/:Longitude/:kilometers',[
+    check('x-token', 'Token is require').notEmpty(),
+    check('x-token', 'Token is not a JWT').isJWT(),
+    check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
     validationResults
 ], searchPopularLocals);
 
