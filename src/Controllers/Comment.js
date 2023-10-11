@@ -118,10 +118,6 @@ const searchByLocalId = async (req = request, res = response) => {
     }
 };
 
-
-
-
-
 const commentPut = async ( req, res ) => {
     const id = req.params.Id;
     const {_Id, ...commentData} = req.body;

@@ -1,5 +1,5 @@
 const { response, request } = require('express');
-const   LikeComment = require('../Models/LikeComments')
+const  LikeComment = require('../Models/LikeComments')
 const User = require('../Models/User')
 const Comment = require('../Models/Comment')
 
@@ -49,8 +49,8 @@ const likeCommentGet = async (req = request,  res = response) =>{
 }
 
 const likeCommentDelete = async (req=request, res=response ) => {
-    const likeComment_id = req.params.Id;
     try{
+        const likeComment_id = req.params.Id;
 
         await LikeComment.findByIdAndRemove(likeComment_id);
         
