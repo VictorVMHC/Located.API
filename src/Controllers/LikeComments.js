@@ -69,7 +69,6 @@ const likeCommentDelete = async (req = request, res = response) => {
 
         res.status(500).json({
             msg: 'An error occurred while deleting the Like',
-            commentRequested: likeComment_id,
         });
     }
 }

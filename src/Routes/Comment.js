@@ -59,8 +59,8 @@ router.put('/:Id',[
     validationResults
 ], commentPut);
 
-router.delete('/:Id',[
-    check('Id', 'The Id is mandatory').notEmpty(),
+router.delete('/:commentId',[
+    check('commentId', 'The comment id is mandatory').notEmpty(),
     validationResults
 ], commentDelete);
 
