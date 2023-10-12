@@ -12,17 +12,18 @@ const router = Router();
  * @route GET api/reply/
  * @param {json property} commentId -> commentId of the reply
  * @param {json property} userId -> userId of the reply
- * @param {json property} replied -> replied of the reply
+ * @param {json property} reply -> replied of the reply
  * @returns {reply} 200-> if the reply have been created and the params which the reply was created
  * @throws {information} if the body params is no in the correct format and if the reply is already in place
  */
 router.post('/',
     [
-        check('commentId', 'The commentId is mandatory').notEmpty(),
+        check('commentId', 'The comment id is mandatory').notEmpty(),
+        check('userRepliedId', 'The user replied id is mandatory').notEmpty(),
         check('x-token', 'Token is require').notEmpty(),
         check('x-token', 'Token is not a JWT').isJWT(),
         check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
-        check('replied', 'The replies is mandatory').notEmpty(),
+        check('reply', 'The replies is mandatory').notEmpty(),
         validationResults
     ],replyPost);
 
