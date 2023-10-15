@@ -5,9 +5,10 @@ const Reply = require('../Models/Reply');
 const LikeReply = require('../Models/LikeReply');
 
 const likeReplyPost = async( req, res = response ) => {
-    const {userId, replyId} = req.body;
+    const {replyId} = req.body;
+    const tokenDecoded = req.tokenDecoded
     try{
-        const user = await User.findById(userId)
+        const user = await User.findById(tokenDecoded.Id)
         const reply = await Reply.findById(replyId)
 
         if(!user || !reply ){
@@ -16,7 +17,7 @@ const likeReplyPost = async( req, res = response ) => {
             })
         }
         
-        const likedReply = new LikeReply({userId, replyId});
+        const likedReply = new LikeReply({userId: tokenDecoded.id, replyId});
         await likedReply.save()
         
         return res.status(200).json({
@@ -53,9 +54,11 @@ const likeReplyGet = async (req = request,  res = response) =>{
 }
 
 const likeReplyDelete = async (req=request, res=response ) => {
-    const likeReply_id = req.params.Id;
+    const replyId = req.params.replyId;
+    const tokenDecoded = req.tokenDecoded;
     try{
-        const likeReply = await LikeComment.findByIdAndUpdate(likeReply_id, {state: false}, {new: true});
+
+        const likeReply = await LikeComment.findOneAndUpdate({replyId, userId: tokenDecoded.id});
 
         res.status(200).json({
             msg: 'Like has been deleted',
@@ -65,7 +68,7 @@ const likeReplyDelete = async (req=request, res=response ) => {
     }catch(err){
         res.status(500).json({
             msg: 'An error occurred while deleting the Like',
-            reply: likeReply_id,
+            reply: replyId,
         });
     }
 }

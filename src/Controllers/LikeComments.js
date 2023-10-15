@@ -7,6 +7,7 @@ const likeCommentPost = async( req, res = response ) => {
     try{
         const { commentId } = req.body;
         const tokenDecoded = req.tokenDecoded
+        
         const user = await User.findById(tokenDecoded.id)
         const comment = await Comment.findById(commentId)
 
