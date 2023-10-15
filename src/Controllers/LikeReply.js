@@ -8,12 +8,12 @@ const likeReplyPost = async( req, res = response ) => {
     const {replyId} = req.body;
     const tokenDecoded = req.tokenDecoded
     try{
-        const user = await User.findById(tokenDecoded.Id)
+        const user = await User.findById(tokenDecoded.id)
         const reply = await Reply.findById(replyId)
 
         if(!user || !reply ){
             return res.status(404).json({
-                error: "User or comment not found"
+                error: "User or reply not found"
             })
         }
         
@@ -58,11 +58,11 @@ const likeReplyDelete = async (req=request, res=response ) => {
     const tokenDecoded = req.tokenDecoded;
     try{
 
-        const likeReply = await LikeComment.findOneAndUpdate({replyId, userId: tokenDecoded.id});
+        const likeReplyResponse = await LikeReply.findOneAndRemove({replyId, userId: tokenDecoded.id});
 
         res.status(200).json({
             msg: 'Like has been deleted',
-            likeReply
+            likeReplyResponse
         });
 
     }catch(err){

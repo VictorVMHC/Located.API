@@ -25,7 +25,7 @@ router.post('/',
         check('x-token', 'Token is require').notEmpty(),
         check('x-token', 'Token is not a JWT').isJWT(),
         check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
-        check('replyId', 'The ID is mandatory').notEmpty(),
+        check('replyId', 'The reply Id is mandatory').notEmpty(),
         validationResults
     ], likeReplyDelete);
 
