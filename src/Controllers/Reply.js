@@ -137,7 +137,7 @@ const replyPut = async ( req, res ) => {
 const replyDelete = async (req=request, res=response ) => {
     const id = req.params.Id;
     try{
-        const replyResponse = await Reply.findByIdAndUpdate(id, {state: false}, {new: true});
+        const replyResponse = await Reply.findByIdAndRemove(id);
         res.status(200).json({
             msg: 'reply has been deleted',
             replyResponse
@@ -145,7 +145,7 @@ const replyDelete = async (req=request, res=response ) => {
     }catch(err){
         res.status(500).json({
             msg: 'An error occurred while deleting the reply',
-            emailRequested: replyId,
+            reply: id,
         });
     }
 }
