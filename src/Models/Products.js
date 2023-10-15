@@ -22,9 +22,6 @@ const ProductsSchema = Schema({
     description: {
         type: String,
     },
-    tags: {
-        type: [], 
-    }
 });
 
 ProductsSchema.methods.toJSON = function(){
