@@ -2,7 +2,7 @@ const { Router } = require('express');
 const {check} = require('express-validator');
 const {validationResults } = require('../Middleware/validationResult');
 const { AuthLogin, Auth, test, AuthGoogleLogin } = require('../Controllers/Auth');
-const { verifyToken} = require('../Middleware/VerifyToken');
+const { verifyToken } = require('../Middleware/VerifyToken');
 const verifyGoogleToken = require('../Middleware/VerifyGoogleToken');
 
 const router = Router();

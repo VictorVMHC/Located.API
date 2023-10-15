@@ -2,31 +2,43 @@ const { response, request, json } = require('express');
 const Reply = require('../Models/Reply')
 const User = require('../Models/User')
 const Comment = require('../Models/Comment');
-const LikeComments = require('../Models/LikeComments');
 const LikeReply = require('../Models/LikeReply');
 const classifier = require('../Middleware/NaiveBayesMiddleware')();
 
 const replyPost = async(req, res = response)=>{
     try{
-        const {commentId, replied, userRepliedId} = req.body;
+        const {commentId, reply, userRepliedId} = req.body;
         const tokenDecoded = req.tokenDecoded;
         
         const comment = await Comment.findById(commentId);
         const user = await User.findById(tokenDecoded.id);
+        const userReplied = await User.findById(userRepliedId);
 
-        if(!user || !comment ){
+        if(!user || !comment || !userReplied){
             return res.status(404).json({
                 error: "User or comment not found"
             })
         }
-        const label = classifier.classify(replied)
-        const reply = new Reply({commentId, userId, replied, userRepliedId,label})
 
-        await reply.save()
+        console.log('found all the things');
+        
+        const label = classifier.classify(reply)
+        
+        console.log(label);
+
+        const replyResponse = new Reply({
+            commentId, 
+            userId: tokenDecoded.id, 
+            replied: reply, 
+            label,
+            userRepliedId
+        })
+
+        await replyResponse.save()
 
         return res.status(200).json({
             msg: 'reply created successfully',
-            reply,
+            replyResponse,
         });
 
     }catch(err){

@@ -11,16 +11,18 @@ const router = Router();
         validationResults
     ], likeLocalPost);
 
-    router.get('/:Id',
+    router.get('/:idUser/:idLocal',
     [
-        check('Id', "The Id must not be empty").notEmpty(),
+        check('idUser', "The idUser must not be empty").notEmpty(),
+        check('idLocal', "The idLocal must not be empty").notEmpty(),
         validationResults
     ], likeLocalGet);
 
     router.get('/count/:localId', likeLocalGetCount );
 
-    router.delete('/:Id',[
-        check('Id', 'The Id is mandatory').notEmpty(),
+    router.delete('/:idUser/:idLocal',[
+        check('idUser', 'The idUser is mandatory').notEmpty(),
+        check('idLocal', 'The idLocal is mandatory').notEmpty(),
         validationResults
     ], likeLocalDelete);
 
