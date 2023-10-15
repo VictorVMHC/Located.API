@@ -19,12 +19,22 @@ const replyPost = async(req, res = response)=>{
                 error: "User or comment not found"
             })
         }
+
+        console.log('found all the things');
         
         const label = classifier.classify(reply)
         
-        const replyResponse = new Reply({commentId, userId, replied: reply, userRepliedId, label})
+        console.log(label);
 
-        await reply.save()
+        const replyResponse = new Reply({
+            commentId, 
+            userId: tokenDecoded.id, 
+            replied: reply, 
+            label,
+            userRepliedId
+        })
+
+        await replyResponse.save()
 
         return res.status(200).json({
             msg: 'reply created successfully',
