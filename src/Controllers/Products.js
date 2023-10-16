@@ -4,7 +4,7 @@ const Locals = require('../Models/Locals');
 
 const productsPost = async ( req, res = response ) => {
     try{
-        const { productName, price, img, description, localId } = req.body;
+        const { productName, price, img, description, localId, tags } = req.body;
 
         const checkLocal = Locals.findById(localId);
 
@@ -14,7 +14,7 @@ const productsPost = async ( req, res = response ) => {
             })
         }
         
-        const product = new Products({productName, localId, price, img, description,  })
+        const product = new Products({productName, localId, price, img, description, tags  })
         
         await product.save();
 

@@ -10,6 +10,7 @@ router.post('/',
         check('localId', 'The name of the product is mandatory').notEmpty(),
         check('price', 'The price is mandatory').notEmpty(),
         check('description', 'The description is mandatory').notEmpty(),
+        check('tags', 'The tags is mandatory').notEmpty(),
         validationResults
     ],
     productsPost);
