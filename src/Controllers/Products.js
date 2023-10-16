@@ -111,7 +111,7 @@ const productsPut = async( req, res) =>{
 const productsDelete = async (req=request, res=response ) => {
     const productsIdParams = req.params.Id;
     try{
-        const response = await Products.findByIdAndUpdate(productsIdParams, {state: false}, {new: true});
+        const response = await Products.findByIdAndDelete(productsIdParams);
         res.status(200).json({
             msg: 'Product has been deleted',
             response
