@@ -99,8 +99,6 @@ const localsPut = async ( req, res ) => {
     }catch(err){
         res.status(500).json({
             msg: 'An error occurred while updating the local',
-            emailRequested: localId,
-            dataToUpdate: data
         });
     }
 }
