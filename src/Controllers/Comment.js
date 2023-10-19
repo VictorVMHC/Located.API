@@ -139,17 +139,18 @@ const commentPut = async ( req, res ) => {
 }
 
 const commentDelete = async (req=request, res=response ) => {
-    const id = req.params.Id;
+    const commentId = req.params.commentId;
     try{
-        const commentResponse = await Comment.findByIdAndUpdate(id, {state: false}, {new: true});
+        const commentResponse = await Comment.findByIdAndRemove(commentId);
+
         res.status(200).json({
             msg: 'comment has been deleted',
             commentResponse
         });
+        
     }catch(err){
         res.status(500).json({
             msg: 'An error occurred while deleting the comment',
-            emailRequested: comment_id,
         });
     }
 }

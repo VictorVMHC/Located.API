@@ -2,7 +2,7 @@ const { Router } = require('express');
 const {check} = require('express-validator');
 const {validationResults } = require('../Middleware/validationResult');
 const { localsPost, localsPut, localDelete, localsGet} = require('../Controllers/Locals');
-const { verifyToken} = require('../Middleware/VerifyToken');
+const { verifyToken } = require('../Middleware/VerifyToken');
 const router = Router();
 
 /**

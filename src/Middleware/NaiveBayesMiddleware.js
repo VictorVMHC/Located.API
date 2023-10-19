@@ -17,7 +17,7 @@ function initializeClassifier() {
                 classifier.addData(data.text, data.label);
             });
 
-         //   processCSVFile('./src/Utils/dataset.csv', classifier)
+            //processCSVFile('./src/Utils/dataset.csv', classifier)
 
             console.log('[Classifier] -> Ready to use it');
         }
