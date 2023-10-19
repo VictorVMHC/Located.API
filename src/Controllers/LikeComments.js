@@ -1,5 +1,5 @@
 const { response, request } = require('express');
-const   LikeComment = require('../Models/LikeComments')
+const  LikeComment = require('../Models/LikeComments')
 const User = require('../Models/User')
 const Comment = require('../Models/Comment')
 
@@ -7,6 +7,7 @@ const likeCommentPost = async( req, res = response ) => {
     try{
         const { commentId } = req.body;
         const tokenDecoded = req.tokenDecoded
+        
         const user = await User.findById(tokenDecoded.id)
         const comment = await Comment.findById(commentId)
 
@@ -48,6 +49,7 @@ const likeCommentGet = async (req = request,  res = response) =>{
         });
     }
 }
+
 
 const likeCommentDelete = async (req = request, res = response) => {
     try {

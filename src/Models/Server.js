@@ -30,7 +30,7 @@ class Server {
         this.googleUserRootPath = '/api/google/users';
         this.popularLocals = '/api/popularLocals';
         this.replyRootPath = '/api/reply';
-        this.productsCategories = '/api/productsCategories';
+        this.recommendationsRootPath = '/api/recommendations';
 
         this.ConnectDb();
         this.initializeClassifier();
@@ -76,7 +76,7 @@ class Server {
         this.app.use(this.popularLocals, require('../Routes/PopularLocals') );
         this.app.use(this.replyRootPath, require('../Routes/Reply') );
         this.app.use(this.likeReplyPath, require('../Routes/LikeReply') );
-        this.app.use(this.productsCategories, require('../Routes/ProductsCategories') );
+        this.app.use(this.recommendationsRootPath, require('../Routes/Recommendations') );
     }
     
     listen() {
