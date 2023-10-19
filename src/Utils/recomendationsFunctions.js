@@ -32,7 +32,7 @@ const calculateRecommendationScore = (similarUsers, likedLocalIdsByUser, localId
 }
 
 const generateRecommendations = async (similarUsers, likedLocalIds) => {
-    const recommendations = [];
+    const recommendationsMap = new Map();
 
     for (const similarUser of similarUsers) {
         if (similarUser.similarity > 0) {
@@ -43,12 +43,14 @@ const generateRecommendations = async (similarUsers, likedLocalIds) => {
             for (const localId of newLikes) {
                 const recommendationScore = calculateRecommendationScore(similarUsers, likedLocalIdsByUser, localId);
 
-                recommendations.push({ localId, recommendationScore });
+                if (!recommendationsMap.has(localId) || recommendationScore > recommendationsMap.get(localId).score) {
+                    recommendationsMap.set(localId, { localId, score: recommendationScore });
+                }
             }
         }
     }
 
-    recommendations.sort((a, b) => b.recommendationScore - a.recommendationScore);
+    const recommendations = [...recommendationsMap.values()];
 
     return recommendations;
 }

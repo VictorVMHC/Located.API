@@ -49,9 +49,9 @@ class NaiveBayesClassifier {
         let bestClass = null;
 
         Object.keys(this.classes).forEach(label => {
-            const classProb = this.classes[label] / this.totalDocs;
+            const classProb = this.classes[label] / this.totalDocs; // probabilidad de la  clase
 
-            let logProb = Math.log(classProb);
+            let logProb = Math.log(classProb); // numero mas pequeño
 
             words.forEach(word => {
                 const wordProb = (this.wordCounts[label][word] || this.smoothingFactor) / (this.totalDocs + this.smoothingFactor * this.vocab.size); // Aplicar suavizado
