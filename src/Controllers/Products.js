@@ -4,7 +4,7 @@ const Locals = require('../Models/Locals');
 
 const productsPost = async ( req, res = response ) => {
     try{
-        const { productName, price, img, punctuation, description, tags, localId } = req.body;
+        const { productName, price, img, description, localId, tags } = req.body;
 
         const checkLocal = Locals.findById(localId);
 
@@ -14,7 +14,7 @@ const productsPost = async ( req, res = response ) => {
             })
         }
         
-        const product = new Products({productName, localId, price, img, punctuation, description, tags })
+        const product = new Products({productName, localId, price, img, description, tags  })
         
         await product.save();
 
@@ -111,7 +111,7 @@ const productsPut = async( req, res) =>{
 const productsDelete = async (req=request, res=response ) => {
     const productsIdParams = req.params.Id;
     try{
-        const response = await Products.findByIdAndUpdate(productsIdParams, {state: false}, {new: true});
+        const response = await Products.findByIdAndDelete(productsIdParams);
         res.status(200).json({
             msg: 'Product has been deleted',
             response
