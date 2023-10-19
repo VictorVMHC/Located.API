@@ -4,9 +4,10 @@ const User = require('../Models/User');
 const Locals = require('../Models/Locals');
 
 const likeLocalPost = async (req, res = response) =>{
-    const { localId } = req.body;
-    const tokenDecoded = req.tokenDecoded;
     try{
+        const { localId } = req.body;
+        const tokenDecoded = req.tokenDecoded;
+
         const [user, local] = await Promise.all([
             User.findById(tokenDecoded.id),
             Locals.findById(localId)
@@ -19,7 +20,7 @@ const likeLocalPost = async (req, res = response) =>{
         }
 
         const existingLike = await LikeLocal.findOne({userId: tokenDecoded.id, localId});
-
+      
         if(existingLike){
             return res.status(400).json({
                 error: "The user has already liked this place"
@@ -65,6 +66,7 @@ const likeLocalGet = async (req = request, res = response) => {
 
 const likeLocalGetCount = async (req = request, res = response) =>{
     const id = req.params.localId;
+    
     try{
         const localLikes = await LikeLocal.countDocuments({localId: id})
 
@@ -81,20 +83,20 @@ const likeLocalGetCount = async (req = request, res = response) =>{
 }
 
 const likeLocalDelete = async (req=request, res=response ) => {
-    const {idUser, idLocal} = req.params;
     try{
-        const deleteLikeLocal = await LikeLocal.findOneAndDelete({ 
-            userId: idUser, 
-            localId: idLocal 
-        });
+        const { localId } = req.params;
+        const tokenDecoded = req.tokenDecoded;
+
+        const deleteLikeLocal = await LikeLocal.findOneAndDelete({ localId, userId: tokenDecoded.id });
+
         res.status(200).json({
             msg: 'Like has been deleted',
             deleteLikeLocal,
         });
+
     }catch(err){
         res.status(500).json({
             msg: 'An error occurred while trying to delete the Like',
-            emailRequested: id,
         });
     }
 }
