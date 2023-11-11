@@ -3,7 +3,7 @@ const {check} = require('express-validator');
 const {validationResults } = require('../Middleware/validationResult');
 const { verifyToken} = require('../Middleware/VerifyToken');
 const { addEmailToVerify, verifyCode, verifyDelete, emailToVerify, verifiedEmailToPassword } = require('../Controllers/VerifyEmail');
-const { existEmail } = require('../helpers/DbValidations');
+const { existEmail } = require('../Helpers/DbValidations');
 
 const router = Router();
 

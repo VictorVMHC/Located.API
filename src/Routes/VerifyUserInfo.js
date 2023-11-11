@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const {check} = require('express-validator');
 const {validationResults } = require('../Middleware/validationResult');
-const { existEmail, existPhone, existUserName } = require('../helpers/DbValidations');
+const { existEmail, existPhone, existUserName } = require('../Helpers/DbValidations');
 const { getCheckUserInfo } = require('../Controllers/VerifyUserInfo');
 
 const router = Router();
