@@ -18,7 +18,6 @@ const UserSchema = Schema({
     },
     phone: {
         type: String,       
-        unique: true
     },
     google: {
         type: Boolean,
