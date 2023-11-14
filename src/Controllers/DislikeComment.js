@@ -2,7 +2,7 @@ const { response, request } = require('express');
 const   LikeComment = require('../Models/LikeComments')
 const User = require('../Models/User')
 const Comment = require('../Models/Comment');
-const DisLikeComment = require('../Models/DisLikeComment');
+const DisLikeComment = require('../Models/DislikeComment');
 
 const DislikeCommentPost = async( req, res = response ) => {
     const {userId, commentId} = req.body;

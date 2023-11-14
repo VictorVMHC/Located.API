@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { userPost, userGet, usersGet,userPut, userPasswordPut, userDelete, userPasswordRecoveryPut } = require('../Controllers/User');
 const { check } = require('express-validator');
 const { validationResults } = require('../Middleware/validationResult');
-const { existEmail, existPhone, existUserName } = require('../helpers/DbValidations');
+const { existEmail, existPhone, existUserName } = require('../Helpers/DbValidations');
 const { verifyToken} = require('../Middleware/VerifyToken');
 const router = Router();
 
