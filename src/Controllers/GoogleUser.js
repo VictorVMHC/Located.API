@@ -24,6 +24,7 @@ const googleUserPost = async ( req, res = response ) => {
         });
 
     }catch(err){
+        console.log(err);
         return res.status(500).json({
             msg: 'An error occurred while saving the user',
             err
