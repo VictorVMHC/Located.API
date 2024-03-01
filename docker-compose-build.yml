@@ -11,7 +11,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-
   mongo-express:
     image: mongo-express:latest
     restart: always
@@ -23,8 +22,6 @@ services:
       ME_CONFIG_MONGODB_SERVER: mongodb
     depends_on:
       - mongodb
-
-
   localted.api:
     build: 
       context: .
@@ -36,7 +33,6 @@ services:
     environment:
       PORT: 8080
       MONGO_CONNECTION: ${MONGO_CONNECTION_PROD} 
-
 volumes:
   mongodb-volume:
   mongodb-persistence:

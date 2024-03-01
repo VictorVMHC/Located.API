@@ -1,6 +1,7 @@
+const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
 class NaiveBayesClassifier {
     constructor() {
-        this.classes = {}; // Almacena las probabilidades de cada clase
+        this.classes = {}; // Almacena las entradas de cada clase
         this.wordCounts = {}; // Almacena las frecuencias de palabras para cada clase
         this.vocab = new Set(); // Almacena el vocabulario único de todas las palabras
         this.totalDocs = 0; // Contador de documentos en el conjunto de entrenamiento
@@ -66,6 +67,81 @@ class NaiveBayesClassifier {
 
         return bestClass;
     }
+
+    printVars() {
+        
+        console.log("");
+    }   
+
+    evaluateAccuracy(testData) {
+        let correctPredictions = 0;
+
+        testData.forEach(example => {
+            const predictedClass = this.classify(example.text);
+
+            if (predictedClass === example.label) {
+                correctPredictions++;
+            }
+        });
+
+        return correctPredictions / testData.length;
+    }
+
+    visualizeAccuracy(labels, accuracyData) {
+        const canvasRenderService = new ChartJSNodeCanvas({ width: 800, height: 400 });
+    
+        const randomColors = labels.map(() => getRandomColor());
+    
+        const configuration = {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Accuracy',
+                    data: accuracyData,
+                    backgroundColor: randomColors,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 1
+                    }
+                }
+            }
+        };
+    
+        // Renderizar el gráfico en una imagen
+        return canvasRenderService.renderToBuffer(configuration);
+    }
+    
+    countEntriesByClass() {
+        const entryCount = {};
+
+        Object.keys(this.classes).forEach(label => {
+            entryCount[label] = 0;
+        });
+
+        Object.keys(this.classes).forEach(label => {
+            entryCount[label] += this.classes[label];
+        });
+
+        return entryCount;
+    }
+
+    
+    
+}
+
+function getRandomColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    const alpha = 0.2; // Puedes ajustar la opacidad según tus preferencias
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
 module.exports = NaiveBayesClassifier;

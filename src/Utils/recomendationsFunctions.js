@@ -19,18 +19,6 @@ const calculateJaccardSimilarity = (setA, setB) => {
     return intersection.size / union.size;
 };
 
-const calculateRecommendationScore = (similarUsers, likedLocalIdsByUser, localId) => {
-    let recommendationScore = 0;
-
-    for (const user of similarUsers) {
-        if (likedLocalIdsByUser.has(localId)) {
-            recommendationScore += user.similarity;
-        }
-    }
-
-    return recommendationScore;
-}
-
 const generateRecommendations = async (similarUsers, likedLocalIds) => {
     const recommendationsMap = new Map();
 
@@ -49,11 +37,20 @@ const generateRecommendations = async (similarUsers, likedLocalIds) => {
             }
         }
     }
-
     const recommendations = [...recommendationsMap.values()];
-
     return recommendations;
 }
+
+const calculateRecommendationScore = (similarUsers, likedLocalIdsByUser, localId) => {
+    let recommendationScore = 0;
+    for (const user of similarUsers) {
+        if (likedLocalIdsByUser.has(localId)) {
+            recommendationScore += user.similarity;
+        }
+    }
+    return recommendationScore;
+}
+
 
 
 

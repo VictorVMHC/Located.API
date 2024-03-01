@@ -8,7 +8,6 @@ const router = Router();
 
 /**
  * Create a new Comment 
- *
  * @route GET api/comment/
  * @param {json property} localId -> localId of the Comment
  * @param {json property} userId -> userId of the Comment
@@ -24,23 +23,8 @@ router.post('/', [
     check('comment', 'The comment is mandatory').notEmpty(), 
     validationResults
 ],commentPost);
-
 /**
  * Get the information of the Comment by commentId
- *
- * @route GET api/comment/:commentId
- * @param {} commentId - unique commentId of the comment
- * @returns {object} reply information
- * @throws {Error} If the comment doesn't exist
- */
-router.get('/:Id',[
-    check('Id', "The Id must not be empty").notEmpty(),
-    validationResults
-],commentGet);
-
-/**
- * Get the information of the Comment by commentId
- *
  * @route GET api/comment/:commentId
  * @param {} localId - unique commentId of the comment
  * @returns {object} reply information
@@ -53,6 +37,19 @@ router.get('/localId/:localId',[
     check('x-token', 'Token validation').custom(async (value, { req }) => await verifyToken(value, req)),
     validationResults
 ], searchByLocalId);
+
+/**
+ * Get the information of the Comment by commentId
+ * @route GET api/comment/:commentId
+ * @param {} commentId - unique commentId of the comment
+ * @returns {object} reply information
+ * @throws {Error} If the comment doesn't exist
+ */
+router.get('/:Id',[
+    check('Id', "The Id must not be empty").notEmpty(),
+    validationResults
+],commentGet);
+
 
 router.put('/:Id',[
     check('Id', 'The Id is mandatory').notEmpty(),

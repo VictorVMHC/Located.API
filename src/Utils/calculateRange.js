@@ -1,9 +1,7 @@
 const calculateRange = (latitude = Number, longitude = Number, kilometers = Number) => {
-    //Ley de Haversine
     const radioKm = kilometers;
     const radiusEarthKm = 6371.0;
 
-    
     const latitudeReferenceRad = latitude * (Math.PI / 180);
     const lengthReferenceRad = longitude * (Math.PI / 180);
 
